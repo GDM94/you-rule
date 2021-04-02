@@ -1,0 +1,94 @@
+import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+
+
+export default class AddRuleAntecedentProcess extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
+
+    render() {
+        return (
+            <div>
+                <Modal show={this.props.addRuleAntecedentPopUp}
+                    onHide={() => {
+                        this.props.handleAddRuleAntecedentPopUp();
+                        this.props.handleSetRulePopUp();
+                    }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <div>SENSORS</div>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="GenericModalBody">
+                            <table>
+                                <tbody>
+                                    <AddRuleAntecedentsDevice
+                                        newRuleIdx={this.props.newRuleIdx}
+                                        rules={this.props.rules}
+                                        antecedents={this.props.antecedents}
+                                        setAntecedentRuleLocal={this.props.setAntecedentRuleLocal}
+                                    />
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button onClick={() => {
+                            this.props.handleAddRuleAntecedentPopUp();
+                            this.props.handleSetRulePopUp();
+                        }}>
+                            Close
+                        </button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        )
+    }
+
+}
+
+
+function AddRuleAntecedentsDevice(props) {
+    var i = -1;
+    const ruleIdx = props.newRuleIdx;
+    const antecedentRule = props.rules[ruleIdx].antecedent;
+    var antecedentsId = [];
+    if (antecedentRule.length > 0) {
+        antecedentsId = antecedentRule.map(item => {
+            return (item.device_id)
+        })
+    }
+
+    return (
+        props.antecedents.map(item => {
+            if (!antecedentsId.some(c => c === item.id)) {
+                i++;
+                return (
+                    <tr key={i}>
+                        <td>
+                            <button onClick={() => {
+                                var newAntecedent = { device_id: item.id, name: item.name, start_value: "0", stop_value: "0", condition: "between" };
+                                if (item.id.includes("timer")) {
+                                    newAntecedent.start_value="00:00";
+                                    newAntecedent.stop_value="00:00"
+                                }
+                                props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);
+                            }}>
+                                {item.name}
+                            </button>
+                        </td>
+                    </tr>
+                )
+            }
+            else {
+                return null;
+            }
+        })
+    )
+}

@@ -1,38 +1,246 @@
 .App {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(190, 210, 218);
+}
+
+.TopBar{
+  background-color: rgb(21, 33, 207);
+  overflow: hidden;
+}
+
+.TopBarElement{
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.TopBarButtonMenu{
+  float: right;
+  padding: 14px 16px;
+  font-size: 17px;
+}
+
+.AntecedentContainer {
+  width: 30%;
+  height: 100%;
+  float:left;
+  text-align: center;
+  padding-left: 10px;
+}
+
+.ConsequentContainer {
+  width: 30%;
+  height: 100%;
+  float:right;
+  text-align: center;
+  padding-right: 10px;
+}
+
+.RuleContainer{
+  width: 40%;
+  height: 100%;
+  float:left;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.AntecedentContainer .MyList{
+  background-color: rgb(171, 243, 169);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.AntecedentContainer thead {
+  border-bottom: 5px solid #439b52;
+  color: rgba(15, 82, 13, 0.541);
+}
+.ConsequentContainer thead {
+  border-bottom: 5px solid #b43232;
+  color: rgba(104, 5, 5, 0.541);
+}
+.RuleContainer thead {
+  border-bottom: 5px solid #918989;
+  color: rgba(36, 31, 31, 0.541);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.RuleContainer .MyList{
+  background-color: rgb(210, 221, 210);
+}
+
+.ConsequentContainer .MyList{
+  background-color: rgb(214, 144, 103);
+}
+
+.MyList{  
+  color: white;
+  margin: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: rgb(66, 148, 127);
+  height: 200px;
+  max-height:200px;
+  overflow-y:auto;
+  text-align: center;
+}
+
+.MyList table{
+  width:100%;
+  border-width: 5px;
+}
+
+.MyList td{
+  padding-top: 5px;
+}
+
+.MyList table td {
+  border: 1px solid #0c0c0c;
+}
+
+.MyList table button{
+  width:100%;
+}
+
+.MyList table button:hover{
+  background-color: rgb(194, 209, 209);
+}
+
+.ItemButton{
+  background-color: rgb(240, 240, 240);
+  color: rgb(15, 12, 12);
+  width: 90%;
+  text-align: left;
+}
+
+#rule th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+#rule {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  display:inline-table;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#rule td, #rule th {
+  border: 1px solid rgb(8, 8, 8);
+  padding: 5px;
+  font-size: 10px;
+  text-align: center;
 }
+
+
+
+.modal-body{
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.modal-body tbody{
+  background-color: #fafafa;
+}
+
+.RuleAntecedentDetail{
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background-color: #4cee67;
+  height: 250px !important;
+  max-height: 250px !important;
+  overflow-y:auto !important;
+}
+
+.RuleConsequentDetail{
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background-color: #e3ee4c;
+  height: 250px !important;
+  max-height: 250px !important;
+  overflow-y:auto !important;
+}
+
+.GenericModalBody{
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.GenericModalBody button{
+  width:100%;
+}
+
+.MenuPopUp{
+  padding: 20px;
+  text-align: center;
+}
+
+.MenuPopUp button{
+  width: 200px;
+  margin: 5px;
+}
+
+.RuleConsequentDetail th{
+  background-color: #9ca332 !important;
+}
+
+.RuleAntecedentDetail th{
+  background-color: #55bd4b !important;
+}
+
+
+.deleteRuleRow button{
+  background-color: rgb(240, 179, 179);
+  width: 50px;
+}
+
+.RuleEvaliation{
+  font-size: 15px;
+}
+
+
+
+#ruleConsequentButton{
+  background-color: #cbee4c;
+}
+
+#ruleAntecedentButton{
+  background-color: #4cee59;
+}
+
+
+.modal-header{
+  padding-bottom: 0px !important;
+}
+
+.modal-title{
+  width: 100%;
+}
+
+#ruleAntecedentButton.AntecedentRuleSelection{
+  font-size: 20px;
+  width: 50%;
+}
+
+#ruleConsequentButton.AntecedentRuleSelection{
+  font-size: 15px;
+}
+
+#ruleAntecedentButton.ConsequentRuleSelection{
+  font-size: 15px;
+  
+}
+
+#ruleConsequentButton.ConsequentRuleSelection{
+  font-size: 20px;
+  width: 50%;
+}
+
+
+
