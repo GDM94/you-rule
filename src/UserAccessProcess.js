@@ -5,7 +5,6 @@ import UserRegisterProcess from './UserRegisterProcess'
 import { Redirect } from 'react-router-dom';
 
 
-
 export default class UserAccessProcess extends React.Component {
     constructor(props) {
         super(props);

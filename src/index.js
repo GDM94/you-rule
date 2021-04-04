@@ -5,7 +5,6 @@ import './App.css';
 import Main from './Main'
 
 
-
 ReactDOM.render(
   <Main/>,
 
