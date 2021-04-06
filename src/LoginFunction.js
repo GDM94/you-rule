@@ -7,12 +7,12 @@ dotenv.config()
 
 const Login = (setUser) => {
     const firebaseConfig = {
-        apiKey: "AIzaSyDYKT4i-17UPlgaiojouyHNv1sA_svhkjM",
-        authDomain: "you-rule-iot.firebaseapp.com",
-        projectId: "you-rule-iot",
-        storageBucket: "you-rule-iot.appspot.com",
-        messagingSenderId: "645027876603",
-        appId: "1:645027876603:web:2bfb86a6f5eb91b19d6a5e"
+        apiKey: process.env.REACT_APP_API_KEY,
+        authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+        projectId: process.env.REACT_APP_PROJECT_ID,
+        storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+        messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+        appId: process.env.REACT_APP_APP_ID
       };
 
     
