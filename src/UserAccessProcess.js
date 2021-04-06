@@ -3,10 +3,13 @@ import axios from 'axios';
 import UserLoginProcess from './UserLoginProcess'
 import UserRegisterProcess from './UserRegisterProcess'
 import { Redirect } from 'react-router-dom';
+import Login from './LoginFunction'
+
 
 
 export default class UserAccessProcess extends React.Component {
     constructor(props) {
+        
         super(props);
         this.state = {
             userNameList: [],
@@ -16,6 +19,7 @@ export default class UserAccessProcess extends React.Component {
             password: "",
             redirect: "",
             checkUserLoginCorrect: true,
+            idToken: "",
         }
     }
 
@@ -54,6 +58,8 @@ export default class UserAccessProcess extends React.Component {
             .catch(err => console.warn(err));
     }
 
+    
+
     UserRegistrationRequest = (user_name, password) => {
         console.log("UserAccess POST registration")
         const url = process.env.REACT_APP_BACKEND_URL + "/user/registration/" + user_name + "/" + password;
@@ -81,6 +87,15 @@ export default class UserAccessProcess extends React.Component {
         this.setState({ userRegisterPopUp: !this.state.userRegisterPopUp })
     }
 
+    setUser = (userName, idToken)=>{
+        this.setState({
+            userName: userName,
+            idToken: idToken,
+            redirect: process.env.REACT_APP_PROTECTED_URL + '?userName=' + userName + '&idToken=' + idToken
+        })
+        console.log("redirect")
+    }
+
     render() {
         if (this.state.redirect === "") {
             return (
@@ -90,7 +105,7 @@ export default class UserAccessProcess extends React.Component {
                             WELCOME PORTAL
                         </div>
                         <div className="TopBarElement">
-                            <button variant="primary" onClick={() => { this.handleLoginPopUp() }}>LOGIN</button>
+                            <button variant="primary" onClick={() => { Login(this.setUser) }}>LOGIN</button>
                         </div>
                         <div className="TopBarElement">
                             <button variant="primary" onClick={() => { this.handleRegisterPopUp() }}>REGISTER</button>
@@ -103,6 +118,7 @@ export default class UserAccessProcess extends React.Component {
                             handleCheckUserLoginCorrect={this.handleCheckUserLoginCorrect}
                             checkUserLoginCorrect={this.state.checkUserLoginCorrect}
                             UserLoginRequest={this.UserLoginRequest}
+                            handleGoogleSignIn={this.handleGoogleSignIn}
                         />
                         <UserRegisterProcess
                             userRegisterPopUp={this.state.userRegisterPopUp}

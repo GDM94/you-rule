@@ -13,9 +13,9 @@ export default class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+
         }
     }
-
 
 
 
@@ -26,6 +26,8 @@ export default class Main extends React.Component {
                 <Switch>
                     <PrivateRoute
                         path={process.env.REACT_APP_PROTECTED_URL}
+
+
                     />
                     <UserAccessProcess
                         path={process.env.REACT_APP_LOGIN_URL}
@@ -43,14 +45,15 @@ export default class Main extends React.Component {
 
 function PrivateRoute(props) {
     let query = new URLSearchParams(useLocation().search);
-    const user_name = query.get("user_name")
-    const user_id = query.get("user_id")
+    const user_name = query.get("userName")
+    const idToken = query.get("idToken")
     return (
         <App
-            user_id={user_id}
+            idToken={idToken}
             user_name={user_name}
+            user_id="user"
         />
-        )
+    )
 
 }
 

@@ -15,10 +15,10 @@ import DeviceConsequentPopUp from './DeviceConsequentPopUp'
 import { Redirect } from 'react-router-dom';
 
 
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    axios.defaults.headers.common['Authorization'] = this.props.idToken;
     this.state = {
       menuPopUp: false,
       AddRulePopUp: false,
@@ -50,6 +50,7 @@ export default class App extends React.Component {
       allDeviceId: [],
 
       logout: false,
+      
 
     }
   }
@@ -76,8 +77,8 @@ export default class App extends React.Component {
   //GET BY USER
   getAntecedents = () => {
     console.log('App GET antecedent By User');
-    const url = process.env.REACT_APP_BACKEND_URL + "/device/get/antecedents/" + this.props.user_id;
-    axios.get(url)
+    const url = process.env.REACT_APP_BACKEND_URL + "/device/get/antecedents";
+    axios.get(url, {}, {params:{user_id: this.props.user_id}})
       .then(res => {
         const data = res.data;
         this.setState({ antecedents: data }, () => { this.render() });
@@ -87,8 +88,8 @@ export default class App extends React.Component {
   }
   getConsequents = () => {
     console.log('App GET consequents By User');
-    const url = process.env.REACT_APP_BACKEND_URL + "/device/get/consequents/" + this.props.user_id;
-    axios.get(url)
+    const url = process.env.REACT_APP_BACKEND_URL + "/device/get/consequents";
+    axios.get(url, {}, {params:{user_id: this.props.user_id}})
       .then(res => {
         const data = res.data;
         this.setState({ consequents: data }, () => { this.render() });
@@ -97,8 +98,8 @@ export default class App extends React.Component {
   }
   getRules = () => {
     console.log('App GET Rules by user');
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/user/" + this.props.user_id;
-    axios.get(url)
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/user";
+    axios.get(url, {}, {params:{user_id: this.props.user_id}})
       .then(res => {
         const data = res.data;
         this.setState({ rules: data }, () => { this.render() });
@@ -133,8 +134,8 @@ export default class App extends React.Component {
   }
   getRuleById = (ruleId) => {
     console.log('App GET Rule By ID');
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/id/" + this.props.user_id + "/" + ruleId;
-    axios.get(url)
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/id/" + ruleId;
+    axios.get(url, {}, {params:{user_id: this.props.user_id}})
       .then(res => {
         const newRule = res.data;
         var rules = this.state.rules;
@@ -162,8 +163,8 @@ export default class App extends React.Component {
   //ADD and UPDATE ELEMENTS
   createRuleRequest = (rule_name) => {
     console.log('App POST create rule');
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/create/" + this.props.user_id + "/" + rule_name;
-    axios.post(url)
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/create/" + rule_name;
+    axios.post(url,{}, {params:{user_id: this.props.user_id}})
       .then(res => {
         const ruleId = res.data;
         const newRule = { id: ruleId, name: rule_name, antecedent: [], consequent: [] };
@@ -184,9 +185,10 @@ export default class App extends React.Component {
   }
   setRuleAntecedentRequest = (newAntecedent) => {
     console.log("App POST new rule antecedent");
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/antecedent/" + this.props.user_id;
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/antecedent";
     axios.post(url, {}, {
       params: {
+        user_id: this.props.user_id,
         rule_id: this.state.newRuleId,
         device_id: newAntecedent.device_id,
         start_value: newAntecedent.start_value,
@@ -198,9 +200,10 @@ export default class App extends React.Component {
   }
   setRuleConsequentRequest = (newConsequent) => {
     console.log("App POST new rule consequent");
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/consequent/" + this.props.user_id;
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/consequent";
     axios.post(url, {}, {
       params: {
+        user_id: this.props.user_id,
         rule_id: this.state.newRuleId,
         device_id: newConsequent.device_id,
       }
@@ -223,9 +226,10 @@ export default class App extends React.Component {
       device_name = this.state.consequentName;
       setting = "";
     }
-    const url = process.env.REACT_APP_BACKEND_URL + "/device/update/" + this.props.user_id;
+    const url = process.env.REACT_APP_BACKEND_URL + "/device/update";
     axios.post(url, {}, {
       params: {
+        user_id: this.props.user_id,
         device_id: deviceId,
         device_name: device_name,
         setting: setting
@@ -279,9 +283,10 @@ export default class App extends React.Component {
   }
   updateRuleName = () => {
     console.log("App POST update rule name")
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/name/" + this.props.user_id;
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/name";
     axios.post(url, {}, {
       params: {
+        user_id: this.props.user_id,
         rule_id: this.state.newRuleId,
         rule_name: this.state.newRuleName
       }
@@ -291,8 +296,8 @@ export default class App extends React.Component {
   // REMOVE ELEMENT FROM ARRAYS
   deleteRuleRequest = (ruleId, ruleIdx) => {
     console.log("App DELETE rule")
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/" + this.props.user_id + "/" + ruleId;
-    axios.delete(url).catch(err => console.warn(err));
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/" + ruleId;
+    axios.delete(url, {}, {params:{user_id: this.props.user_id}}).catch(err => console.warn(err));
     var NewRules = this.state.rules;
     NewRules.splice(ruleIdx, 1)
     this.setState({ rules: NewRules, newRuleIdx: 0 }, () => {
@@ -301,8 +306,8 @@ export default class App extends React.Component {
   }
   deleteRuleConsequentRequest = (ruleId, deviceId) => {
     console.log("App DELETE rule consequent")
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/consequent/" + this.props.user_id + "/" + ruleId + "/" + deviceId;
-    axios.delete(url).catch(err => console.warn(err));
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/consequent/" + ruleId + "/" + deviceId;
+    axios.delete(url, {}, {params:{user_id: this.props.user_id}}).catch(err => console.warn(err));
     this.deleteRuleConsequentLocal(ruleId, deviceId)
   }
   deleteRuleConsequentLocal = (deviceId) => {
@@ -315,8 +320,8 @@ export default class App extends React.Component {
   }
   deleteRuleAntecedentRequest = (ruleId, deviceId) => {
     console.log("App DELETE rule antecedent")
-    const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/antecedent/" + this.props.user_id + "/" + ruleId + "/" + deviceId;
-    axios.delete(url)
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/antecedent/" + ruleId + "/" + deviceId;
+    axios.delete(url, {}, {params:{user_id: this.props.user_id}})
       .catch(err => console.warn(err));
     this.deleteRuleAntecedentLocal(deviceId)
   }
@@ -331,21 +336,21 @@ export default class App extends React.Component {
   deleteDeviceRequest = (type) => {
     console.log("App DELETE device")
     if (type === "antecedent") {
-      const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + this.props.user_id + "/" + this.state.antecedentId;
+      const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + this.state.antecedentId;
       var antecedents = this.state.antecedents;
       const index = this.state.antecedentIdx;
       antecedents.splice(index, 1);
-      axios.delete(url)
+      axios.delete(url,{}, {params:{user_id: this.props.user_id}})
         .then(this.setState({ antecedentIdx: 0, antecedents: antecedents }, () => { this.render() }))
         .catch(err => console.warn(err));
 
     }
     else {
-      const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + this.props.user_id + "/" + this.state.consequentId;
+      const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + this.state.consequentId;
       const index = this.state.consequentIdx;
       var consequents = this.state.consequents;
       consequents.splice(index, 1)
-      axios.delete(url)
+      axios.delete(url, {}, {params:{user_id: this.props.user_id}})
         .then(this.setState({ consequentIdx: 0, consequents: consequents }, () => { this.render() }))
         .catch(err => console.warn(err));
 
