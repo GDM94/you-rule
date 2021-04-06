@@ -3,9 +3,8 @@ import axios from 'axios';
 import UserLoginProcess from './UserLoginProcess'
 import UserRegisterProcess from './UserRegisterProcess'
 import { Redirect } from 'react-router-dom';
-import Login from './LoginFunction'
 
-
+var jwt = require('jwt-simple');
 
 export default class UserAccessProcess extends React.Component {
     constructor(props) {
@@ -41,15 +40,14 @@ export default class UserAccessProcess extends React.Component {
 
     UserLoginRequest = (user_name, password) => {
         console.log("UserAccess GET login")
-        const url = process.env.REACT_APP_BACKEND_URL + "/user/login/" + user_name + "/" + password;;
+        var access_token = jwt.encode({user_name: user_name, password: password}, process.env.REACT_APP_JWT_SECRET);
+        const url = process.env.REACT_APP_BACKEND_URL + "/user/login?access_token="+access_token;
         axios.get(url)
             .then(res => {
-                const userId = res.data;
-                console.log("user name:", user_name)
-                console.log("user id:", userId)
-                if (userId !== "false") {
+                const tokenId = res.data;
+                if (tokenId !== "false") {
                     this.handleLoginPopUp();
-                    this.setState({ redirect: process.env.REACT_APP_PROTECTED_URL + '?user_id=' + userId + '&user_name=' + user_name }, () => { this.render() })
+                    this.setState({ redirect: process.env.REACT_APP_PROTECTED_URL + '?userName=' + user_name + '&idToken=' + tokenId }, () => { this.render() });
                 }
                 else {
                     this.handleCheckUserLoginCorrect(false);
@@ -58,17 +56,16 @@ export default class UserAccessProcess extends React.Component {
             .catch(err => console.warn(err));
     }
 
-    
 
     UserRegistrationRequest = (user_name, password) => {
         console.log("UserAccess POST registration")
-        const url = process.env.REACT_APP_BACKEND_URL + "/user/registration/" + user_name + "/" + password;
-        console.log("debug user_name ", user_name)
+        var access_token = jwt.encode({user_name: user_name, password: password}, process.env.REACT_APP_JWT_SECRET);
+        const url = process.env.REACT_APP_BACKEND_URL + "/user/registration?access_token="+access_token;
         axios.get(url)
             .then(res => {
-                const userId = res.data;
+                const tokenId = res.data;
                 this.handleRegisterPopUp();
-                this.setState({ redirect: process.env.REACT_APP_PROTECTED_URL + '?user_id=' + userId + '&user_name=' + user_name }, () => { this.render() })
+                this.setState({redirect: process.env.REACT_APP_PROTECTED_URL + '?userName=' + user_name + '&idToken=' + tokenId}, () => { this.render() });
             })
             .catch(err => console.warn(err));
     }
@@ -76,8 +73,6 @@ export default class UserAccessProcess extends React.Component {
     handleCheckUserLoginCorrect = (check) => {
         this.setState({ checkUserLoginCorrect: check });
     }
-
-
 
     handleLoginPopUp = () => {
         this.setState({ userLoginPopUp: !this.state.userLoginPopUp })
@@ -87,7 +82,7 @@ export default class UserAccessProcess extends React.Component {
         this.setState({ userRegisterPopUp: !this.state.userRegisterPopUp })
     }
 
-    setUser = (userName, idToken)=>{
+    setUser = (userName, idToken) => {
         this.setState({
             userName: userName,
             idToken: idToken,
@@ -105,7 +100,7 @@ export default class UserAccessProcess extends React.Component {
                             WELCOME PORTAL
                         </div>
                         <div className="TopBarElement">
-                            <button variant="primary" onClick={() => { Login(this.setUser) }}>LOGIN</button>
+                            <button variant="primary" onClick={() => { this.handleLoginPopUp() }}>LOGIN</button>
                         </div>
                         <div className="TopBarElement">
                             <button variant="primary" onClick={() => { this.handleRegisterPopUp() }}>REGISTER</button>
@@ -118,14 +113,14 @@ export default class UserAccessProcess extends React.Component {
                             handleCheckUserLoginCorrect={this.handleCheckUserLoginCorrect}
                             checkUserLoginCorrect={this.state.checkUserLoginCorrect}
                             UserLoginRequest={this.UserLoginRequest}
-                            handleGoogleSignIn={this.handleGoogleSignIn}
+                            setUser={this.setUser}
                         />
                         <UserRegisterProcess
                             userRegisterPopUp={this.state.userRegisterPopUp}
                             handleRegisterPopUp={this.handleRegisterPopUp}
                             userNameList={this.state.userNameList}
                             UserRegistrationRequest={this.UserRegistrationRequest}
-
+                            setUser={this.setUser}
                         />
 
                     </div>
