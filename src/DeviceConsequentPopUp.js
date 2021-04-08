@@ -34,18 +34,16 @@ export default class DeviceConsequentPopUp extends React.Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div>
-                            <p style={{ display: this.state.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
-                            <ol>
-                                <li key="name">{this.props.modifyDevice ? ModifyName(this.props, this.checkDeviceNameFunction) : "Name: " + this.props.consequentName}</li>
-                                <li key="id">id: {this.props.consequentId}</li>
-                                <li key="measure">measure: {this.props.consequents[index].measure}</li>
-                                <li key="rules">rules:</li>
-                                <ul>
-                                    {rulesName}
-                                </ul>
-                            </ol>
-                        </div>
+                        <DeviceDetail
+                            checkDeviceName={this.state.checkDeviceName}
+                            modifyDevice={this.props.modifyDevice}
+                            consequentName={this.props.consequentName}
+                            consequentId={this.props.consequentId}
+                            consequents={this.props.consequents}
+                            consequentIdx={this.props.consequentIdx}
+                            index={index}
+                            rulesName={rulesName}
+                        />
                     </Modal.Body>
                     <Modal.Footer>
                         <button onClick={() => {
@@ -139,5 +137,46 @@ function ModifyName(props, checkDeviceNameFunction) {
                 }}
             />
         </form>
+    )
+}
+
+
+function checkDeviceStatusAndMeasure(props) {
+    const measure_device = props.consequents[props.index].measure
+    if (measure_device !== "null" && measure_device!=="init") {
+        const status = "connected"
+        return { measure: measure_device, status: status }
+    }
+    else if(measure_device==="null") {
+        const measure = "off";
+        const status = "disconnected"
+        return { measure: measure, status: status }
+    }
+    else{
+        const measure = "init";
+        const status = "connected"
+        return { measure: measure, status: status }
+    }
+}
+
+
+function DeviceDetail(props) {
+    const checkStatusDevice = checkDeviceStatusAndMeasure(props);
+    const measure = checkStatusDevice["measure"]
+    const status = checkStatusDevice["status"]
+    return (
+        <div>
+            <p style={{ display: props.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
+            <ol>
+                <li key="name">{props.modifyDevice ? ModifyName(props, props.checkDeviceNameFunction) : "Name: " + props.consequentName}</li>
+                <li key="id">id: {props.consequentId}</li>
+                <li key="measure">measure: {measure}</li>
+                <li key="status">Status: {status}</li>
+                <li key="rules">rules:</li>
+                <ul>
+                    {props.rulesName}
+                </ul>
+            </ol>
+        </div>
     )
 }

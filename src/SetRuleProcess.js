@@ -43,7 +43,13 @@ export default class SetRuleProcess extends React.Component {
         if (this.props.rules.length > 0) {
             return (
                 <div className="SetRulePopUp">
-                    <Modal show={this.props.setRulePopUp} onHide={() => { this.props.handleSetRulePopUp(); this.AntecedentRulePopUpBody() }}>
+                    <Modal show={this.props.setRulePopUp} onHide={() => { 
+                        this.props.handleSetRulePopUp(); 
+                        this.AntecedentRulePopUpBody();
+                        if (this.props.modify){
+                            this.props.handleModify();
+                        }
+                        }}>
                         <Modal.Header closeButton>
                             <Modal.Title>
                                 <div>
@@ -71,6 +77,7 @@ export default class SetRuleProcess extends React.Component {
                                 setNewRuleCondition={this.props.setNewRuleCondition}
                                 setNewStartValue={this.props.setNewStartValue}
                                 setNewStopValue={this.props.setNewStopValue}
+                                setNewRuleMeasure={this.props.setNewRuleMeasure}
                             />
                         </Modal.Body>
                         <Modal.Footer>
@@ -84,19 +91,7 @@ export default class SetRuleProcess extends React.Component {
                             <button onClick={() => {
                                 if (this.props.modify) {
                                     const ruleIdx = this.props.newRuleIdx;
-                                    const rule = this.props.rules[ruleIdx]
-                                    if (this.state.updateName) {
-                                        this.updateRuleName(false);
-                                        this.props.updateRuleName();
-                                    }
-                                    rule.antecedent.map(antecedent => {
-                                        this.props.setRuleAntecedentRequest(antecedent);
-                                        return null;
-                                    });
-                                    rule.consequent.map(consequent => {
-                                        this.props.setRuleConsequentRequest(consequent);
-                                        return null;
-                                    });
+                                    this.props.setRuleRequest(ruleIdx);
                                     this.props.handleModify();
                                 }
                                 else {
@@ -190,6 +185,7 @@ function RuleBody(props) {
                         <thead>
                             <tr>
                                 <th>DEVICE</th>
+                                <th>MEASURE</th>
                                 <th>CONDITION</th>
                                 <th>START</th>
                                 <th>STOP</th>
@@ -205,6 +201,7 @@ function RuleBody(props) {
                                 setNewRuleCondition={props.setNewRuleCondition}
                                 setNewStartValue={props.setNewStartValue}
                                 setNewStopValue={props.setNewStopValue}
+                                setNewRuleMeasure={props.setNewRuleMeasure}
                             />
                         </tbody>
                     </table>
@@ -247,9 +244,10 @@ function RuleAntecedentDetails(props) {
         return (
             <tr key={element_idx}>
                 <td>{element.name}</td>
+                <td>{element.measure}</td>
                 <td>{props.modify ? SetRuleCondition(props, element_idx, element.condition) : element.condition}</td>
-                <td>{props.modify ? SetStartValueRuleAntecedent(props, element.device_id, element_idx, element.start_value) : element.start_value}</td>
-                <td>{props.modify ? SetStopValueRuleAntecedent(props, element.device_id, element_idx, element) : element.stop_value}</td>
+                <td>{props.modify ? SetStartValueRuleAntecedent(props, element, element_idx) : element.start_value}</td>
+                <td>{props.modify ? SetStopValueRuleAntecedent(props, element, element_idx) : element.stop_value}</td>
                 <td className="deleteRuleRow" style={{ visibility: props.modify ? 'visible' : 'hidden' }}>
                     <button onClick={() => { props.deleteRuleAntecedentRequest(props.newRuleId, element.device_id); }}>
                         delete
@@ -287,24 +285,32 @@ function RuleFooter(props) {
 }
 
 function SetRuleCondition(props, element_idx, oldCondition) {
-    return (
-        <form name="ruleCondition">
-            <select name="condition"
-                id="condition"
-                defaultValue={oldCondition}
-                onChange={(e) => {
-                    props.setNewRuleCondition(props.newRuleIdx, element_idx, e.target.value)
-                }}>
-                <option value=">">{'>'}</option>
-                <option value="<">{'<'}</option>
-                <option value="between">'between'</option>
-            </select>
-        </form>
-    )
+    if (oldCondition === "delta") {
+        return(oldCondition)
+    }
+    else {
+        return (
+            <form name="ruleCondition">
+                <select name="condition"
+                    id="condition"
+                    defaultValue={oldCondition}
+                    onChange={(e) => {
+                        props.setNewRuleCondition(props.newRuleIdx, element_idx, e.target.value)
+                    }}>
+                    <option value=">">{'>'}</option>
+                    <option value="<">{'<'}</option>
+                    <option value="between">'between'</option>
+                </select>
+            </form>
+        )
+    }
+
 }
 
-function SetStartValueRuleAntecedent(props, elementId, element_idx, oldValue) {
-    if (elementId.includes("timer")) {
+function SetStartValueRuleAntecedent(props, element, element_idx ) {
+    const oldValue = element.start_value;
+    const elementId = element.device_id;
+    if (elementId.includes("timer") || elementId.includes("SWITCH")) {
         return SetStartValueTimer(props, element_idx, oldValue)
     }
     else {
@@ -334,8 +340,9 @@ function SetStartValueRuleAntecedent(props, elementId, element_idx, oldValue) {
 
 }
 
-function SetStopValueRuleAntecedent(props, elementId, element_idx, antecedent) {
-    if (elementId.includes("timer")) {
+function SetStopValueRuleAntecedent(props, antecedent, element_idx) {
+    const elementId = antecedent.device_id;
+    if (elementId.includes("timer") || elementId.includes("SWITCH")) {
         return SetStopValueTimer(props, element_idx, antecedent)
     }
     else {
@@ -387,7 +394,7 @@ function SetStartValueTimer(props, element_idx, oldValue) {
 }
 
 function SetStopValueTimer(props, element_idx, antecedent) {
-    if (antecedent.condition === "between") {
+    if (antecedent.condition === "between" || antecedent.condition === "delta" ) {
         return (
             <form name="ruleAntecedentStopValue">
                 <input id="time_stop"

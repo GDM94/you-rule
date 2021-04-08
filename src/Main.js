@@ -17,23 +17,16 @@ export default class Main extends React.Component {
         }
     }
 
-
-
-
     render() {
         return (
             <Router>
                 <Switch>
                     <PrivateRoute
                         path={process.env.REACT_APP_PROTECTED_URL}
-
-
                     />
                     <UserAccessProcess
                         path={process.env.REACT_APP_LOGIN_URL}
-
                     />
-
                 </Switch>
             </Router>
         )
@@ -43,7 +36,7 @@ export default class Main extends React.Component {
 }
 
 
-function PrivateRoute(props) {
+function PrivateRoute() {
     let query = new URLSearchParams(useLocation().search);
     const user_name = query.get("userName")
     const idToken = query.get("idToken")

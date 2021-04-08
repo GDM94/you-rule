@@ -125,6 +125,27 @@ function GetRulesName(props) {
 
 }
 
+function checkDeviceStatusAndMeasure(props) {
+    const measure_device = props.antecedents[props.index].measure
+    if (measure_device !== "null" && measure_device !== "init") {
+        const setting = parseInt(props.antecedents[props.index].setting);
+        const measure = parseInt(props.antecedents[props.index].measure);
+        const measure_perc = ((measure * 100) / setting).toFixed(1);
+        const status = "connected"
+        return { measure: measure_perc, status: status }
+    }
+    else if (measure_device==="null"){
+        const measure_perc = "//";
+        const status = "disconnected"
+        return { measure: measure_perc, status: status }
+    }
+    else{
+        const measure_perc = "init";
+        const status = "connected"
+        return { measure: measure_perc, status: status }
+    }
+}
+
 function DeviceDetails(props) {
     const deviceId = props.antecedentId;
     if (deviceId.includes("timer")) {
@@ -144,14 +165,15 @@ function DeviceDetails(props) {
 
     }
     else if (deviceId.includes("PHOTOCELL") || deviceId.includes("SOILMOISTURE")) {
-        const setting = parseInt(props.antecedents[props.index].setting);
-        const measure = parseInt(props.antecedents[props.index].measure);
-        const measure_perc = ((measure * 100) / setting).toFixed(1)
+        const checkStatusDevice = checkDeviceStatusAndMeasure(props);
+        const measure_perc = checkStatusDevice["measure"]
+        const status = checkStatusDevice["status"]
         return (
             <ol>
                 <li key="type">Type: sensor - {deviceId.includes("PHOTOCELL") ? "photocell" : "soil moisture"}</li>
                 <li key="id">Id: {props.antecedentId}</li>
                 <li key="measure">Measure: {measure_perc} %</li>
+                <li key="status">Status: {status}</li>
                 <li key="rules">Rules:</li>
                 <ul>
                     {props.rulesName}
@@ -162,14 +184,15 @@ function DeviceDetails(props) {
 
     }
     else if (deviceId.includes("WATERLEVEL")) {
-        const setting = parseInt(props.antecedents[props.index].setting);
-        const measure = parseInt(props.antecedents[props.index].measure);
-        const measure_perc = ((measure * 100) / setting).toFixed(1)
+        const checkStatusDevice = checkDeviceStatusAndMeasure(props);
+        const measure_perc = checkStatusDevice["measure"]
+        const status = checkStatusDevice["status"]
         return (
             <ol>
                 <li key="type">Type: sensor - water level</li>
                 <li key="id">id: {props.antecedentId}</li>
                 <li key="measure">measure: {measure_perc} %</li>
+                <li key="status">Status: {status}</li>
                 <li key="setting">{props.modifyDevice ? ModifySetting(props) : "Setting:" + props.antecedents[props.index].setting}</li>
                 <li key="rules">rules:</li>
                 <ul>

@@ -19,6 +19,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     axios.defaults.headers.common['Authorization'] = this.props.idToken;
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
     this.state = {
       menuPopUp: false,
       AddRulePopUp: false,
@@ -50,8 +51,6 @@ export default class App extends React.Component {
       allDeviceId: [],
 
       logout: false,
-      
-
     }
   }
 
@@ -78,7 +77,7 @@ export default class App extends React.Component {
   getAntecedents = () => {
     console.log('App GET antecedent By User');
     const url = process.env.REACT_APP_BACKEND_URL + "/device/get/antecedents";
-    axios.get(url, {}, {params:{user_id: this.props.user_id}})
+    axios.get(url, {}, { params: { user_id: this.props.user_id } })
       .then(res => {
         const data = res.data;
         this.setState({ antecedents: data }, () => { this.render() });
@@ -89,7 +88,7 @@ export default class App extends React.Component {
   getConsequents = () => {
     console.log('App GET consequents By User');
     const url = process.env.REACT_APP_BACKEND_URL + "/device/get/consequents";
-    axios.get(url, {}, {params:{user_id: this.props.user_id}})
+    axios.get(url, {}, { params: { user_id: this.props.user_id } })
       .then(res => {
         const data = res.data;
         this.setState({ consequents: data }, () => { this.render() });
@@ -99,7 +98,7 @@ export default class App extends React.Component {
   getRules = () => {
     console.log('App GET Rules by user');
     const url = process.env.REACT_APP_BACKEND_URL + "/rule/user";
-    axios.get(url, {}, {params:{user_id: this.props.user_id}})
+    axios.get(url, {}, { params: { user_id: this.props.user_id } })
       .then(res => {
         const data = res.data;
         this.setState({ rules: data }, () => { this.render() });
@@ -135,7 +134,7 @@ export default class App extends React.Component {
   getRuleById = (ruleId) => {
     console.log('App GET Rule By ID');
     const url = process.env.REACT_APP_BACKEND_URL + "/rule/id/" + ruleId;
-    axios.get(url, {}, {params:{user_id: this.props.user_id}})
+    axios.get(url, {}, { params: { user_id: this.props.user_id } })
       .then(res => {
         const newRule = res.data;
         var rules = this.state.rules;
@@ -158,15 +157,27 @@ export default class App extends React.Component {
           this.setState({ antecedents: antecedents }, () => { this.render() });
         })
     }
+    else {
+      const url = process.env.REACT_APP_BACKEND_URL + "/device/measure/" + this.state.consequentId;
+      axios.get(url)
+        .then(res => {
+          const newMeasure = res.data;
+          const index = this.state.consequentIdx;
+          var consequents = this.state.consequents;
+          consequents[index].measure = newMeasure;
+          this.setState({ consequents: consequents }, () => { this.render() });
+        })
+    }
   }
 
   //ADD and UPDATE ELEMENTS
   createRuleRequest = (rule_name) => {
     console.log('App POST create rule');
     const url = process.env.REACT_APP_BACKEND_URL + "/rule/create/" + rule_name;
-    axios.post(url,{}, {params:{user_id: this.props.user_id}})
+    axios.post(url, {}, { params: { user_id: this.props.user_id } })
       .then(res => {
         const ruleId = res.data;
+        console.log("response rule id: ", ruleId)
         const newRule = { id: ruleId, name: rule_name, antecedent: [], consequent: [] };
         var rules = this.state.rules;
         var idx = rules.length;
@@ -183,6 +194,18 @@ export default class App extends React.Component {
         })
       }).catch(err => console.warn(err));
   }
+  setRuleRequest = (ruleIdx) =>{
+    console.log("App POST set new rule");
+    const rule = this.state.rules[ruleIdx]
+    const rule_json = JSON.stringify(rule);
+    const url = process.env.REACT_APP_BACKEND_URL + "/rule/set";
+    axios.post(url, {rule_json})
+    .then(res=>{
+      const data = res.data;
+      console.log(data)
+    })
+    .catch(err => console.warn(err));
+  }
   setRuleAntecedentRequest = (newAntecedent) => {
     console.log("App POST new rule antecedent");
     const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/antecedent";
@@ -193,7 +216,8 @@ export default class App extends React.Component {
         device_id: newAntecedent.device_id,
         start_value: newAntecedent.start_value,
         stop_value: newAntecedent.stop_value,
-        condition: newAntecedent.condition
+        condition: newAntecedent.condition,
+        measure: newAntecedent.measure
       }
     })
       .catch(err => console.warn(err));
@@ -297,7 +321,7 @@ export default class App extends React.Component {
   deleteRuleRequest = (ruleId, ruleIdx) => {
     console.log("App DELETE rule")
     const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/" + ruleId;
-    axios.delete(url, {}, {params:{user_id: this.props.user_id}}).catch(err => console.warn(err));
+    axios.delete(url, {}, { params: { user_id: this.props.user_id } }).catch(err => console.warn(err));
     var NewRules = this.state.rules;
     NewRules.splice(ruleIdx, 1)
     this.setState({ rules: NewRules, newRuleIdx: 0 }, () => {
@@ -307,7 +331,7 @@ export default class App extends React.Component {
   deleteRuleConsequentRequest = (ruleId, deviceId) => {
     console.log("App DELETE rule consequent")
     const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/consequent/" + ruleId + "/" + deviceId;
-    axios.delete(url, {}, {params:{user_id: this.props.user_id}}).catch(err => console.warn(err));
+    axios.delete(url, {}, { params: { user_id: this.props.user_id } }).catch(err => console.warn(err));
     this.deleteRuleConsequentLocal(ruleId, deviceId)
   }
   deleteRuleConsequentLocal = (deviceId) => {
@@ -321,7 +345,7 @@ export default class App extends React.Component {
   deleteRuleAntecedentRequest = (ruleId, deviceId) => {
     console.log("App DELETE rule antecedent")
     const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/antecedent/" + ruleId + "/" + deviceId;
-    axios.delete(url, {}, {params:{user_id: this.props.user_id}})
+    axios.delete(url, {}, { params: { user_id: this.props.user_id } })
       .catch(err => console.warn(err));
     this.deleteRuleAntecedentLocal(deviceId)
   }
@@ -340,7 +364,7 @@ export default class App extends React.Component {
       var antecedents = this.state.antecedents;
       const index = this.state.antecedentIdx;
       antecedents.splice(index, 1);
-      axios.delete(url,{}, {params:{user_id: this.props.user_id}})
+      axios.delete(url, {}, { params: { user_id: this.props.user_id } })
         .then(this.setState({ antecedentIdx: 0, antecedents: antecedents }, () => { this.render() }))
         .catch(err => console.warn(err));
 
@@ -350,7 +374,7 @@ export default class App extends React.Component {
       const index = this.state.consequentIdx;
       var consequents = this.state.consequents;
       consequents.splice(index, 1)
-      axios.delete(url, {}, {params:{user_id: this.props.user_id}})
+      axios.delete(url, {}, { params: { user_id: this.props.user_id } })
         .then(this.setState({ consequentIdx: 0, consequents: consequents }, () => { this.render() }))
         .catch(err => console.warn(err));
 
@@ -405,6 +429,19 @@ export default class App extends React.Component {
   setNewStopValue = (ruleIdx, index, newStop) => {
     const rules = this.state.rules;
     rules[ruleIdx].antecedent[index].stop_value = newStop;
+    this.setState({ rules: rules }, () => { this.render() });
+  }
+  setNewRuleMeasure = (ruleIdx, index, newMeasure) => {
+    const rules = this.state.rules;
+    rules[ruleIdx].antecedent[index].measure = newMeasure;
+    if (newMeasure === "now"){
+      rules[ruleIdx].antecedent[index].condition = "between";
+      rules[ruleIdx].antecedent[index].stop_value = rules[ruleIdx].antecedent[index].start_value;
+    }
+    else{
+      rules[ruleIdx].antecedent[index].condition = "delta";
+      rules[ruleIdx].antecedent[index].stop_value = "//";
+    }
     this.setState({ rules: rules }, () => { this.render() });
   }
 
@@ -561,6 +598,8 @@ export default class App extends React.Component {
               deleteRuleRequest={this.deleteRuleRequest}
               modifyRuleName={this.modifyRuleName}
               updateRuleName={this.updateRuleName}
+              setNewRuleMeasure={this.setNewRuleMeasure}
+              setRuleRequest={this.setRuleRequest}
             />
             <AddRuleConsequentProcess
               addRuleConsequentPopUp={this.state.addRuleConsequentPopUp}
