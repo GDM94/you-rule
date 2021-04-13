@@ -39,7 +39,7 @@ export default class UserLoginProcess extends React.Component {
                             />
                             <br></br>
                             <label htmlFor="password">Password: </label>
-                            <input type="text" id="password" name="password"
+                            <input type="password" id="password" name="password"
                                 onChange={(e) => {
                                     this.props.handleCheckUserLoginCorrect(true);
                                     const password = e.target.value;

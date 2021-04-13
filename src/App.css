@@ -144,6 +144,30 @@
   max-height: 70vh !important;
 }
 
+.contentModal{
+  margin: 0px !important;
+  padding: 0px !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y:auto !important;
+}
+
+.ConsequentContentModal{
+  margin: 0px !important;
+  padding: 0px !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y:auto !important;
+}
+
+.AntecedentContentModal{
+  margin: 0px !important;
+  padding: 0px !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y:auto !important;
+}
+
 .modal-body tbody{
   background-color: #fafafa;
 }
@@ -212,13 +236,34 @@
   background-color: #4cee59;
 }
 
+.modal-dialog{
+  width: 90% !important;
+  max-width: 90% !important;
+}
+
 
 .modal-header{
   padding-bottom: 0px !important;
 }
 
+.modal-header#DeviceConsequentHeader{
+  background-color: #eead4c;
+}
+
+.modal-header#DeviceAntecedentHeader{
+  background-color: #289431;
+}
+
 .modal-title{
   width: 100%;
+}
+
+.modal-footer#DeviceConsequentFooter{
+  background-color: #eead4c;
+}
+
+.modal-footer#DeviceAntecedentFooter{
+  background-color: #289431;
 }
 
 #ruleAntecedentButton.AntecedentRuleSelection{
@@ -240,5 +285,73 @@
   width: 50%;
 }
 
+.DeviceDetail-sx{
+  width: 50%;
+  height: 100%;
+  float:left;
+  border-style: solid;
+  border-left: #0c0c0c;
+  border-top: none;
+}
 
+.SingleDeviceDetail{
+  width: 100%;
+  height: auto;
+  float:left;
+  border: #0c0c0c;
+  border-style: solid;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  text-align: center;
+}
+
+.DeviceDetailInfoHeader{
+  width: 30%;
+  height: 100%;
+  float:left;
+  text-align: center;
+}
+
+.DeviceDetailContent{
+  width: 70%;
+  height: 100%;
+  float:left;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.ConsequentContentModal .DeviceDetailInfoHeader{
+  background-color: #eead4c;
+}
+
+.AntecedentContentModal .DeviceDetailInfoHeader{
+  background-color: #59ee4c;
+}
+
+#bigTitle.SingleDeviceDetail{
+  background-color: #eead4c;
+}
+
+#AntecedentbigTitle.SingleDeviceDetail{
+  background-color: #59ee4c;
+}
+
+.SingleDeviceDetail table{
+  width: 100%;
+  margin: auto;
+  margin-top: 5px;
+}
+
+.SingleDeviceDetail td{
+  padding: 4px;
+}
+
+.SingleDeviceDetail button{
+  width: 60%;
+}
+
+#ruleList.SingleDeviceDetail{
+  overflow-y:auto;
+}
 

@@ -28,28 +28,27 @@ export default class DeviceAntecedentPopUp extends React.Component {
             const rulesName = GetRulesName(this.props);
             return (
                 <Modal show={this.props.deviceAntecedentPopUp} onHide={() => this.props.handleDeviceAntecedentPopUp()}>
-                    <Modal.Header closeButton>
+                    <Modal.Header id="DeviceAntecedentHeader" closeButton>
                         <Modal.Title>
-                            <p style={{ display: this.state.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
-                            {this.props.modifyDevice ? ModifyName(this.props, this.checkDeviceNameFunction) : this.props.antecedentName}
+
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div>
-                            <DeviceDetails
-                                antecedentIdx={this.props.antecedentIdx}
-                                antecedentId={this.props.antecedentId}
-                                antecedentName={this.props.antecedentName}
-                                antecedents={this.props.antecedents}
-                                index={index}
-                                rulesName={rulesName}
-                                modifyAntecedentName={this.props.modifyAntecedentName}
-                                modifyAntecedentSetting={this.props.modifyAntecedentSetting}
-                                modifyDevice={this.props.modifyDevice}
-                            />
-                        </div>
+                        <DeviceDetails
+                            antecedentIdx={this.props.antecedentIdx}
+                            antecedentId={this.props.antecedentId}
+                            antecedentName={this.props.antecedentName}
+                            antecedents={this.props.antecedents}
+                            index={index}
+                            rulesName={rulesName}
+                            modifyAntecedentName={this.props.modifyAntecedentName}
+                            modifyAntecedentSetting={this.props.modifyAntecedentSetting}
+                            modifyDevice={this.props.modifyDevice}
+                            checkDeviceNameFunction={this.checkDeviceNameFunction}
+                            checkDeviceName={this.state.checkDeviceName}
+                        />
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer id="DeviceAntecedentFooter">
                         <button onClick={() => {
                             this.props.getDeviceMeasureRequest("antecedent");
                         }}>
@@ -101,26 +100,45 @@ function GetRulesName(props) {
             const rulesIdList = rules.map(rule => { return rule.id });
             const rulesNameList = rulesId.map(ruleId => {
                 var ruleIndex = rulesIdList.indexOf(ruleId);
-                return (<li key={ruleId}><button onClick={() => {
-                    props.setNewRule(ruleId, rules[ruleIndex].name, ruleIndex);
-                    props.handleDeviceAntecedentPopUp();
-                    props.handleSetRulePopUp();
-                }}>
-                    {rules[ruleIndex].name}
-                </button>
-                </li>)
+                return (<tr key={ruleId}>
+                    <td>
+                        <button onClick={() => {
+                            props.setNewRule(ruleId, rules[ruleIndex].name, ruleIndex);
+                            props.handleDeviceConsequentPopUp();
+                            props.handleSetRulePopUp();
+                        }}>
+                            {rules[ruleIndex].name}
+                        </button>
+                    </td>
+                </tr>)
             })
-            return (rulesNameList)
+            return (
+                <table>
+                    <tbody>
+                        {rulesNameList}
+                    </tbody>
+                </table>
+            )
         }
         else {
-            return (<li></li>)
+            return (<table></table>)
         }
     }
     catch (e) {
         const rulesIdList = rulesId.map(ruleId => {
-            return (<li key={ruleId}>{ruleId}</li>)
+            return (<tr key={ruleId}>
+                <td>
+                    {ruleId}
+                </td>
+            </tr>)
         })
-        return rulesIdList
+        return (
+            <table>
+                <tbody>
+                    {rulesIdList}
+                </tbody>
+            </table>
+        )
     }
 
 }
@@ -134,12 +152,12 @@ function checkDeviceStatusAndMeasure(props) {
         const status = "connected"
         return { measure: measure_perc, status: status }
     }
-    else if (measure_device==="null"){
+    else if (measure_device === "null") {
         const measure_perc = "//";
         const status = "disconnected"
         return { measure: measure_perc, status: status }
     }
-    else{
+    else {
         const measure_perc = "init";
         const status = "connected"
         return { measure: measure_perc, status: status }
@@ -148,68 +166,81 @@ function checkDeviceStatusAndMeasure(props) {
 
 function DeviceDetails(props) {
     const deviceId = props.antecedentId;
+    var measure = ""
+    var status = ""
+    var type = ""
+    var settings = ""
+
     if (deviceId.includes("timer")) {
         var today = new Date();
-        const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-        return (
-            <ol>
-                <li key="type">Type: sensor - timer</li>
-                <li key="id">Id: {props.antecedentId}</li>
-                <li key="measure">Measure: {time}</li>
-                <li key="rules">Rules:</li>
-                <ul>
-                    {props.rulesName}
-                </ul>
-            </ol>
-        )
-
+        measure = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+        status = "connected"
+        type = "sensor - timer"
+        settings = "/"
     }
     else if (deviceId.includes("PHOTOCELL") || deviceId.includes("SOILMOISTURE")) {
         const checkStatusDevice = checkDeviceStatusAndMeasure(props);
-        const measure_perc = checkStatusDevice["measure"]
-        const status = checkStatusDevice["status"]
-        return (
-            <ol>
-                <li key="type">Type: sensor - {deviceId.includes("PHOTOCELL") ? "photocell" : "soil moisture"}</li>
-                <li key="id">Id: {props.antecedentId}</li>
-                <li key="measure">Measure: {measure_perc} %</li>
-                <li key="status">Status: {status}</li>
-                <li key="rules">Rules:</li>
-                <ul>
-                    {props.rulesName}
-                </ul>
-            </ol>
-
-        )
-
+        measure = checkStatusDevice["measure"] + "%"
+        status = checkStatusDevice["status"]
+        type = deviceId.includes("PHOTOCELL")? "sensor - photocell": "sensor - soil moisture"
+        settings = "/"
     }
     else if (deviceId.includes("WATERLEVEL")) {
         const checkStatusDevice = checkDeviceStatusAndMeasure(props);
-        const measure_perc = checkStatusDevice["measure"]
-        const status = checkStatusDevice["status"]
-        return (
-            <ol>
-                <li key="type">Type: sensor - water level</li>
-                <li key="id">id: {props.antecedentId}</li>
-                <li key="measure">measure: {measure_perc} %</li>
-                <li key="status">Status: {status}</li>
-                <li key="setting">{props.modifyDevice ? ModifySetting(props) : "Setting:" + props.antecedents[props.index].setting}</li>
-                <li key="rules">rules:</li>
-                <ul>
-                    {props.rulesName}
-                </ul>
-            </ol>
-
-        )
+        measure = checkStatusDevice["measure"]+ "%"
+        status = checkStatusDevice["status"]
+        type="sensor - water level"
+        settings = props.modifyDevice ? ModifySetting(props) : props.antecedents[props.index].setting
     }
+    return (
+        <div className="AntecedentContentModal">
+            <p style={{ display: props.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
+            <div className="DeviceDetail-sx">
+                <div className="SingleDeviceDetail" id="AntecedentbigTitle">
+                    Info
+                </div>
+                <div className="SingleDeviceDetail">
+                    <div className="DeviceDetailInfoHeader"> Id:</div>
+                    <div className="DeviceDetailContent"> {props.antecedentId}</div>
+                </div>
+                <div className="SingleDeviceDetail">
+                    <div className="DeviceDetailInfoHeader"> Name:</div>
+                    <div className="DeviceDetailContent"> {props.modifyDevice ? ModifyName(props, props.checkDeviceNameFunction) : props.antecedentName}</div>
+                </div>
+                <div className="SingleDeviceDetail">
+                    <div className="DeviceDetailInfoHeader"> Type:</div>
+                    <div className="DeviceDetailContent"> {type}</div>
+                </div>
+                <div className="SingleDeviceDetail">
+                    <div className="DeviceDetailInfoHeader"> Measure:</div>
+                    <div className="DeviceDetailContent"> {measure} </div>
+                </div>
+                <div className="SingleDeviceDetail">
+                    <div className="DeviceDetailInfoHeader"> Status:</div>
+                    <div className="DeviceDetailContent"> {status} </div>
+                </div>
+                <div className="SingleDeviceDetail">
+                    <div className="DeviceDetailInfoHeader"> Settings:</div>
+                    <div className="DeviceDetailContent"> {settings} </div>
+                </div>
+            </div>
+            <div className="DeviceDetail-sx">
+                <div className="SingleDeviceDetail" id="AntecedentbigTitle">
+                    Rules
+                </div>
+                <div className="SingleDeviceDetail" id="ruleList">
+                    {props.rulesName}
+                </div>
+            </div>
+        </div>
+    )
 
 }
 
 function ModifyName(props, checkDeviceNameFunction) {
     return (
         <form name="ItemName">
-            <label htmlFor="name">Name: </label>
-            <input type="text" id="name" name="name"
+            <input className="DeviceDetailContent" type="text" id="name" name="name"
                 defaultValue={props.antecedentName}
                 onChange={(e) => {
                     const NewName = e.target.value;

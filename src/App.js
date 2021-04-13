@@ -194,17 +194,17 @@ export default class App extends React.Component {
         })
       }).catch(err => console.warn(err));
   }
-  setRuleRequest = (ruleIdx) =>{
+  setRuleRequest = (ruleIdx) => {
     console.log("App POST set new rule");
     const rule = this.state.rules[ruleIdx]
     const rule_json = JSON.stringify(rule);
     const url = process.env.REACT_APP_BACKEND_URL + "/rule/set";
-    axios.post(url, {rule_json})
-    .then(res=>{
-      const data = res.data;
-      console.log(data)
-    })
-    .catch(err => console.warn(err));
+    axios.post(url, { rule_json })
+      .then(res => {
+        const data = res.data;
+        console.log(data)
+      })
+      .catch(err => console.warn(err));
   }
   setRuleAntecedentRequest = (newAntecedent) => {
     console.log("App POST new rule antecedent");
@@ -315,6 +315,45 @@ export default class App extends React.Component {
         rule_name: this.state.newRuleName
       }
     }).catch(err => console.warn(err));
+  }
+  setConsequentAutomaticRequest = (automatic) => {
+    console.log("App POST consequent automatic");
+    const url = process.env.REACT_APP_BACKEND_URL + "/device/consequent/automatic";
+    axios.post(url, {}, {
+      params: {
+        user_id: this.props.user_id,
+        device_id: this.state.consequentId,
+        automatic: automatic
+      }
+    })
+    .then(res=>{
+      const consequent = res.data;
+      const consequents = this.state.consequents;
+      const idx = this.state.consequentIdx;
+      consequents[idx] = consequent;
+      this.setState({consequents: consequents}, () => {this.render()})
+    })
+    .catch(err => console.warn(err));   
+  }
+  setConsequentManualMeasureRequest = (manual_measure) => {
+    console.log("App POST consequent manual measure");
+    const url = process.env.REACT_APP_BACKEND_URL + "/device/consequent/manual";
+    axios.post(url, {}, {
+      params: {
+        user_id: this.props.user_id,
+        device_id: this.state.consequentId,
+        manual_measure: manual_measure
+      }
+    })
+    .then(res=>{
+      const consequents = this.state.consequents;
+      const idx = this.state.consequentIdx;
+      consequents[idx].manual_measure = manual_measure;
+      consequents[idx].measure = manual_measure;
+      this.setState({consequents: consequents}, () => {this.render()})
+    })
+    .catch(err => console.warn(err));
+    
   }
 
   // REMOVE ELEMENT FROM ARRAYS
@@ -434,11 +473,11 @@ export default class App extends React.Component {
   setNewRuleMeasure = (ruleIdx, index, newMeasure) => {
     const rules = this.state.rules;
     rules[ruleIdx].antecedent[index].measure = newMeasure;
-    if (newMeasure === "now"){
+    if (newMeasure === "now") {
       rules[ruleIdx].antecedent[index].condition = "between";
       rules[ruleIdx].antecedent[index].stop_value = rules[ruleIdx].antecedent[index].start_value;
     }
-    else{
+    else {
       rules[ruleIdx].antecedent[index].condition = "delta";
       rules[ruleIdx].antecedent[index].stop_value = "//";
     }
@@ -600,6 +639,8 @@ export default class App extends React.Component {
               updateRuleName={this.updateRuleName}
               setNewRuleMeasure={this.setNewRuleMeasure}
               setRuleRequest={this.setRuleRequest}
+              antecedents={this.state.antecedents}
+              consequents={this.state.consequents}
             />
             <AddRuleConsequentProcess
               addRuleConsequentPopUp={this.state.addRuleConsequentPopUp}
@@ -661,6 +702,8 @@ export default class App extends React.Component {
               modifyConsequentName={this.modifyConsequentName}
               setNewRule={this.setNewRule}
               handleSetRulePopUp={this.handleSetRulePopUp}
+              setConsequentAutomaticRequest={this.setConsequentAutomaticRequest}
+              setConsequentManualMeasureRequest={this.setConsequentManualMeasureRequest}
             />
 
 
