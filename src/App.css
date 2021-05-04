@@ -1,12 +1,47 @@
 .App {
+  display: flex;
+  flex-flow: column;
   width: 100%;
   height: 100%;
   background-color: rgb(190, 210, 218);
 }
 
-.TopBar{
+.GreatBody{
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+  height: 100%;
+}
+
+.GreatBodyAccess{
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+
+.TopBar1{
   background-color: rgb(21, 33, 207);
-  overflow: hidden;
+  width: 100%;
+}
+
+.TopBar2{
+  background-color: #333333;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  
+}
+
+.TopBar2 button{
+  width: 100px;
+}
+
+.TopBar2 button:hover{
+  background-color: #9ea59f;
 }
 
 .TopBarElement{
@@ -24,78 +59,59 @@
   font-size: 17px;
 }
 
-.AntecedentContainer {
-  width: 33%;
+.TopBarRouteButton{
+  padding: 14px 16px;
+  font-size: 17px;
+}
+
+.ButtonClicked{
+  font-weight: bold !important;
+  color: #eead4c !important;
+  border-bottom: #eead4c solid 5px !important;
+}
+
+.ItemButtonClicked{
+  font-weight: bold !important;
+  color: #000000 !important;
+  border-bottom: #000000 solid 5px !important;
+}
+
+.MenuPopUp{
+  padding: 20px;
+  text-align: center;
+}
+
+.MenuPopUp button{
+  width: 200px;
+  margin: 5px;
+}
+
+.LateralMenu {
+  width: 25%;
+  display: flex;
+  flex-flow: column;
   height: 100%;
   float:left;
   text-align: center;
-  padding-left: 10px;
-}
-
-.ConsequentContainer {
-  width: 33%;
-  height: 100%;
-  float:right;
-  text-align: center;
-  padding-right: 10px;
-}
-
-.RuleContainer{
-  width: 34%;
-  height: 100%;
-  float:left;
-  text-align: center;
-}
-
-
-.AntecedentContainer .MyList{
-  background-color: rgb(171, 243, 169);
-}
-
-.AntecedentContainer thead {
-  border-bottom: 5px solid #439b52;
   color: rgba(15, 82, 13, 0.541);
 }
-.ConsequentContainer thead {
-  border-bottom: 5px solid #b43232;
-  color: rgba(104, 5, 5, 0.541);
-}
-.RuleContainer thead {
-  border-bottom: 5px solid #918989;
-  color: rgba(36, 31, 31, 0.541);
-}
-
-.RuleContainer .MyList{
-  background-color: rgb(210, 221, 210);
-}
-
-.ConsequentContainer .MyList{
-  background-color: rgb(214, 144, 103);
-}
-
 .MyList{  
   color: white;
   margin: 5px;
   padding-left: 15px;
   padding-right: 15px;
   background-color: rgb(66, 148, 127);
-  height: 200px;
-  max-height:200px;
+  height: 100%;
   overflow-y:auto;
   text-align: center;
 }
 
 .MyList table{
   width:100%;
-  border-width: 5px;
 }
 
 .MyList td{
   padding-top: 5px;
-}
-
-.MyList table td {
-  border: 1px solid #0c0c0c;
 }
 
 .MyList table button{
@@ -113,185 +129,185 @@
   text-align: left;
 }
 
-#rule th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #4CAF50;
-  color: white;
-}
-
-#rule {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-  display:inline-table;
-}
-
-#rule td, #rule th {
-  border: 1px solid rgb(8, 8, 8);
-  padding: 5px;
-  font-size: 10px;
-  text-align: center;
-}
-
-
-
-.modal-body{
-  margin: 0px !important;
-  padding: 0px !important;
-  height: 70vh !important;
-  max-height: 70vh !important;
-}
-
-.contentModal{
-  margin: 0px !important;
-  padding: 0px !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  overflow-y:auto !important;
-}
-
-.ConsequentContentModal{
-  margin: 0px !important;
-  padding: 0px !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  overflow-y:auto !important;
-}
-
-.AntecedentContentModal{
-  margin: 0px !important;
-  padding: 0px !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  overflow-y:auto !important;
-}
-
-.modal-body tbody{
-  background-color: #fafafa;
-}
-
-.RuleAntecedentDetail{
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-  background-color: #4cee67;
-  overflow-y:auto !important;
-}
-
-.RuleConsequentDetail{
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-  background-color: #e3ee4c;
-  overflow-y:auto !important;
-}
-
-.GenericModalBody{
-  padding: 20px;
-  text-align: center;
-  width: 100%;
-}
 
 .GenericModalBody button{
   width:100%;
 }
 
-.MenuPopUp{
-  padding: 20px;
+
+.ContentContainer{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  float:left;
   text-align: center;
 }
 
-.MenuPopUp button{
-  width: 200px;
-  margin: 5px;
+.ElementContent{
+  width: 100%;
+  height: 85%;
 }
 
-.RuleConsequentDetail th{
-  background-color: #9ca332 !important;
+.ElementFooter{
+  width: 100%;
+  height: 15%;
+  background-color: #4CAF50;
+  padding: 2%;
 }
 
-.RuleAntecedentDetail th{
-  background-color: #55bd4b !important;
+.ElementFooter button{
+  margin: 0%;
 }
 
-
-.deleteRuleRow button{
-  background-color: rgb(240, 179, 179);
-  width: 50px;
+.RuleContent{
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  height: 100%;
 }
 
 .RuleEvaliation{
   font-size: 15px;
 }
 
-
-
-#ruleConsequentButton{
-  background-color: #cbee4c;
-}
-
-#ruleAntecedentButton{
-  background-color: #4cee59;
-}
-
-.modal-dialog{
-  width: 90% !important;
-  max-width: 90% !important;
-}
-
-
-.modal-header{
-  padding-bottom: 0px !important;
-}
-
-.modal-header#DeviceConsequentHeader{
-  background-color: #eead4c;
-}
-
-.modal-header#DeviceAntecedentHeader{
-  background-color: #289431;
-}
-
-.modal-title{
+.RuleHeader{
   width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-flow: column;
 }
 
-.modal-footer#DeviceConsequentFooter{
-  background-color: #eead4c;
+.RuleHeaderSection{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
 }
 
-.modal-footer#DeviceAntecedentFooter{
-  background-color: #289431;
+.RuleHeaderButtons{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 2%;
 }
 
-#ruleAntecedentButton.AntecedentRuleSelection{
-  font-size: 20px;
-  width: 50%;
+.ClickedRuleBodyButton{
+  font-size: 15px !important;
+  width: 30%;
+  font-weight: bold !important;
+  border: solid black 2px !important;
+  background-color: #eead4c !important;
+  border-radius: 0px !important;
+  border-right: none !important;
 }
 
-#ruleConsequentButton.AntecedentRuleSelection{
-  font-size: 15px;
+.UnclickedRuleBodyButton{
+  font-size: 12px;
+  border-radius: 0px !important;
+  background-color: #cccccc !important;
 }
 
-#ruleAntecedentButton.ConsequentRuleSelection{
-  font-size: 15px;
+.AddRuleElementButton{
+  border: solid black 2px !important;
+}
+
+.RuleBody{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.RuleAntecedentDetail{
+  border: solid black 2px;
+  border-radius: 25px;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  background-color: #e6e6e6;
+  overflow-y: auto;
+  text-align: center;
+  padding-top: 5%;
   
 }
 
-#ruleConsequentButton.ConsequentRuleSelection{
-  font-size: 20px;
-  width: 50%;
+.RuleConsequentDetail{
+  width: 100%;
+  height: 100%;
+  border: solid black 2px;
+  border-radius: 25px;
+  background-color: #e6e6e6;
+  overflow-y: auto;
+  text-align: center;
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
+
+.RuleConsequentDetail thead th{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #9ca332 !important;
+  color: white;
+}
+
+.RuleAntecedentDetail thead th{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #55bd4b !important;
+  color: white;
+}
+
+
+.deleteRuleRow button{
+  background-color: rgb(240, 179, 179);
+}
+
+
+#tableRule {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#tableRule tbody{
+  background-color: white;
+}
+
+#tableRule th {
+  background-color: #333333;
+  color: white;
+  border: 1px solid rgb(252, 252, 252);
+  font-size: 10px;
+  padding: 5px;
+  text-align: center; 
+}
+
+#tableRule td {
+  border: 1px solid rgb(8, 8, 8);
+  padding: 5px;
+  font-size: 10px;
+  text-align: center; 
+}
+
+.DeviceContentDetail{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+
 
 .DeviceDetail-sx{
   width: 50%;
-  height: 100%;
   float:left;
   border-style: solid;
   border-left: #0c0c0c;
   border-top: none;
+
 }
 
 .SingleDeviceDetail{

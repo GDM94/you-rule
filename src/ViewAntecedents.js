@@ -1,29 +1,30 @@
 import React from 'react';
+import styled from "styled-components";
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 
 
 export default function ViewAntecedents(props) {
     return (
-        <div className="AntecedentContainer">
-            <div className="MyList">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                SENSORS
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ItemList
-                            antecedents={props.antecedents}
-                            handleDeviceAntecedentPopUp={props.handleDeviceAntecedentPopUp}
-                            setNewAntecedent={props.setNewAntecedent}
-                            getAntecedentById={props.getAntecedentById}
-                        />
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
+        <MyList>
+            <List component="div" aria-label="main mailbox folders">
+                <ItemList
+                    antecedents={props.antecedents}
+                    handleDeviceAntecedentPopUp={props.handleDeviceAntecedentPopUp}
+                    setNewAntecedent={props.setNewAntecedent}
+                    getAntecedentById={props.getAntecedentById}
+                    antecedentId={props.antecedentId}
+                    modifyDevice={props.modifyDevice}
+                    updateDeviceRequest={props.updateDeviceRequest}
+                    handleModifyDevice={props.handleModifyDevice}
+                    deleteDeviceRequest={props.deleteDeviceRequest}
+                />
+            </List >
+        </MyList >
     );
 }
 
@@ -34,32 +35,40 @@ function ItemList(props) {
             props.antecedents.map(antecedent => {
                 var index = deviceIdList.indexOf(antecedent.id)
                 return (
-                    <tr key={index}>
-                        <td>
-                            <div>
-                                <button variant="primary" onClick={() => {
+                    <div key={index}>
+                            <ListItem style={{color:"black"}} className={props.antecedentId === antecedent.id ? "ItemButtonClicked" : ""}
+                                onClick={() => {
                                     props.getAntecedentById(antecedent.id);
                                     props.setNewAntecedent(antecedent.id, antecedent.name, index);
-                                    props.handleDeviceAntecedentPopUp();
                                 }}>
-                                    {antecedent.name}
-                                </button>
-                            </div >
-                        </td>
-                    </tr>
+                                <ListItemText primary={antecedent.name} />
+                            </ListItem>
+                            <Divider />
+                    </div>
                 )
             })
         );
     }
     else {
         return (
-            <tr key={0}>
-                <td>
-
-                </td>
-            </tr>
+            
+            <Divider />
         )
     }
 
 }
+
+
+
+
+const MyList = styled.div`
+ color: white;
+  margin: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  
+  height: 100%;
+  overflow-y:auto;
+  text-align: center;
+`;
 

@@ -16,7 +16,7 @@ export default class AddRuleConsequentProcess extends React.Component {
                 <Modal show={this.props.addRuleConsequentPopUp}
                     onHide={() => {
                         this.props.handleAddRuleConsequentPopUp();
-                        this.props.handleSetRulePopUp();
+                        this.props.handleSetRulePopUp(true);
                     }}>
                     <Modal.Header closeButton>
                         <Modal.Title>
@@ -32,6 +32,7 @@ export default class AddRuleConsequentProcess extends React.Component {
                                         rules={this.props.rules}
                                         consequents={this.props.consequents}
                                         setConsequentRuleLocal={this.props.setConsequentRuleLocal}
+                                        handleModify={this.props.handleModify}
                                     />
                                 </tbody>
                             </table>
@@ -41,7 +42,7 @@ export default class AddRuleConsequentProcess extends React.Component {
                     <Modal.Footer>
                         <button onClick={() => {
                             this.props.handleAddRuleConsequentPopUp();
-                            this.props.handleSetRulePopUp();
+                            this.props.handleSetRulePopUp(true);
                         }}>
                             Close
                         </button>
@@ -73,8 +74,18 @@ function AddRuleConsequentDevice(props) {
                     <tr key={i}>
                         <td>
                             <button onClick={() => {
-                                const newConsequent = { device_id: item.id, name: item.name, if_value: "on", else_value: "off" };
+                                var automatic = "";
+                                var measure = "measure"
+                                if (item.id.includes("alert")){
+                                    automatic="true";
+                                }
+                                else{
+                                    automatic=item.automatic;
+                                    measure = item.measure
+                                }
+                                const newConsequent = { device_id: item.id, name: item.name, if_value: "on", else_value: "off", automatic: automatic, measure: measure};
                                 props.setConsequentRuleLocal(props.newRuleIdx, newConsequent);
+                                props.handleModify(true);
                             }}>
                                 {item.name}
                             </button>

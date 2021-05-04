@@ -7,7 +7,7 @@ export default class CreateRuleProcess extends React.Component {
     super(props);
     this.state = {
       checkCreateNewRule: false,
-      ruleName : "",
+      ruleName: "",
     }
 
   }
@@ -26,7 +26,15 @@ export default class CreateRuleProcess extends React.Component {
     }
   }
 
-  
+  createRule = (event) => {
+    if (!this.state.checkCreateNewRule) {
+      const ruleName = this.state.ruleName
+      this.props.createRuleRequest(ruleName);
+    }
+    event.preventDefault();
+  }
+
+
 
 
 
@@ -40,7 +48,7 @@ export default class CreateRuleProcess extends React.Component {
           <Modal.Body>
             <div className="GenericModalBody">
               <p style={{ display: this.state.checkCreateNewRule ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
-              <form>
+              <form onSubmit={this.createRule}>
                 <label htmlFor="ruleName">RULE NAME: </label>
                 <input name="ruleName" id="ruleName" type="text"
                   onChange={(e) => {
@@ -54,7 +62,7 @@ export default class CreateRuleProcess extends React.Component {
           <Modal.Footer>
             <button onClick={() => {
               if (!this.state.checkCreateNewRule) {
-                const ruleName = this.state.ruleName
+                const ruleName = this.state.ruleName;
                 this.props.createRuleRequest(ruleName);
               }
             }}>

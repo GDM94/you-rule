@@ -1,5 +1,24 @@
-import React from 'react';
-import Modal from 'react-bootstrap/Modal'
+import React, { useState } from 'react';
+import { FormControlLabel, Switch } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneIcon from '@material-ui/icons/Done';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import styled from "styled-components";
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import AddAlertEmailProcess from './AddAlertEmailProcess';
+
+
 
 export default class DeviceConsequentPopUp extends React.Component {
     constructor(props) {
@@ -23,62 +42,37 @@ export default class DeviceConsequentPopUp extends React.Component {
 
 
     render() {
-        if (this.props.consequents.length > 0) {
+
+        if (this.props.consequentId !== "" && this.props.deviceConsequentPopUp) {
             const index = this.props.consequentIdx;
             var rulesName = GetRulesName(this.props);
             return (
-                <Modal show={this.props.deviceConsequentPopUp} onHide={() => this.props.handleDeviceConsequentPopUp()}>
-                    <Modal.Header id="DeviceConsequentHeader" closeButton>
-
-                    </Modal.Header>
-                    <Modal.Body>
-                        <DeviceDetail
-                            checkDeviceName={this.state.checkDeviceName}
-                            modifyDevice={this.props.modifyDevice}
-                            consequentName={this.props.consequentName}
-                            consequentId={this.props.consequentId}
-                            consequents={this.props.consequents}
-                            consequentIdx={this.props.consequentIdx}
-                            index={index}
-                            rulesName={rulesName}
-                            setConsequentAutomaticRequest={this.props.setConsequentAutomaticRequest}
-                            setConsequentManualMeasureRequest={this.props.setConsequentManualMeasureRequest}
-                        />
-                    </Modal.Body>
-                    <Modal.Footer id="DeviceConsequentFooter">
-                        <button onClick={() => {
-                            this.props.getDeviceMeasureRequest("consequent");
-                        }}>
-                            Refresh
-                        </button>
-                        <button onClick={() => {
-                            if (this.props.modifyDevice) {
-                                this.props.updateDeviceRequest("consequent");
-                                this.props.handleModifyDevice();
-                            }
-                            else {
-                                this.props.handleModifyDevice();
-                            }
-                        }}>
-                            {this.props.modifyDevice ? 'Save' : 'Modify'}
-                        </button>
-                        <button
-                            onClick={() => {
-                                if (this.props.modifyDevice) {
-                                    this.props.deleteDeviceRequest("consequent");
-                                    this.props.handleModifyDevice();
-                                    this.props.handleDeviceConsequentPopUp();
-                                }
-                                else {
-                                    this.props.handleModifyDevice();
-                                    this.props.handleDeviceConsequentPopUp();
-                                }
-
-                            }}>
-                            {this.props.modifyDevice ? 'Delete' : 'Close'}
-                        </button>
-                    </Modal.Footer>
-                </Modal>
+                <DeviceDetail
+                    checkDeviceName={this.state.checkDeviceName}
+                    modifyDevice={this.props.modifyDevice}
+                    consequentName={this.props.consequentName}
+                    consequentId={this.props.consequentId}
+                    consequents={this.props.consequents}
+                    consequentIdx={this.props.consequentIdx}
+                    index={index}
+                    rulesName={rulesName}
+                    setConsequentAutomaticRequest={this.props.setConsequentAutomaticRequest}
+                    setConsequentManualMeasureRequest={this.props.setConsequentManualMeasureRequest}
+                    removeAlertEmailRequest={this.props.removeAlertEmailRequest}
+                    modifyAlertEmail={this.props.modifyAlertEmail}
+                    handleModifyAlertEmail={this.props.handleModifyAlertEmail}
+                    handleAddAlertEmailPopUp={this.props.handleAddAlertEmailPopUp}
+                    checkDeviceNameFunction={this.checkDeviceNameFunction}
+                    modifyConsequentName={this.props.modifyConsequentName}
+                    updateDeviceRequest={this.props.updateDeviceRequest}
+                    handleModifyDevice={this.props.handleModifyDevice}
+                    handleDeviceAntecedentPopUp={this.props.handleDeviceAntecedentPopUp}
+                    deleteDeviceRequest={this.props.deleteDeviceRequest}
+                    getConsequentById={this.props.getConsequentById}
+                    addEmailLocal={this.props.addEmailLocal}
+                    addNewAlertEmailRequest={this.props.addNewAlertEmailRequest}
+                    modifyEmailRequest={this.props.modifyEmailRequest}
+                />
             )
         }
         else {
@@ -88,67 +82,62 @@ export default class DeviceConsequentPopUp extends React.Component {
 }
 
 
+
+
 function GetRulesName(props) {
     const index = props.consequentIdx;
-    const rulesId = props.consequents[index].rules;
-    try {
-        const rulesId = props.consequents[index].rules;
-        const rules = props.rules;
-        if (rulesId.length > 0 && rules.length > 0) {
-            const rulesIdList = rules.map(rule => { return rule.id });
-            const rulesNameList = rulesId.map(ruleId => {
-                var ruleIndex = rulesIdList.indexOf(ruleId);
-                return (<tr key={ruleId}>
-                    <td>
-                        <button onClick={() => {
-                            props.setNewRule(ruleId, rules[ruleIndex].name, ruleIndex);
-                            props.handleDeviceConsequentPopUp();
-                            props.handleSetRulePopUp();
-                        }}>
-                            {rules[ruleIndex].name}
-                        </button>
-                    </td>
-                </tr>)
-            })
-            return (
-                <table>
-                    <tbody>
-                        {rulesNameList}
-                    </tbody>
-                </table>
-            )
-        }
-        else {
-            return (<table></table>)
-        }
-    }
-    catch (e) {
-        const rulesIdList = rulesId.map(ruleId => {
-            return (<tr key={ruleId}>
-                <td>
-                    {ruleId}
-                </td>
-            </tr>)
+    const rules = props.consequents[index].rules;
+    if (rules.length > 0) {
+        const rulesNameList = rules.map(rule => {
+            const ruleId = rule.id;
+            const ruleName = rule.name;
+            return (<div key={ruleId}>
+                <ListItem button onClick={() => {
+                    props.setNewRule(ruleId, ruleName);
+                    props.ruleRoute();
+                    props.handleSetRulePopUp(true);
+                }}>
+                    <ListItemText primary={ruleName} />
+                </ListItem>
+                <Divider />
+
+            </div>)
         })
         return (
-            <table>
-                <tbody>
-                    {rulesIdList}
-                </tbody>
-            </table>
+            <List component="div" aria-label="main mailbox folders">
+                {rulesNameList}
+            </List>
         )
     }
+    else {
+        return (
+            <List component="div" aria-label="main mailbox folders">
+                <ListItem>
+                    <ListItemText primary="no rules setted" />
+                </ListItem>
+                <Divider />
+            </List>)
+    }
+
+
 
 }
 
-function ModifyName(props, checkDeviceNameFunction) {
+
+
+function ModifyName(props) {
+    const submitFunction = (event) => {
+        props.updateDeviceRequest("consequent");
+        props.handleModifyDevice();
+        event.preventDefault();
+    }
     return (
-        <form name="ItemName">
-            <input className="DeviceDetailContent" type="text" id="name" name="name"
+        <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
+            <input type="text" id="name" name="name"
                 defaultValue={props.consequentName}
                 onChange={(e) => {
                     const NewName = e.target.value;
-                    var checkName = checkDeviceNameFunction(props.consequents, NewName);
+                    var checkName = props.checkDeviceNameFunction(props.consequents, NewName);
                     if (!checkName) {
                         props.modifyConsequentName(NewName)
                     }
@@ -163,112 +152,306 @@ function checkDeviceStatusAndMeasure(props) {
     const measure_device = props.consequents[props.index].measure
     if (measure_device !== "null" && measure_device !== "init") {
         const status = "connected"
-        return { measure: measure_device, status: status }
+        const color = "green"
+        return { measure: measure_device, status: status, color: color }
     }
     else if (measure_device === "null") {
         const measure = "off";
         const status = "disconnected"
-        return { measure: measure, status: status }
+        const color = "red"
+        return { measure: measure, status: status, color: color }
     }
     else {
         const measure = "init";
-        const status = "connected"
-        return { measure: measure, status: status }
+        const status = "initialization"
+        const color = "yellow"
+        return { measure: measure, status: status, color: color }
     }
 }
 
 
 function DeviceDetail(props) {
+    var deviceDetails = null;
+    var color = "green";
+    if (props.consequentId.includes("SWITCH")) {
+        const checkStatusDevice = checkDeviceStatusAndMeasure(props);
+        color = checkStatusDevice.color;
+        deviceDetails = SwitchDetails(props)
+    }
+    else if (props.consequentId.includes("alert")) {
+        deviceDetails = AlertDetails(props)
+    }
+    return (
+        <div className="DeviceContentDetail">
+            <ElementTitle>
+                <h1> <FiberManualRecordIcon style={{ color: color }} /> {props.consequentName} </h1>
+                <p style={{ display: props.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
+                <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
+                    <Button style={{ display: props.modifyDevice && !props.consequentId.includes("alert") ? "" : "none" }}
+                        onClick={() => {
+                            props.handleModifyDevice();
+                            props.handleDeviceAntecedentPopUp(false);
+                            props.deleteDeviceRequest("antecedent");
+
+                        }}>
+                        <DeleteIcon fontSize="large" style={{ color: "red" }} />
+                    </Button >
+                    <Button
+                        onClick={() => {
+                            props.getConsequentById(props.consequentId);
+                        }}>
+                        <RefreshIcon fontSize="large" style={{ color: "black" }} />
+                    </Button >
+                    <Button
+                        onClick={() => {
+                            if (props.modifyDevice) {
+                                props.updateDeviceRequest("consequent");
+                                props.handleModifyDevice();
+                            }
+                            else {
+                                props.handleModifyDevice();
+                            }
+                        }}>
+                        {props.modifyDevice ? <DoneIcon fontSize="large" style={{ color: "black" }} /> : <EditIcon fontSize="large" style={{ color: "black" }} />}
+
+                    </Button >
+                </ButtonGroup>
+            </ElementTitle>
+            <ElementContent>
+                {deviceDetails}
+            </ElementContent>
+        </div>
+    )
+
+}
+
+const ElementTitle = styled.div`
+text-align: left;
+margin-left: 2%;
+margin-right: 2%;
+margin-top: 2%;
+display: flex;
+flex-flow: row;
+`;
+
+const ElementContent = styled.div`
+border: solid #d9d9d9 1px;
+height: 100%;
+border-radius: 25px;
+margin-left: 2%;
+margin-right: 2%;
+margin-bottom: 2%;
+text-align: left;
+padding: 2%;
+background-color: #cccccc;
+`;
+
+const ConsequentContent = styled.div`
+height: 100%;
+width: 100%;
+`;
+
+const ElementMeasure = styled.div`
+border: solid black 2px;
+border-radius: 25px;
+margin-left: 2%;
+margin-right: 2%;
+padding: 2%;
+background-color: #a7b4a8;
+text-align: center;
+justify-content: center;
+background-color: #e6e6e6;
+`;
+
+const ElementSettings = styled.div`
+margin-left: 2%;
+margin-right: 2%;
+justify-content: center;
+padding: 1%;
+display: flex;
+flex-flow: column;
+align-items: center;
+`;
+
+const EmailTitle = styled.div`
+text-align: center;
+justify-content: center;
+margin-left: 2%;
+margin-right: 2%;
+margin-top: 2%;
+display: flex;
+flex-flow: row;
+`;
+
+function AlertDetails(props) {
+    const [openRule, handleOpenRule] = useState(false);
+    const handleClick = () => {
+        handleOpenRule(!openRule);
+    };
+    return (
+        <ConsequentContent>
+            <ul>
+                <li key={"name"}>Name: {props.modifyDevice ? ModifyName(props) : props.consequentName}</li>
+                <li key={"type"}>consequent - alert email sender</li>
+                <li key={"id"}>Id: {props.consequentId}</li>
+            </ul>
+            <ElementMeasure>
+                <EmailTitle>
+                    <h3> emails </h3>
+                    <Button onClick={() => {
+                        props.addNewAlertEmailRequest()
+                    }}>
+                        <AddIcon fontSize="small" style={{ color: "black" }} />
+                    </Button >
+                </EmailTitle>
+                <Divider />
+
+                <EmailDetail
+                    consequentIdx={props.consequentIdx}
+                    consequents={props.consequents}
+                    modifyAlertEmail={props.modifyAlertEmail}
+                    removeAlertEmailRequest={props.removeAlertEmailRequest}
+                    modifyEmailRequest={props.modifyEmailRequest}
+                />
+            </ElementMeasure>
+            <br></br>
+            <ul>
+                <li key={"rules"}><Button onClick={() => { handleClick(); }}>
+                    RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
+                </Button></li>
+                <Collapse in={openRule} timeout="auto" unmountOnExit>
+                    {props.rulesName}
+                </Collapse>
+            </ul>
+
+        </ConsequentContent>
+    )
+}
+
+function EmailDetail(props) {
+    const consequent_idx = props.consequentIdx;
+    const email_list = props.consequents[consequent_idx].email_list;
+    var i = -1;
+    if (email_list.length > 0) {
+        const email_element = email_list.map(email => {
+            i++;
+            return (
+                <AddAlertEmailProcess
+                    email={email}
+                    idx={i}
+                    consequentIdx={props.consequentIdx}
+                    consequents={props.consequents}
+                    addNewAlertEmailRequest={props.addNewAlertEmailRequest}
+                    removeAlertEmailRequest={props.removeAlertEmailRequest}
+                    modifyEmailRequest={props.modifyEmailRequest}
+                />
+            )
+        })
+        return (
+
+            <table align="center">
+                <tbody>
+                    {email_element}
+                </tbody>
+            </table>
+        )
+    }
+    else {
+        return (
+            <table align="center">
+                <tbody>
+
+                </tbody>
+            </table>
+        )
+    }
+
+
+}
+
+
+
+function SwitchDetails(props) {
     const consequent = props.consequents[props.index];
     const checkStatusDevice = checkDeviceStatusAndMeasure(props);
     const measure = checkStatusDevice["measure"]
     const status = checkStatusDevice["status"]
+    const [openRule, handleOpenRule] = useState(false);
+    const handleClick = () => {
+        handleOpenRule(!openRule);
+    };
     return (
-        <div className="ConsequentContentModal">
-            <p style={{ display: props.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
-            <div className="DeviceDetail-sx">
-                <div className="SingleDeviceDetail" id="bigTitle">
-                    Info
-                </div>
-                <div className="SingleDeviceDetail">
-                    <div className="DeviceDetailInfoHeader"> Id:</div>
-                    <div className="DeviceDetailContent"> {props.consequentId}</div>
-                </div>
-                <div className="SingleDeviceDetail">
-                    <div className="DeviceDetailInfoHeader"> Name:</div>
-                    <div className="DeviceDetailContent"> {props.modifyDevice ? ModifyName(props, props.checkDeviceNameFunction) : props.consequentName}</div>
-                </div>
-                <div className="SingleDeviceDetail">
-                    <div className="DeviceDetailInfoHeader"> Status:</div>
-                    <div className="DeviceDetailContent"> {status}</div>
-                </div>
-                <div className="SingleDeviceDetail">
-                    <div className="DeviceDetailInfoHeader"> measure:</div>
-                    <div className="DeviceDetailContent"> {measure}</div>
-                </div>
-                <div className="SingleDeviceDetail" id="bigTitle">
-                    Modality
-                </div>
-                <div className="SingleDeviceDetail">
+        <ConsequentContent>
+            <ul>
+                <li>Name: {props.modifyDevice ? ModifyName(props) : props.consequentName}</li>
+                <li>consequent - switch</li>
+                <li>Id: {props.consequentId}</li>
+                <li>last on: {consequent.last_on}</li>
+                <li>last off: {consequent.last_off}</li>
+            </ul>
+            <ElementMeasure>
+                <h1>{measure}</h1>
+                <ElementSettings>
                     {set_automatic_button(props)}
-                </div>
-                <div className="SingleDeviceDetail" id="bigTitle">
-                    Manual Switch
-                </div>
-                <div className="SingleDeviceDetail">
                     {SetManualMeasureButton(props)}
-                </div>
-            </div>
-            <div className="DeviceDetail-sx">
-                <div className="SingleDeviceDetail" id="bigTitle">
-                    Last Activity
-                </div>
-                <div className="SingleDeviceDetail">
-                    <div className="DeviceDetailInfoHeader"> last on:</div>
-                    <div className="DeviceDetailContent"> {consequent.last_on}</div>
-                </div>
-                <div className="SingleDeviceDetail">
-                    <div className="DeviceDetailInfoHeader"> last off:</div>
-                    <div className="DeviceDetailContent"> {consequent.last_off}</div>
-                </div>
-                <div className="SingleDeviceDetail" id="bigTitle">
-                    Rules
-                </div>
-                <div className="SingleDeviceDetail" id="ruleList">
+                </ElementSettings>
+            </ElementMeasure>
+            <br></br>
+            <ul>
+                <li><Button onClick={() => { handleClick(); }}>
+                    RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
+                </Button></li>
+                <Collapse in={openRule} timeout="auto" unmountOnExit>
                     {props.rulesName}
-                </div>
-            </div>
-
-
-        </div>
+                </Collapse>
+            </ul>
+        </ConsequentContent>
     )
+
 }
+
 
 function set_automatic_button(props) {
     const consequent = props.consequents[props.index];
     const automatic = consequent.automatic
+    var value = false;
+    if (automatic === "true") {
+        value = true;
+    }
     return (
-        <form>
-            <label htmlFor="automatic">automatic</label>
-            <input type="radio" id="automatic" value="true" checked={automatic === "true"} onChange={(e) => { props.setConsequentAutomaticRequest(e.target.value) }} />
-            <br></br>
-            <label htmlFor="manual">manual</label>
-            <input type="radio" id="manual" value="false" checked={automatic === "false"} onChange={(e) => { props.setConsequentAutomaticRequest(e.target.value) }} />
-        </form>
+        <FormControlLabel
+            control={
+                <Switch
+                    checked={value}
+                    onChange={(e) => { props.setConsequentAutomaticRequest(e.target.checked) }}
+                    value={value}
+                    color="primary"
+
+                />
+            }
+            label="automatic"
+        />
     )
 }
+
 
 function SetManualMeasureButton(props) {
     const consequent = props.consequents[props.index];
     const measure = consequent.measure
     const automatic = consequent.automatic
     return (
-        <form>
-            <label htmlFor="on">on</label>
-            <input type="radio" id="on" value="on" disabled={automatic === "true"} checked={measure === "on"} onChange={(e) => { props.setConsequentManualMeasureRequest(e.target.value) }} />
-            <br />
-            <label htmlFor="off">off</label>
-            <input type="radio" id="off" value="off" disabled={automatic === "true"} checked={measure === "off"} onChange={(e) => { props.setConsequentManualMeasureRequest(e.target.value) }} />
-        </form>
+        <FormControlLabel
+            control={
+                <Switch
+                    checked={measure === "on"}
+                    onChange={(e) => { props.setConsequentManualMeasureRequest(e.target.value) }}
+                    value={measure === "on" ? "off" : "on"}
+                    color="primary"
+                    disabled={automatic === "true"}
+                />
+            }
+            label="on"
+        />
     )
 }
+

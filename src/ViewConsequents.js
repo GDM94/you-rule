@@ -1,30 +1,28 @@
 import React from 'react';
-
+import styled from "styled-components";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 
 
 export default function ViewConsequents(props) {
     return (
-        <div className="ConsequentContainer">
-            <div className="MyList">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                SWITCHES
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ItemList
-                            consequents={props.consequents}
-                            handleDeviceConsequentPopUp={props.handleDeviceConsequentPopUp}
-                            setNewConsequent={props.setNewConsequent}
-                            getConsequentById={props.getConsequentById}
-                        />
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <MyList>
+            <List component="div" aria-label="main mailbox folders">
+                <ItemList
+                    consequents={props.consequents}
+                    handleDeviceConsequentPopUp={props.handleDeviceConsequentPopUp}
+                    setNewConsequent={props.setNewConsequent}
+                    getConsequentById={props.getConsequentById}
+                    consequentId={props.consequentId}
+                    modifyDevice={props.modifyDevice}
+                    handleModifyDevice={props.handleModifyDevice}
+                    deleteDeviceRequest={props.deleteDeviceRequest}
+                    updateDeviceRequest={props.updateDeviceRequest}
+                />
+            </List>
+        </MyList>
     );
 }
 
@@ -35,31 +33,36 @@ function ItemList(props) {
             props.consequents.map(consequent => {
                 var index = deviceIdList.indexOf(consequent.id)
                 return (
-                    <tr key={index}>
-                        <td>
-                            <div>
-                                <button variant="primary" onClick={() => {
+                    <div key={index}>
+                            <ListItem style={{color:"black"}} className={props.consequentId === consequent.id ? "ItemButtonClicked" : ""}
+                                onClick={() => {
                                     props.getConsequentById(consequent.id);
                                     props.setNewConsequent(consequent.id, consequent.name, index);
-                                    props.handleDeviceConsequentPopUp();
+
                                 }}>
-                                    {consequent.name}
-                                </button>
-                            </div >
-                        </td>
-                    </tr>
+                                <ListItemText primary={consequent.name} />
+                            </ListItem>
+                            <Divider />
+                    </div>
                 )
             })
         );
     }
     else {
         return (
-            <tr key={0}>
-                <td>
-                    
-                </td>
-            </tr>
+            <Divider />
         )
     }
 
 }
+
+const MyList = styled.div`
+ color: white;
+  margin: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  
+  height: 100%;
+  overflow-y:auto;
+  text-align: center;
+`;

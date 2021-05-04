@@ -16,7 +16,7 @@ export default class AddRuleAntecedentProcess extends React.Component {
                 <Modal show={this.props.addRuleAntecedentPopUp}
                     onHide={() => {
                         this.props.handleAddRuleAntecedentPopUp();
-                        this.props.handleSetRulePopUp();
+                        this.props.handleSetRulePopUp(true);
                     }}>
                     <Modal.Header closeButton>
                         <Modal.Title>
@@ -33,6 +33,7 @@ export default class AddRuleAntecedentProcess extends React.Component {
                                             rules={this.props.rules}
                                             antecedents={this.props.antecedents}
                                             setAntecedentRuleLocal={this.props.setAntecedentRuleLocal}
+                                            handleModify={this.props.handleModify}
                                         />
                                     </tbody>
                                 </table>
@@ -44,6 +45,7 @@ export default class AddRuleAntecedentProcess extends React.Component {
                                             newRuleIdx={this.props.newRuleIdx}
                                             rules={this.props.rules}
                                             setAntecedentRuleLocal={this.props.setAntecedentRuleLocal}
+                                            handleModify={this.props.handleModify}
                                         />
                                     </tbody>
                                 </table>
@@ -53,7 +55,7 @@ export default class AddRuleAntecedentProcess extends React.Component {
                     <Modal.Footer>
                         <button onClick={() => {
                             this.props.handleAddRuleAntecedentPopUp();
-                            this.props.handleSetRulePopUp();
+                            this.props.handleSetRulePopUp(true);
                         }}>
                             Close
                         </button>
@@ -85,11 +87,15 @@ function AddRuleAntecedentsDevice(props) {
                     <tr key={i}>
                         <td>
                             <button onClick={() => {
-                                var newAntecedent = { device_id: item.id, name: item.name, start_value: "0", stop_value: "0", condition: "between", measure: "" };
+                                var value = "//"
+                                if (item.measure !== null){
+                                    value = item.measure
+                                }
+                                var newAntecedent = { device_id: item.id, name: item.name, start_value: "0", stop_value: "0", condition: "between", measure: "", value: value };
                                 if (item.id.includes("timer")) {
                                     newAntecedent.start_value = "00:00";
                                     newAntecedent.stop_value = "00:00";
-                                    newAntecedent.measure = "now";
+                                    newAntecedent.measure = "time";
                                 }
                                 else if (item.id.includes("PHOTOCELL")) {
                                     newAntecedent.measure = "luminosity (%)";
@@ -100,7 +106,18 @@ function AddRuleAntecedentsDevice(props) {
                                 else if (item.id.includes("SOILMOISTURE")) {
                                     newAntecedent.measure = "soil moisture (%)";
                                 }
+                                else if (item.id.includes("AMMETER")){
+                                    newAntecedent.measure = "power (W)";
+                                } 
+                                else if (item.id.includes("BUTTON")){
+                                    newAntecedent.measure = "status (On/Off)";
+                                    newAntecedent.condition = "=";
+                                    newAntecedent.start_value = "on"
+                                    newAntecedent.stop_value = "//"
+                                }
+                                console.log(newAntecedent)
                                 props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);
+                                props.handleModify(true);
                             }}>
                                 {item.name}
                             </button>
@@ -126,32 +143,38 @@ function AddRuleAntecedentSwitchLastTimeOn(props) {
     }
     var i = -1;
     const consequents = props.rules[ruleIdx].consequent;
-    if (consequents.length > 0){
+    if (consequents.length > 0) {
         return (
             consequents.map(item => {
-                if (!antecedentsId.some(c => c === item.device_id)) {
-                    i++;
-                    return (
-                        <tr key={i}>
-                            <td>
-                                <button onClick={() => {
-                                    var newAntecedent = { device_id: item.device_id, name: item.name, start_value: "00:00", stop_value: "00:00", condition: "delta", measure: "last time on" };
-                                    props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);
-                                }}>
-                                    {item.name}
-                                </button>
-                            </td>
-                        </tr>
-                    )
-                }
-                else{
+                if (!item.device_id.includes("alert")) {
+                    if (!antecedentsId.some(c => c === item.device_id)) {
+                        i++;
+                        return (
+                            <tr key={i}>
+                                <td>
+                                    <button onClick={() => {
+                                        var newAntecedent = { device_id: item.device_id, name: item.name, start_value: "00:00", stop_value: "00:00", condition: "delta", measure: "last time on", value: item.measure };
+                                        props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);
+                                        props.handleModify(true);
+                                    }}>
+                                        {item.name}
+                                    </button>
+                                </td>
+                            </tr>
+                        )
+                    }
+                    else {
+                        return null
+                    }
+                }else {
                     return null
                 }
+
             })
         )
     }
-    else{
+    else {
         return null
     }
-    
+
 }

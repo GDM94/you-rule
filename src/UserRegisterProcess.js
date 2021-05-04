@@ -6,30 +6,73 @@ export default class UserRegisterProcess extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkuserName: false,
-            userName: "",
-            password:""
+            checkError: false,
+            name: "",
+            surname: "",
+            email: "",
+            password: "",
+            repeatPassword: "",
+            errorMessage: "",
+            password_length : 2,
+
         }
     }
 
-    setUserName = (userName) => {
-        this.setState({ userName: userName }, () => { this.render() })
+    setName = (name) => {
+        this.setState({ name: name })
+    }
+
+    setSurname = (surname) => {
+        this.setState({ surname: surname })
+    }
+
+    setEmail = (email) => {
+        this.setState({ email: email })
     }
     setPassword = (password) => {
-        this.setState({ password: password }, () => { this.render() })
+        this.setState({ password: password })
     }
 
-    checkuserNameFunction = (newName) => {
-        const userNameList = this.props.userNameList;
-        var checkuserName = false;
-        if (userNameList.some(username => username === newName)) {
-            checkuserName = true;
-        }
-        this.setState({
-            checkuserName: checkuserName
-        }, () => { this.render() });
+    setRepeatPassword = (password) => {
+        this.setState({ repeatPassword: password })
+    }
 
-        return checkuserName
+    registrationSubmit = (event) =>{
+        this.registrationFunction();
+        event.preventDefault();
+    }
+
+    registrationFunction = () => {
+        if (
+        !this.props.duplicateUserError &&
+        this.state.password.length > this.state.password_length && 
+        this.state.email.includes("@") && 
+        this.state.password === this.state.repeatPassword &&
+        this.state.name.length>0 &&
+        this.state.surname.length>0
+        ) {
+            this.setState({checkError: false});
+            this.props.UserRegistrationRequest(this.state.email, this.state.password, this.state.name, this.state.surname);
+        }
+        else{
+            this.setState({checkError: true});
+            if(this.props.duplicateUserError){
+                this.setState({errorMessage: "Error: Email already registerd."});
+            }
+            else if(this.state.password.length <= this.state.password_length){
+                this.setState({errorMessage: "Error: password don't attempt security standard. Password must be at least 2 character long."});
+            }
+            else if(!this.state.email.includes("@")){
+                this.setState({errorMessage: "Error: email non valid"});
+            }
+            else if(this.state.password === this.state.repeatPassword){
+                this.setState({errorMessage: "Error: the repeated password must be identical to the previous password"});
+            }
+            else{
+                this.setState({errorMessage: "Error: you must register your name and surname"});
+            }
+        }
+        
     }
 
     render() {
@@ -37,42 +80,55 @@ export default class UserRegisterProcess extends React.Component {
             <Modal show={this.props.userRegisterPopUp} onHide={() => this.props.handleRegisterPopUp()}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        "REGISTER"
+                        "SING UP"
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <form name="login">
-                            <label htmlFor="name">User Name: </label>
-                            <input type="text" id="name" name="name"
+                        <div>
+                            <p style={{ display: this.state.checkError ? 'block' : 'none' }}> {this.state.errorMessage}</p>
+                        </div>
+                        <form name="login" onSubmit={this.registrationSubmit}>
+                            <input type="text" id="name" name="name" placeholder="name"
                                 onChange={(e) => {
-                                    const NewName = e.target.value;
-                                    var check = this.checkuserNameFunction(NewName);
-                                    if (!check) {
-                                        this.setUserName(NewName)
-                                    }
+                                    const name = e.target.value;
+                                    this.setName(name)
                                 }} />
                             <br></br>
-                            <label htmlFor="password">Password: </label>
-                            <input type="text" id="password" name="password"
+                            <input type="text" id="surname" name="surname" placeholder="surname"
+                                onChange={(e) => {
+                                    const surname = e.target.value;
+                                    this.setSurname(surname)
+                                }} />
+                            <br></br>
+                            <input type="text" id="email" name="email" placeholder="email"
+                                onChange={(e) => {
+                                    const email = e.target.value;
+                                    this.setEmail(email)
+                                }} />
+                            <br></br>
+                            <input type="password" id="password" name="password" placeholder="password"
                                 onChange={(e) => {
                                     const password = e.target.value;
                                     this.setPassword(password)
                                 }} />
+                            <br></br>
+                            <input type="password" id="repeat_password" name="repeat_password" placeholder="repeat password"
+                                onChange={(e) => {
+                                    const password = e.target.value;
+                                    this.setRepeatPassword(password)
+                                }} />
+                            <br></br>
+                            <input type="submit" style={{visibility:"hidden"}}/>
                         </form>
-                    </div>
-                    <div>
-                        <p style={{ display: this.state.checkuserName ? 'block' : 'none' }}> Error: User Name already exist. Choose another name!</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <div>
                         <button onClick={() => {
-                            if (!this.state.checkuserName && this.state.userName.length > 1 && this.state.password.length > 1) {
-                                this.props.UserRegistrationRequest(this.state.userName, this.state.password);
-                            }
+                            this.registrationFunction();
                         }}>
-                            REGISTER
+                            SING UP
                         </button>
                     </div>
                 </Modal.Footer>

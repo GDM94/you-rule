@@ -1,5 +1,13 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
+import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneIcon from '@material-ui/icons/Done';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import styled from "styled-components";
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 
 export default class SetRuleProcess extends React.Component {
@@ -13,12 +21,10 @@ export default class SetRuleProcess extends React.Component {
         }
     }
 
-
-
-    AntecedentRulePopUpBody() {
+    AntecedentRulePopUpBody = () => {
         this.setState({ ruleBody: false, classButtonRuleSelection: "AntecedentRuleSelection" })
     }
-    ConsequentRulePopUpBody() {
+    ConsequentRulePopUpBody = () => {
         this.setState({ ruleBody: true, classButtonRuleSelection: "ConsequentRuleSelection" })
     }
 
@@ -40,85 +46,36 @@ export default class SetRuleProcess extends React.Component {
 
 
     render() {
-        if (this.props.rules.length > 0) {
+        if (this.props.newRuleName !== "" && this.props.setRulePopUp) {
             return (
-                <div className="SetRulePopUp">
-                    <Modal show={this.props.setRulePopUp} onHide={() => {
-                        this.props.handleSetRulePopUp();
-                        this.AntecedentRulePopUpBody();
-                        if (this.props.modify) {
-                            this.props.handleModify();
-                        }
-                    }}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>
-                                <div>
-                                    <p style={{ display: this.state.checkRuleName ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
-                                    {this.props.modify ? ModifyNewRuleName(this.props, this.checkRuleNameFunction, this.updateRuleName) : "Rule name: " + this.props.newRuleName}
-                                </div>
-                                <div className="RuleEvaliation">
-                                    Evaluation: {this.props.rules[this.props.newRuleIdx].evaluation}
-                                </div>
-                                <div className="RuleSectionButton">
-                                    <button className={this.state.classButtonRuleSelection} type="button" id="ruleAntecedentButton" onClick={() => { this.AntecedentRulePopUpBody() }}>ANTECEDENT</button>
-                                    <button className={this.state.classButtonRuleSelection} id="ruleConsequentButton" onClick={() => { this.ConsequentRulePopUpBody() }}>CONSEQUENT</button>
-                                </div>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <RuleBody
-                                ruleBody={this.state.ruleBody}
-                                rules={this.props.rules}
-                                newRuleId={this.props.newRuleId}
-                                newRuleIdx={this.props.newRuleIdx}
-                                deleteRuleConsequentRequest={this.props.deleteRuleConsequentRequest}
-                                deleteRuleAntecedentRequest={this.props.deleteRuleAntecedentRequest}
-                                modify={this.props.modify}
-                                setNewRuleCondition={this.props.setNewRuleCondition}
-                                setNewStartValue={this.props.setNewStartValue}
-                                setNewStopValue={this.props.setNewStopValue}
-                                setNewRuleMeasure={this.props.setNewRuleMeasure}
-                                antecedents={this.props.antecedents}
-                                consequents={this.props.consequents}
-                            />
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <RuleFooter
-                                ruleBody={this.state.ruleBody}
-                                modify={this.props.modify}
-                                handleSetRulePopUp={this.props.handleSetRulePopUp}
-                                handleAddRuleConsequentPopUp={this.props.handleAddRuleConsequentPopUp}
-                                handleAddRuleAntecedentPopUp={this.props.handleAddRuleAntecedentPopUp}
-                            />
-                            <button onClick={() => {
-                                if (this.props.modify) {
-                                    const ruleIdx = this.props.newRuleIdx;
-                                    this.props.setRuleRequest(ruleIdx);
-                                    this.props.handleModify();
-                                }
-                                else {
-                                    this.props.handleModify();
-                                }
+                <RuleContent
+                    checkRuleName={this.state.checkRuleName}
+                    modify={this.props.modify}
+                    newRuleName={this.props.newRuleName}
+                    rules={this.props.rules}
+                    modifyRuleName={this.props.modifyRuleName}
+                    checkRuleNameFunction={this.checkRuleNameFunction}
+                    updateRuleName={this.updateRuleName}
+                    newRuleId={this.props.newRuleId}
+                    newRuleIdx={this.props.newRuleIdx}
+                    ruleBody={this.state.ruleBody}
+                    AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
+                    ConsequentRulePopUpBody={this.ConsequentRulePopUpBody}
+                    deleteRuleConsequentRequest={this.props.deleteRuleConsequentRequest}
+                    deleteRuleAntecedentRequest={this.props.deleteRuleAntecedentRequest}
+                    setNewRuleCondition={this.props.setNewRuleCondition}
+                    setNewStartValue={this.props.setNewStartValue}
+                    setNewStopValue={this.props.setNewStopValue}
+                    setNewRuleMeasure={this.props.setNewRuleMeasure}
+                    handleAddRuleConsequentPopUp={this.props.handleAddRuleConsequentPopUp}
+                    handleAddRuleAntecedentPopUp={this.props.handleAddRuleAntecedentPopUp}
+                    setRuleRequest={this.props.setRuleRequest}
+                    handleModify={this.props.handleModify}
+                    handleSetRulePopUp={this.props.handleSetRulePopUp}
+                    deleteRuleRequest={this.props.deleteRuleRequest}
+                    getRuleById={this.props.getRuleById}
+                />
 
-                            }}>
-                                {this.props.modify ? 'Save' : 'Modify'}
-                            </button>
-                            <button onClick={() => {
-                                if (this.props.modify) {
-                                    this.props.handleModify();
-                                    this.props.handleSetRulePopUp();
-                                    this.AntecedentRulePopUpBody();
-                                    this.props.deleteRuleRequest(this.props.newRuleId, this.props.newRuleIdx);
-                                } else {
-                                    this.AntecedentRulePopUpBody();
-                                    this.props.handleSetRulePopUp();
-                                }
-                            }}>
-                                {this.props.modify ? 'Delete' : 'Close'}
-                            </button>
-                        </Modal.Footer>
-                    </Modal>
-                </div >
             )
         } else {
             return (
@@ -131,16 +88,166 @@ export default class SetRuleProcess extends React.Component {
     }
 }
 
-function ModifyNewRuleName(props, checkRuleNameFunction, updateRuleName) {
+const RuleTitle = styled.div`
+display: flex;
+flex-flow: row;
+text-align: left;
+margin-left: 2%;
+margin-right: 2%;
+margin-top: 2%;
+`;
+
+const RuleContentDiv = styled.div`
+border: solid #d9d9d9 1px;
+height: 100%;
+background-color: #cccccc;
+border-radius: 25px;
+margin-left: 2%;
+margin-right: 2%;
+margin-bottom: 2%;
+text-align: left;
+padding: 2%;
+display: flex;
+flex-flow: column;
+`;
+
+
+
+function RuleContent(props) {
+    const evaluation = props.rules[props.newRuleIdx].evaluation;
     return (
-        <form name="ItemName">
-            <label htmlFor="name">Rule: </label>
+        <div className="DeviceContentDetail">
+            <RuleTitle>
+                <h1> <FiberManualRecordIcon style={{ color: evaluation === "true" ? "green" : "red" }} /> {props.newRuleName} </h1>
+                <p style={{ display: props.checkRuleName ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
+                <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
+                    <Button style={{ display: props.modify ? "" : "none" }}
+                        onClick={() => {
+                            props.handleModify(false);
+                            props.handleSetRulePopUp(false);
+                            props.AntecedentRulePopUpBody();
+                            props.deleteRuleRequest(props.newRuleId, props.newRuleIdx);
+
+                        }}>
+                        <DeleteIcon fontSize="large" style={{ color: "red" }} />
+                    </Button >
+                    <Button
+                        onClick={() => {
+                            props.getRuleById(props.newRuleId);
+                        }}>
+                        <RefreshIcon fontSize="large" style={{ color: "black" }} />
+                    </Button >
+                    <Button
+                        onClick={() => {
+                            if (props.modify) {
+                                const ruleIdx = props.newRuleIdx;
+                                props.setRuleRequest(ruleIdx);
+                                props.handleModify(false);
+                            }
+                            else {
+                                props.handleModify(true);
+                            }
+                        }}>
+                        {props.modify ? <DoneIcon fontSize="large" style={{ color: "black" }} /> : <EditIcon fontSize="large" style={{ color: "black" }} />}
+
+                    </Button >
+                </ButtonGroup>
+            </RuleTitle>
+            <RuleContentDiv>
+
+                <ElementTitle>
+                    <ul>
+                        <li key={"name"}>Name: {props.modify ? ModifyNewRuleName(props) : props.newRuleName}</li>
+                    </ul>
+                </ElementTitle>
+
+                <ElementContent>
+                    <div className="RuleHeaderButtons">
+                        <Button className={props.ruleBody ? "UnclickedRuleBodyButton" : "ClickedRuleBodyButton"} id="ruleAntecedentButton"
+                            onClick={() => { props.AntecedentRulePopUpBody(); }}>
+                            ANTECEDENTS
+                        </Button>
+                        <AddRuleElementButtonStyled style={{ display: props.ruleBody ? "none" : "" }} id="ruleAntecedentButton"
+                            onClick={() => {
+                                props.handleAddRuleAntecedentPopUp();
+                            }}>
+                            <AddIcon />
+                        </AddRuleElementButtonStyled>
+                        <Button className={props.ruleBody ? "ClickedRuleBodyButton" : "UnclickedRuleBodyButton"} id="ruleConsequentButton"
+                            onClick={() => { props.ConsequentRulePopUpBody(); }}>
+                            CONSEQUENTS
+                        </Button>
+                        <AddRuleElementButtonStyled style={{ display: props.ruleBody ? "" : "none" }} id="ruleConsequentButton"
+                            onClick={() => {
+                                props.handleAddRuleConsequentPopUp();
+                            }}>
+                            <AddIcon />
+                        </AddRuleElementButtonStyled>
+                    </div>
+
+                    <RuleBody
+                        ruleBody={props.ruleBody}
+                        rules={props.rules}
+                        newRuleId={props.newRuleId}
+                        newRuleIdx={props.newRuleIdx}
+                        deleteRuleConsequentRequest={props.deleteRuleConsequentRequest}
+                        deleteRuleAntecedentRequest={props.deleteRuleAntecedentRequest}
+                        modify={props.modify}
+                        setNewRuleCondition={props.setNewRuleCondition}
+                        setNewStartValue={props.setNewStartValue}
+                        setNewStopValue={props.setNewStopValue}
+                        setNewRuleMeasure={props.setNewRuleMeasure}
+                        handleModify={props.handleModify}
+                        setRuleRequest={props.setRuleRequest}
+                    />
+                </ElementContent>
+            </RuleContentDiv>
+        </div>
+    )
+}
+
+
+const AddRuleElementButtonStyled = styled(Button)`
+border: solid black 2px !important;
+border-radius: 0px !important;
+background-color: #eead4c !important;
+`;
+
+const ElementTitle = styled.div`
+text-align: left;
+margin-left: 2%;
+margin-right: 2%;
+margin-top: 2%;
+display: flex;
+flex-flow: row;
+`;
+
+const ElementContent = styled.div`
+border: solid black 2px;
+border-radius: 25px;
+margint: 2%;
+padding: 2%;
+text-align: center;
+background-color: #e6e6e6;
+width: 100%;
+height: 100%;
+  
+`;
+
+function ModifyNewRuleName(props) {
+    const submitFunction = (event) => {
+        props.setRuleRequest(props.newRuleIdx);
+        props.handleModify(false);
+        event.preventDefault();
+    }
+    return (
+        <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
             <input type="text" id="name" name="name"
                 defaultValue={props.newRuleName}
                 onChange={(e) => {
                     const NewName = e.target.value;
-                    var checkRuleName = checkRuleNameFunction(props.rules, NewName)
-                    updateRuleName(true)
+                    var checkRuleName = props.checkRuleNameFunction(props.rules, NewName)
+                    props.updateRuleName(true)
                     if (!checkRuleName) {
                         props.modifyRuleName(NewName)
                     }
@@ -154,67 +261,62 @@ function ModifyNewRuleName(props, checkRuleNameFunction, updateRuleName) {
 function RuleBody(props) {
     if (props.ruleBody) {
         return (
-            <div className="RuleConsequentDetail">
-                <div>
-                    <table id="rule">
-                        <thead>
-                            <tr>
-                                <th>DEVICE</th>
-                                <th>STATUS</th>
-                                <th>MODALITY</th>
-                                <th>IF</th>
-                                <th>ELSE</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <RuleConsequentDetails
-                                rules={props.rules}
-                                newRuleId={props.newRuleId}
-                                newRuleIdx={props.newRuleIdx}
-                                deleteRuleConsequentRequest={props.deleteRuleConsequentRequest}
-                                modify={props.modify}
-                                consequents={props.consequents}
 
-                            />
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <table id="tableRule">
+                <thead>
+                    <tr>
+                        <th>DEVICE</th>
+                        <th>STATUS</th>
+                        <th>MODALITY</th>
+                        <th>IF</th>
+                        <th>ELSE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <RuleConsequentDetails
+                        rules={props.rules}
+                        newRuleId={props.newRuleId}
+                        newRuleIdx={props.newRuleIdx}
+                        deleteRuleConsequentRequest={props.deleteRuleConsequentRequest}
+                        modify={props.modify}
+
+                    />
+                </tbody>
+            </table>
+
         )
     }
     else {
         return (
-            <div className="RuleAntecedentDetail">
-                <div>
-                    <table id="rule">
-                        <thead>
-                            <tr>
-                                <th>DEVICE</th>
-                                <th>STATUS</th>
-                                <th>MEASURE</th>
-                                <th>CONDITION</th>
-                                <th>START</th>
-                                <th>STOP</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <RuleAntecedentDetails
-                                rules={props.rules}
-                                newRuleId={props.newRuleId}
-                                newRuleIdx={props.newRuleIdx}
-                                deleteRuleAntecedentRequest={props.deleteRuleAntecedentRequest}
-                                modify={props.modify}
-                                setNewRuleCondition={props.setNewRuleCondition}
-                                setNewStartValue={props.setNewStartValue}
-                                setNewStopValue={props.setNewStopValue}
-                                setNewRuleMeasure={props.setNewRuleMeasure}
-                                antecedents={props.antecedents}
-                                consequents={props.consequents}
-                            />
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
+            <table id="tableRule">
+                <thead>
+                    <tr>
+                        <th>DEVICE</th>
+                        <th>STATUS</th>
+                        <th>MEASURE</th>
+                        <th>VALUE</th>
+                        <th>CONDITION</th>
+                        <th>START</th>
+                        <th>STOP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <RuleAntecedentDetails
+                        rules={props.rules}
+                        newRuleId={props.newRuleId}
+                        newRuleIdx={props.newRuleIdx}
+                        deleteRuleAntecedentRequest={props.deleteRuleAntecedentRequest}
+                        modify={props.modify}
+                        setNewRuleCondition={props.setNewRuleCondition}
+                        setNewStartValue={props.setNewStartValue}
+                        setNewStopValue={props.setNewStopValue}
+                        setNewRuleMeasure={props.setNewRuleMeasure}
+                        handleModify={props.handleModify}
+                        setRuleRequest={props.setRuleRequest}
+                    />
+                </tbody>
+            </table>
         )
     }
 }
@@ -222,15 +324,15 @@ function RuleBody(props) {
 function RuleConsequentDetails(props) {
     const ruleIdx = props.newRuleIdx;
     const consequents_list = props.rules[ruleIdx].consequent;
-    const consequents = props.consequents;
-    const consequentsIdList = consequents.map(consequent=>{return consequent.id});
 
     var idx = -1;
     return (consequents_list.map(element => {
         idx++;
-        const consequent_idx = consequentsIdList.indexOf(element.device_id);
-        const measure = consequents[consequent_idx].measure;
-        const automatic = consequents[consequent_idx].automatic;
+        var measure = element.measure;
+        if (element.device_id.includes("alert")) {
+            measure = "measure"
+        }
+        const automatic = element.automatic;
         return (
             <tr key={idx}>
                 <td>{element.name}</td>
@@ -254,28 +356,25 @@ function RuleConsequentDetails(props) {
 function RuleAntecedentDetails(props) {
     const ruleIdx = props.newRuleIdx;
     const antecedents_list = props.rules[ruleIdx].antecedent;
-    const antecedents = props.antecedents;
-    const antecedentsIdList = antecedents.map(antecedent => { return antecedent.id });
-    const consequents = props.consequents;
-    const consequentsIdList = consequents.map(consequent=> {return consequent.id})
     var element_idx = -1;
     return (antecedents_list.map(element => {
         element_idx++;
-        var measure = "null";
-        if(element.device_id.includes("SWITCH")){
-            const consequent_idx = consequentsIdList.indexOf(element.device_id);
-            measure = consequents[consequent_idx].measure;
-        }else{
-            const antecedent_idx = antecedentsIdList.indexOf(element.device_id);
-            measure = antecedents[antecedent_idx].measure;
+        var value = "//";
+        if (element.device_id.includes("timer")) {
+            value = "now";
         }
-        
+        else {
+            if (element.value !== "null") {
+                value = element.value;
+            }
+        }
         return (
             <tr key={element_idx}>
                 <td>{element.name}</td>
-                <td>{measure === "null" ? "disconnected" : "connected"}</td>
+                <td>{value === "//" ? "disconnected" : "connected"}</td>
                 <td>{element.measure}</td>
-                <td>{props.modify ? SetRuleCondition(props, element_idx, element.condition) : element.condition}</td>
+                <td>{value}</td>
+                <td>{props.modify ? SetRuleCondition(props, element_idx, element.condition, element.device_id) : element.condition}</td>
                 <td>{props.modify ? SetStartValueRuleAntecedent(props, element, element_idx) : element.start_value}</td>
                 <td>{props.modify ? SetStopValueRuleAntecedent(props, element, element_idx) : element.stop_value}</td>
                 <td className="deleteRuleRow" style={{ visibility: props.modify ? 'visible' : 'hidden' }}>
@@ -289,38 +388,31 @@ function RuleAntecedentDetails(props) {
     )
 }
 
-function RuleFooter(props) {
-    if (props.ruleBody) {
-        return (
-            <button style={{ display: props.modify ? 'block' : 'none' }}
-                onClick={() => {
-                    props.handleSetRulePopUp();
-                    props.handleAddRuleConsequentPopUp();
-                }}>
-                Add Consequent
-            </button>
-        )
-    }
-    else {
-        return (
-            <button style={{ display: props.modify ? 'block' : 'none' }}
-                onClick={() => {
-                    props.handleSetRulePopUp();
-                    props.handleAddRuleAntecedentPopUp();
-                }}>
-                Add Antecedent
-            </button>
-        )
-    }
-}
 
-function SetRuleCondition(props, element_idx, oldCondition) {
-    if (oldCondition === "delta") {
-        return (oldCondition)
+
+function SetRuleCondition(props, element_idx, oldCondition, deviceId) {
+    const submitFunction = (event) => {
+        props.setRuleRequest(props.newRuleIdx);
+        props.handleModify(false);
+        event.preventDefault();
     }
-    else {
+    if (deviceId.includes("SWITCH")) {
         return (
-            <form name="ruleCondition">
+            <form name="ruleCondition" onSubmit={submitFunction}>
+                <select name="condition"
+                    id="condition"
+                    defaultValue={oldCondition}
+                    onChange={(e) => {
+                        props.setNewRuleCondition(props.newRuleIdx, element_idx, e.target.value)
+                    }}>
+                    <option value="delta">'delta'</option>
+                </select>
+            </form>
+        )
+    }
+    else if (deviceId.includes("WATERLEVEL")) {
+        return (
+            <form name="ruleCondition" onSubmit={submitFunction}>
                 <select name="condition"
                     id="condition"
                     defaultValue={oldCondition}
@@ -330,22 +422,82 @@ function SetRuleCondition(props, element_idx, oldCondition) {
                     <option value=">">{'>'}</option>
                     <option value="<">{'<'}</option>
                     <option value="between">'between'</option>
+                    <option value="isteresi">'isteresi'</option>
                 </select>
             </form>
         )
     }
-
-}
-
-function SetStartValueRuleAntecedent(props, element, element_idx) {
-    const oldValue = element.start_value;
-    const elementId = element.device_id;
-    if (elementId.includes("timer") || elementId.includes("SWITCH")) {
-        return SetStartValueTimer(props, element_idx, oldValue)
+    else if (deviceId.includes("BUTTON")) {
+        return (
+            <form name="ruleCondition" onSubmit={submitFunction}>
+                <select name="condition"
+                    id="condition"
+                    defaultValue={oldCondition}
+                    onChange={(e) => {
+                        props.setNewRuleCondition(props.newRuleIdx, element_idx, e.target.value)
+                    }}>
+                    <option value="=">'='</option>
+                </select>
+            </form>
+        )
     }
     else {
         return (
-            <form name="ruleAntecedentStartValue">
+            <form name="ruleCondition" onSubmit={submitFunction}>
+                <select name="condition"
+                    id="condition"
+                    defaultValue={oldCondition}
+                    onChange={(e) => {
+                        props.setNewRuleCondition(props.newRuleIdx, element_idx, e.target.value)
+                    }}>
+                    <option value=">">{'>'}</option>
+                    <option value="<">{'<'}</option>
+                    <option value="between">between</option>
+                </select>
+            </form>
+        )
+    }
+}
+
+
+function SetStartValueRuleAntecedent(props, element, element_idx) {
+    const submitFunction = (event) => {
+        props.setRuleRequest(props.newRuleIdx);
+        props.handleModify(false);
+        event.preventDefault();
+    }
+    const oldValue = element.start_value;
+    const elementId = element.device_id;
+    if (elementId.includes("timer") || elementId.includes("SWITCH")) {
+        return (<form name="ruleAntecedentStartValue" onSubmit={submitFunction}>
+            <input id="time_start"
+                name="time_start"
+                type="time"
+                defaultValue={oldValue}
+                onChange={(e) => {
+                    props.setNewStartValue(props.newRuleIdx, element_idx, e.target.value);
+                }}
+            />
+        </form>)
+
+    }
+    else if (elementId.includes("BUTTON")) {
+        return (<form name="ruleAntecedentStartValue" onSubmit={submitFunction}>
+            <select name="button_status"
+                id="button_status"
+                defaultValue={oldValue}
+                onChange={(e) => {
+                    props.setNewStartValue(props.newRuleIdx, element_idx, e.target.value)
+                }}>
+                <option value="on">ON</option>
+                <option value="off">OFF</option>
+            </select>
+           
+        </form>)
+    }
+    else {
+        return (
+            <form name="ruleAntecedentStartValue" onSubmit={submitFunction}>
                 <input id="StartValue"
                     name="StartValue"
                     type="number"
@@ -370,23 +522,51 @@ function SetStartValueRuleAntecedent(props, element, element_idx) {
 
 }
 
+
 function SetStopValueRuleAntecedent(props, antecedent, element_idx) {
+    const submitFunction = (event) => {
+        props.setRuleRequest(props.newRuleIdx);
+        props.handleModify(false);
+        event.preventDefault();
+    }
     const elementId = antecedent.device_id;
     if (elementId.includes("timer") || elementId.includes("SWITCH")) {
-        return SetStopValueTimer(props, element_idx, antecedent)
+        if (antecedent.condition === "between" || antecedent.condition === "delta") {
+            return (
+                <form name="ruleAntecedentStopValue" onSubmit={submitFunction}>
+                    <input id="time_stop"
+                        name="time_stop"
+                        type="time"
+                        defaultValue={antecedent.stop_value}
+                        onChange={(e) => {
+                            props.setNewStopValue(props.newRuleIdx, element_idx, e.target.value);
+                        }}
+                    />
+                </form>
+            )
+        }
+        else {
+            return (<div>{antecedent.stop_value}</div>)
+        }
+    }
+    else if (elementId.includes("BUTTON")){
+        return (<div>{antecedent.stop_value}</div>)
     }
     else {
-        const condition = antecedent.condition;
-        if (condition === "between") {
+        const stop_value = antecedent.stop_value;
+        if (stop_value === "//") {
+            return (<div>{stop_value}</div>)
+        }
+        else {
             return (
-                <form name="ruleAntecedentStopValue">
+                <form name="ruleAntecedentStopValue" onSubmit={submitFunction}>
                     <input id="StopValue"
                         name="StopValue"
                         type="number"
                         min="0"
                         max="100"
                         step="5"
-                        defaultValue={antecedent.stop_value}
+                        defaultValue={stop_value}
                         onChange={(e) => {
                             if (e.target.value > 100) {
                                 e.target.value = 100;
@@ -400,47 +580,11 @@ function SetStopValueRuleAntecedent(props, antecedent, element_idx) {
                 </form>
             )
         }
-        else {
-            return (<div>{antecedent.stop_value}</div>)
-        }
     }
 
 }
 
 
-function SetStartValueTimer(props, element_idx, oldValue) {
-    return (
-        <form name="ruleAntecedentStartValue">
-            <input id="time_start"
-                name="time_start"
-                type="time"
-                defaultValue={oldValue}
-                onChange={(e) => {
-                    props.setNewStartValue(props.newRuleIdx, element_idx, e.target.value);
-                }}
-            />
-        </form>
-    )
-}
 
-function SetStopValueTimer(props, element_idx, antecedent) {
-    if (antecedent.condition === "between" || antecedent.condition === "delta") {
-        return (
-            <form name="ruleAntecedentStopValue">
-                <input id="time_stop"
-                    name="time_stop"
-                    type="time"
-                    defaultValue={antecedent.stop_value}
-                    onChange={(e) => {
-                        props.setNewStopValue(props.newRuleIdx, element_idx, e.target.value);
-                    }}
-                />
-            </form>
-        )
-    }
-    else {
-        return (<div>{antecedent.stop_value}</div>)
-    }
 
-}
 

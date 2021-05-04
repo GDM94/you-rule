@@ -12,10 +12,15 @@ export default class UserLoginProcess extends React.Component {
     }
 
     setUserName = (userName) => {
-        this.setState({ userName: userName }, () => { this.render() })
+        this.setState({ userName: userName })
     }
     setPassword = (password) => {
-        this.setState({ password: password }, () => { this.render() })
+        this.setState({ password: password })
+    }
+
+    loginSubmit = (event) => {
+        this.props.UserLoginRequest(this.state.userName, this.state.password);
+        event.preventDefault();
     }
 
     render() {
@@ -28,30 +33,29 @@ export default class UserLoginProcess extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <form name="login">
-                            <label htmlFor="name">User Name: </label>
-                            <input type="text" id="name" name="name"
+                        <p style={{ display: this.props.userLoginError ? '' : 'none' }}> Error: User Name or Password are not correct!</p>
+                    </div>
+                    <div>
+                        <form name="login" onSubmit={this.loginSubmit}>
+                            <input type="text" id="name" name="name" placeholder="email"
                                 onChange={(e) => {
-                                    this.props.handleCheckUserLoginCorrect(true);
+                                    this.props.handleUserLoginError(false);
                                     const NewName = e.target.value;
                                     this.setUserName(NewName)
                                 }}
                             />
                             <br></br>
-                            <label htmlFor="password">Password: </label>
-                            <input type="password" id="password" name="password"
+                            <input type="password" id="password" name="password" placeholder="password"
                                 onChange={(e) => {
-                                    this.props.handleCheckUserLoginCorrect(true);
+                                    this.props.handleUserLoginError(false);
                                     const password = e.target.value;
                                     this.setPassword(password)
                                 }}
                             />
+                            <br></br>
+                            <input type="submit" style={{visibility:"hidden"}}/>
                         </form>
                     </div>
-                    <div>
-                        <p style={{ display: this.props.checkUserLoginCorrect ? 'none' : 'block' }}> Error: User Name or Password are not correct!</p>
-                    </div>
-
                 </Modal.Body>
                 <Modal.Footer>
                     <div>

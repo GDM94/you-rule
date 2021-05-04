@@ -2,10 +2,12 @@ import React from "react";
 import {
     BrowserRouter as Router,
     Switch,
-    useLocation
+    useLocation,
+    Route,
+    useRouteMatch
 } from "react-router-dom";
 import UserAccessProcess from "./UserAccessProcess";
-import App from './App'
+import AppNew from './AppNew'
 
 
 export default class Main extends React.Component {
@@ -21,12 +23,12 @@ export default class Main extends React.Component {
         return (
             <Router>
                 <Switch>
-                    <PrivateRoute
-                        path={process.env.REACT_APP_PROTECTED_URL}
-                    />
-                    <UserAccessProcess
-                        path={process.env.REACT_APP_LOGIN_URL}
-                    />
+                    <Route path={process.env.REACT_APP_PROTECTED_URL}>
+                        <PrivateRoute/>
+                    </Route>
+                    <Route path={process.env.REACT_APP_LOGIN_URL}>
+                        <UserAccessProcess />
+                    </Route>
                 </Switch>
             </Router>
         )
@@ -37,14 +39,17 @@ export default class Main extends React.Component {
 
 
 function PrivateRoute() {
-    let query = new URLSearchParams(useLocation().search);
-    const user_name = query.get("userName")
-    const idToken = query.get("idToken")
+    console.log("route private")
+    let { path, url } = useRouteMatch();
+    const location = useLocation();
+    const idToken = location.state.idToken;
+    
     return (
-        <App
+        <AppNew
             idToken={idToken}
-            user_name={user_name}
             user_id="user"
+            url={url}
+            path={path}
         />
     )
 

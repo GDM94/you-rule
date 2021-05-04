@@ -1,67 +1,71 @@
 import React from 'react';
+import styled from "styled-components";
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 
 
 export default function ViewRules(props) {
     return (
-        <div className="RuleContainer">
-            <div className="MyList">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                RULE ENGINE
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ItemList
-                            handleSetRulePopUp={props.handleSetRulePopUp}
-                            setNewRule={props.setNewRule}
-                            rules={props.rules}
-                            getRuleById={props.getRuleById}
-                        />
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <MyList>
+            <List component="div" aria-label="main mailbox folders">
+                <ItemList
+                    handleSetRulePopUp={props.handleSetRulePopUp}
+                    setNewRule={props.setNewRule}
+                    rules={props.rules}
+                    getRuleById={props.getRuleById}
+                    newRuleId={props.newRuleId}
+                    modify={props.modify}
+                    handleModify={props.handleModify}
+                    AntecedentRulePopUpBody={props.AntecedentRulePopUpBody}
+                    deleteRuleRequest={props.deleteRuleRequest}
+                    newRuleIdx={props.newRuleIdx}
+                    setRuleRequest={props.setRuleRequest}
+
+                />
+            </List>
+        </MyList>
     );
 }
 
 
 function ItemList(props) {
     if (props.rules.length > 0) {
-        const ruleIdList = props.rules.map(rule => { return rule.id })
+        var i = 0;
         return (
             props.rules.map(rule => {
-                var index = ruleIdList.indexOf(rule.id)
                 return (
-                    <tr key={index}>
-                        <td>
-                            <div>
-                                <button variant="primary" onClick={() => {
-                                    props.getRuleById(rule.id);
-                                    props.setNewRule(rule.id, rule.name, index);
-                                    props.handleSetRulePopUp();
-                                }}>
-                                    {rule.name}
-                                </button>
-                            </div >
-                        </td>
-                    </tr>
+                    <div key={i++}>
+                        <ListItem style={{color:"black"}} className={props.newRuleId === rule.id ? "ItemButtonClicked" : ""}
+                            onClick={() => {
+                                props.getRuleById(rule.id);
+                                props.setNewRule(rule.id, rule.name);
+
+                            }}>
+                            <ListItemText primary={rule.name} />
+                        </ListItem>
+                        <Divider />
+                    </div>
                 )
             })
         );
     }
     else {
         return (
-            <tr key={0}>
-                <td>
-                    
-                </td>
-            </tr>
+            <Divider />
         )
     }
 
 }
 
+const MyList = styled.div`
+ color: white;
+  margin: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 100%;
+  overflow-y:auto;
+  text-align: center;
+`;
