@@ -832,7 +832,7 @@ class AppNew extends React.Component {
     }
     handleLogOut = () => {
         console.log("logout")
-        this.props.history.push({pathname: process.env.REACT_APP_LOGIN_URL, state: { token: "" }})
+        this.props.history.push({ pathname: process.env.REACT_APP_LOGIN_URL, state: { token: "" } })
     }
     handleAddAlertEmailPopUp = () => {
         this.setState({ addAlertEmailPopUp: !this.state.addAlertEmailPopUp })
@@ -891,7 +891,7 @@ class AppNew extends React.Component {
                 <TopBar1>
                     <TopBar1Element>
                         RULEAPP
-                        </TopBar1Element>
+                    </TopBar1Element>
                     <TopBar1Button onClick={(event) => { this.handleMenuPopUp(event) }}>
                         <MenuIcon fontSize="large" style={{ color: 'white' }} />
                     </TopBar1Button>
@@ -965,13 +965,13 @@ class AppNew extends React.Component {
                     <ButtonGroup variant="text" color="default" aria-label="text primary button group">
                         <Button style={{ color: "#bfbfbf" }} className={this.state.routeUrl === "sensor" ? "ButtonClicked" : ""} onClick={() => { this.sensorRoute(); }}>
                             SENSORS
-                            </Button>
+                        </Button>
                         <Button style={{ color: "#bfbfbf" }} className={this.state.routeUrl === "rule" ? "ButtonClicked" : ""} onClick={() => { this.ruleRoute(); }}>
                             RULES
-                            </Button>
+                        </Button>
                         <Button style={{ color: "#bfbfbf" }} className={this.state.routeUrl === "switch" ? "ButtonClicked" : ""} onClick={() => { this.switchRoute(); }}>
                             SWITCHES
-                            </Button>
+                        </Button>
                     </ButtonGroup>
 
                 </div>
