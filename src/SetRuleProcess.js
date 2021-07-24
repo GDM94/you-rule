@@ -46,7 +46,7 @@ export default class SetRuleProcess extends React.Component {
 
 
     render() {
-        if (this.props.newRuleName !== "" && this.props.setRulePopUp) {
+        if (this.props.newRuleId !== "" && this.props.setRulePopUp) {
             return (
                 <RuleContent
                     checkRuleName={this.state.checkRuleName}
@@ -74,6 +74,9 @@ export default class SetRuleProcess extends React.Component {
                     handleSetRulePopUp={this.props.handleSetRulePopUp}
                     deleteRuleRequest={this.props.deleteRuleRequest}
                     getRuleById={this.props.getRuleById}
+                    getAntecedents={this.props.getAntecedents}
+                    getConsequents={this.props.getConsequents}
+                    setRuleConsequentDelay={this.props.setRuleConsequentDelay}
                 />
 
             )
@@ -114,7 +117,8 @@ flex-flow: column;
 
 
 function RuleContent(props) {
-    const evaluation = props.rules[props.newRuleIdx].evaluation;
+    const rule = props.rules[props.newRuleIdx];
+    const evaluation = rule.evaluation;
     return (
         <div className="DeviceContentDetail">
             <RuleTitle>
@@ -158,6 +162,8 @@ function RuleContent(props) {
                 <ElementTitle>
                     <ul>
                         <li key={"name"}>Name: {props.modify ? ModifyNewRuleName(props) : props.newRuleName}</li>
+                        <li key={"last_true"}>Last time true: {rule.last_true}</li>
+                        <li key={"last_false"}>Last time false:  {rule.last_false}</li>
                     </ul>
                 </ElementTitle>
 
@@ -199,6 +205,7 @@ function RuleContent(props) {
                         setNewRuleMeasure={props.setNewRuleMeasure}
                         handleModify={props.handleModify}
                         setRuleRequest={props.setRuleRequest}
+                        setRuleConsequentDelay={props.setRuleConsequentDelay}
                     />
                 </ElementContent>
             </RuleContentDiv>
@@ -265,6 +272,8 @@ function RuleBody(props) {
             <table id="tableRule">
                 <thead>
                     <tr>
+                        <th>ORDER</th>
+                        <th>DELAY</th>
                         <th>DEVICE</th>
                         <th>STATUS</th>
                         <th>MODALITY</th>
@@ -279,7 +288,7 @@ function RuleBody(props) {
                         newRuleIdx={props.newRuleIdx}
                         deleteRuleConsequentRequest={props.deleteRuleConsequentRequest}
                         modify={props.modify}
-
+                        setRuleConsequentDelay={props.setRuleConsequentDelay}
                     />
                 </tbody>
             </table>
@@ -323,8 +332,8 @@ function RuleBody(props) {
 
 function RuleConsequentDetails(props) {
     const ruleIdx = props.newRuleIdx;
-    const consequents_list = props.rules[ruleIdx].consequent;
-
+    var consequents_list_unsorted = props.rules[ruleIdx].consequent;
+    const consequents_list = consequents_list_unsorted.sort((a, b) => parseInt(a.order) > parseInt(b.order) ? 1 : -1);
     var idx = -1;
     return (consequents_list.map(element => {
         idx++;
@@ -335,6 +344,8 @@ function RuleConsequentDetails(props) {
         const automatic = element.automatic;
         return (
             <tr key={idx}>
+                <td>{element.order}</td>
+                <td>{props.modify?  setConsequentDelay(props, idx, element.delay) : element.delay}</td>
                 <td>{element.name}</td>
                 <td>{measure === "null" ? "disconnected" : "connected"}</td>
                 <td>{automatic === "true" ? "automatic" : "manual"}</td>
@@ -388,6 +399,26 @@ function RuleAntecedentDetails(props) {
     )
 }
 
+function setConsequentDelay(props, element_idx, oldDelay) {
+    return (
+        <form name="consequentDelay">
+            <input name="delay"
+                id="delay"
+                type="number"
+                min="0"
+                defaultValue={oldDelay}
+                onChange={(e) => {
+                    var value = e.target.value;
+                    if (value < 0) {
+                        value = 0;
+                    }
+                    props.setRuleConsequentDelay(props.newRuleIdx, element_idx, value)
+                }}>
+            </input>
+        </form>
+    )
+}
+
 
 
 function SetRuleCondition(props, element_idx, oldCondition, deviceId) {
@@ -398,21 +429,21 @@ function SetRuleCondition(props, element_idx, oldCondition, deviceId) {
     }
     if (deviceId.includes("SWITCH")) {
         return (
-            <form name="ruleCondition" onSubmit={submitFunction}>
+            <form name="ruleCondition">
                 <select name="condition"
                     id="condition"
                     defaultValue={oldCondition}
                     onChange={(e) => {
                         props.setNewRuleCondition(props.newRuleIdx, element_idx, e.target.value)
                     }}>
-                    <option value="delta">'delta'</option>
+                    <option value="delta">delta</option>
                 </select>
             </form>
         )
     }
     else if (deviceId.includes("WATERLEVEL")) {
         return (
-            <form name="ruleCondition" onSubmit={submitFunction}>
+            <form name="ruleCondition">
                 <select name="condition"
                     id="condition"
                     defaultValue={oldCondition}
@@ -421,29 +452,29 @@ function SetRuleCondition(props, element_idx, oldCondition, deviceId) {
                     }}>
                     <option value=">">{'>'}</option>
                     <option value="<">{'<'}</option>
-                    <option value="between">'between'</option>
-                    <option value="isteresi">'isteresi'</option>
+                    <option value="between">between</option>
+                    <option value="isteresi">isteresi</option>
                 </select>
             </form>
         )
     }
     else if (deviceId.includes("BUTTON")) {
         return (
-            <form name="ruleCondition" onSubmit={submitFunction}>
+            <form name="ruleCondition">
                 <select name="condition"
                     id="condition"
                     defaultValue={oldCondition}
                     onChange={(e) => {
                         props.setNewRuleCondition(props.newRuleIdx, element_idx, e.target.value)
                     }}>
-                    <option value="=">'='</option>
+                    <option value="=">=</option>
                 </select>
             </form>
         )
     }
     else {
         return (
-            <form name="ruleCondition" onSubmit={submitFunction}>
+            <form name="ruleCondition">
                 <select name="condition"
                     id="condition"
                     defaultValue={oldCondition}
@@ -468,8 +499,8 @@ function SetStartValueRuleAntecedent(props, element, element_idx) {
     }
     const oldValue = element.start_value;
     const elementId = element.device_id;
-    if (elementId.includes("timer") || elementId.includes("SWITCH")) {
-        return (<form name="ruleAntecedentStartValue" onSubmit={submitFunction}>
+    if (elementId.includes("timer")) {
+        return (<form name="ruleAntecedentStartValue">
             <input id="time_start"
                 name="time_start"
                 type="time"
@@ -481,8 +512,20 @@ function SetStartValueRuleAntecedent(props, element, element_idx) {
         </form>)
 
     }
+    else if (elementId.includes("SWITCH")) {
+        return (<form name="ruleAntecedentStartValue">
+            <input id="time_start"
+                name="time_start"
+                type="time"
+                defaultValue={oldValue}
+                onChange={(e) => {
+                    props.setNewStartValue(props.newRuleIdx, element_idx, e.target.value);
+                }}
+            />
+        </form>)
+    }
     else if (elementId.includes("BUTTON")) {
-        return (<form name="ruleAntecedentStartValue" onSubmit={submitFunction}>
+        return (<form name="ruleAntecedentStartValue">
             <select name="button_status"
                 id="button_status"
                 defaultValue={oldValue}
@@ -492,12 +535,12 @@ function SetStartValueRuleAntecedent(props, element, element_idx) {
                 <option value="on">ON</option>
                 <option value="off">OFF</option>
             </select>
-           
+
         </form>)
     }
     else {
         return (
-            <form name="ruleAntecedentStartValue" onSubmit={submitFunction}>
+            <form name="ruleAntecedentStartValue">
                 <input id="StartValue"
                     name="StartValue"
                     type="number"
@@ -533,7 +576,7 @@ function SetStopValueRuleAntecedent(props, antecedent, element_idx) {
     if (elementId.includes("timer") || elementId.includes("SWITCH")) {
         if (antecedent.condition === "between" || antecedent.condition === "delta") {
             return (
-                <form name="ruleAntecedentStopValue" onSubmit={submitFunction}>
+                <form name="ruleAntecedentStopValue">
                     <input id="time_stop"
                         name="time_stop"
                         type="time"
@@ -549,7 +592,7 @@ function SetStopValueRuleAntecedent(props, antecedent, element_idx) {
             return (<div>{antecedent.stop_value}</div>)
         }
     }
-    else if (elementId.includes("BUTTON")){
+    else if (elementId.includes("BUTTON")) {
         return (<div>{antecedent.stop_value}</div>)
     }
     else {
@@ -559,7 +602,7 @@ function SetStopValueRuleAntecedent(props, antecedent, element_idx) {
         }
         else {
             return (
-                <form name="ruleAntecedentStopValue" onSubmit={submitFunction}>
+                <form name="ruleAntecedentStopValue">
                     <input id="StopValue"
                         name="StopValue"
                         type="number"

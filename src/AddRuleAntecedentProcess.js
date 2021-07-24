@@ -153,7 +153,7 @@ function AddRuleAntecedentSwitchLastTimeOn(props) {
                             <tr key={i}>
                                 <td>
                                     <button onClick={() => {
-                                        var newAntecedent = { device_id: item.device_id, name: item.name, start_value: "00:00", stop_value: "00:00", condition: "delta", measure: "last time on", value: item.measure };
+                                        var newAntecedent = { device_id: item.device_id, name: item.name, start_value: "00:00", stop_value: "00:00", condition: "delta", measure: "last time on", value: "-" };
                                         props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);
                                         props.handleModify(true);
                                     }}>

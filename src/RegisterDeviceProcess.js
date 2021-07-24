@@ -105,19 +105,19 @@ function deviceInitialization(props, deviceId) {
     else {
         type = "antecedent"
         if (deviceId.includes("PHOTOCELL")) {
-            newDevice = { id: deviceId, name: "photocell", setting: "1024", measure: "init", error: "0", rules: [] };
+            newDevice = { id: deviceId, name: "photocell", setting: "1024", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
         else if (deviceId.includes("WATERLEVEL")) {
-            newDevice = { id: deviceId, name: "waterlevel", setting: "100", measure: "init", error: "0", rules: [] };
+            newDevice = { id: deviceId, name: "waterlevel", setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
         else if (deviceId.includes("SOILMOISTURE")) {
-            newDevice = { id: deviceId, name: "soilmoisture", setting: "1024", measure: "init", error: "0", rules: [] };
+            newDevice = { id: deviceId, name: "soilmoisture", setting: "1024", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
         else if (deviceId.includes("AMMETER")) {
-            newDevice = { id: deviceId, name: "ammeter", setting: "100", measure: "init", error: "0", rules: [] };
+            newDevice = { id: deviceId, name: "ammeter", setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
         else if (deviceId.includes("BUTTON")){
-            newDevice = { id: deviceId, name: "button", setting: "", measure: "init", error: "", rules: [] };
+            newDevice = { id: deviceId, name: "button", setting: "", measure: "init", absolute_measure: "init", error: "", rules: [] };
         }
     }
     props.registerDeviceRequest(type, newDevice);
