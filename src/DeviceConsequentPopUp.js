@@ -72,6 +72,7 @@ export default class DeviceConsequentPopUp extends React.Component {
                     addEmailLocal={this.props.addEmailLocal}
                     addNewAlertEmailRequest={this.props.addNewAlertEmailRequest}
                     modifyEmailRequest={this.props.modifyEmailRequest}
+                    handleDeviceConsequentPopUp={this.props.handleDeviceConsequentPopUp}
                 />
             )
         }
@@ -190,8 +191,8 @@ function DeviceDetail(props) {
                     <Button style={{ display: props.modifyDevice && !props.consequentId.includes("alert") ? "" : "none" }}
                         onClick={() => {
                             props.handleModifyDevice();
-                            props.handleDeviceAntecedentPopUp(false);
-                            props.deleteDeviceRequest("antecedent");
+                            props.handleDeviceConsequentPopUp(false);
+                            props.deleteDeviceRequest("consequent");
 
                         }}>
                         <DeleteIcon fontSize="large" style={{ color: "red" }} />
@@ -217,9 +218,7 @@ function DeviceDetail(props) {
                     </Button >
                 </ButtonGroup>
             </ElementTitle>
-            <ElementContent>
-                {deviceDetails}
-            </ElementContent>
+            {deviceDetails}
         </div>
     )
 
@@ -289,7 +288,7 @@ function AlertDetails(props) {
         handleOpenRule(!openRule);
     };
     return (
-        <ConsequentContent>
+        <ElementContent>
             <ul>
                 <li key={"name"}>Name: {props.modifyDevice ? ModifyName(props) : props.consequentName}</li>
                 <li key={"type"}>consequent - alert email sender</li>
@@ -324,7 +323,7 @@ function AlertDetails(props) {
                 </Collapse>
             </ul>
 
-        </ConsequentContent>
+        </ElementContent>
     )
 }
 
@@ -381,16 +380,16 @@ function SwitchDetails(props) {
         handleOpenRule(!openRule);
     };
     return (
-        <ConsequentContent>
+        <ElementContent>
             <ul>
                 <li>Name: {props.modifyDevice ? ModifyName(props) : props.consequentName}</li>
                 <li>consequent - switch</li>
                 <li>Id: {props.consequentId}</li>
-                <li>last on: {consequent.last_on}</li>
-                <li>last off: {consequent.last_off}</li>
             </ul>
             <ElementMeasure>
                 <h1>{measure}</h1>
+                <p>last on ({consequent.last_on})</p>
+                <p>last off ({consequent.last_off})</p>
                 <ElementSettings>
                     {set_automatic_button(props)}
                     {SetManualMeasureButton(props)}
@@ -405,7 +404,7 @@ function SwitchDetails(props) {
                     {props.rulesName}
                 </Collapse>
             </ul>
-        </ConsequentContent>
+        </ElementContent>
     )
 
 }

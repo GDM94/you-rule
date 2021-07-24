@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import UserLoginProcess from './UserLoginProcess'
 import UserRegisterProcess from './UserRegisterProcess'
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import yourule_logo2 from './yourule_logo2.png';
 import styled from "styled-components";
 import IconButton from '@material-ui/core/IconButton';
@@ -18,7 +18,7 @@ import CreateIcon from '@material-ui/icons/Create';
 
 var jwt = require('jwt-simple');
 
-export default class UserAccessProcess extends React.Component {
+class UserAccessProcess extends React.Component {
     constructor(props) {
 
         super(props);
@@ -38,41 +38,42 @@ export default class UserAccessProcess extends React.Component {
         }
     }
 
-    UserLoginRequest = (email, password) => {
+    UserLoginRequest = async (email, password) => {
         console.log("UserAccess GET login")
         var access_token = jwt.encode({ email: email, password: password }, process.env.REACT_APP_JWT_SECRET);
         const url = process.env.REACT_APP_BACKEND_URL + "/user/login?access_token=" + access_token;
-        axios.get(url)
-            .then(res => {
-                const tokenId = res.data.tokenId;
-                if (tokenId !== "false") {
-                    this.handleLoginPopUp();
-                    this.setUser(email, tokenId)
-                }
-                else {
-                    this.setState({ userLoginError: true });
-                }
-            })
-            .catch(err => console.warn(err));
+        try {
+            let res = await axios.get(url)
+            const tokenId = res.data.tokenId;
+            if (tokenId !== "false") {
+                this.handleLoginPopUp();
+                this.redirect(tokenId);
+            }
+            else {
+                this.setState({ userLoginError: true });
+            }
+        } catch (err) {
+            console.warn(err)
+        }
     }
 
 
-    UserRegistrationRequest = (email, password, name, surname) => {
+    UserRegistrationRequest = async (email, password, name, surname) => {
         console.log("UserAccess POST registration")
         var access_token = jwt.encode({ email: email, password: password, name: name, surname: surname }, process.env.REACT_APP_JWT_SECRET);
         const url = process.env.REACT_APP_BACKEND_URL + "/user/registration?access_token=" + access_token;
-        axios.get(url)
-            .then(res => {
-                const tokenId = res.data.tokenId;
-                if (tokenId !== "false") {
-                    this.handleRegisterPopUp();
-                    this.setUser(email, tokenId);
-                } else {
-                    this.setState({ duplicateUserError: true });
-                }
-
-            })
-            .catch(err => console.warn(err));
+        try {
+            let res = await axios.get(url)
+            const tokenId = res.data.tokenId;
+            if (tokenId !== "false") {
+                this.handleRegisterPopUp();
+                this.redirect(tokenId);
+            } else {
+                this.setState({ duplicateUserError: true });
+            }
+        } catch (err) {
+            console.warn(err)
+        }
     }
 
     handleMenuPopUp = (event) => {
@@ -93,86 +94,70 @@ export default class UserAccessProcess extends React.Component {
         this.setState({ userRegisterPopUp: !this.state.userRegisterPopUp })
     }
 
-    setUser = (email, idToken) => {
-        this.setState({
-            email: email,
-            idToken: idToken,
-            redirect: process.env.REACT_APP_PROTECTED_URL + '?email=' + email + '&idToken=' + idToken
-        })
+    redirect = (idToken) => {
         console.log("redirect")
+        this.props.history.push({pathname: process.env.REACT_APP_SENSORS_URL, state: { token: idToken } })
     }
 
     render() {
-        if (this.state.redirect === "") {
-            return (
-                <AppDiv>
-                    <TopBar>
-                        <TopBarElement>
-                            WELCOME PORTAL
+
+        return (
+            <AppDiv>
+                <TopBar>
+                    <TopBarElement>
+                        RULEAPP
                         </TopBarElement>
-                        <TopBarButton onClick={(event) => { this.handleMenuPopUp(event) }}>
-                            <MenuIcon fontSize="large" style={{ color: 'white' }} />
-                        </TopBarButton>
-                        <PopperStyled placement="bottom-end" id='menu-popper' open={this.state.menuPopUp} anchorEl={this.state.anchorEl}>
-                            <List component="nav" aria-label="main mailbox folders">
-                                <ListItem button onClick={() => {
-                                    this.handleLoginPopUp();
-                                }}>
-                                    <ListItemIcon>
-                                        <VpnKeyIcon fontSize="small" style={{ color: 'white' }} />
-                                    </ListItemIcon>
-                                    <ListItemText primary="LOGIN" />
-                                </ListItem>
-                                <Divider style={{ color: 'white !important' }} />
-                                <ListItem button onClick={() => {
-                                    this.handleRegisterPopUp();
-                                }}>
-                                    <ListItemIcon>
-                                        <CreateIcon fontSize="small" style={{ color: 'white' }} />
-                                    </ListItemIcon>
-                                    <ListItemText primary="REGISTER" />
-                                </ListItem>
-                            </List>
-                            <Divider />
-                        </PopperStyled>
-                    </TopBar>
-                    <UserLoginProcess
-                        userLoginPopUp={this.state.userLoginPopUp}
-                        handleLoginPopUp={this.handleLoginPopUp}
-                        handleUserLoginError={this.handleUserLoginError}
-                        userLoginError={this.state.userLoginError}
-                        UserLoginRequest={this.UserLoginRequest}
-                        setUser={this.setUser}
-                    />
-                    <UserRegisterProcess
-                        userRegisterPopUp={this.state.userRegisterPopUp}
-                        handleRegisterPopUp={this.handleRegisterPopUp}
-                        UserRegistrationRequest={this.UserRegistrationRequest}
-                        setUser={this.setUser}
-                        duplicateUserError={this.state.duplicateUserError}
-                    />
-                    <GreatBody>
-                        <img src={yourule_logo2} alt="fireSpot" />
-                    </GreatBody>
-                </AppDiv>
-            )
-        }
-        else {
-            return (
-                <Redirect to={{
-                    pathname: process.env.REACT_APP_PROTECTED_URL,
-                    state: { idToken: this.state.idToken }
+                    <TopBarButton onClick={(event) => { this.handleMenuPopUp(event) }}>
+                        <MenuIcon fontSize="large" style={{ color: 'white' }} />
+                    </TopBarButton>
+                    <PopperStyled placement="bottom-end" id='menu-popper' open={this.state.menuPopUp} anchorEl={this.state.anchorEl}>
+                        <List component="nav" aria-label="main mailbox folders">
+                            <ListItem button onClick={() => {
+                                this.handleLoginPopUp();
+                            }}>
+                                <ListItemIcon>
+                                    <VpnKeyIcon fontSize="small" style={{ color: 'white' }} />
+                                </ListItemIcon>
+                                <ListItemText primary="LOGIN" />
+                            </ListItem>
+                            <Divider style={{ color: 'white !important' }} />
+                            <ListItem button onClick={() => {
+                                this.handleRegisterPopUp();
+                            }}>
+                                <ListItemIcon>
+                                    <CreateIcon fontSize="small" style={{ color: 'white' }} />
+                                </ListItemIcon>
+                                <ListItemText primary="REGISTER" />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                    </PopperStyled>
+                </TopBar>
+                <UserLoginProcess
+                    userLoginPopUp={this.state.userLoginPopUp}
+                    handleLoginPopUp={this.handleLoginPopUp}
+                    handleUserLoginError={this.handleUserLoginError}
+                    userLoginError={this.state.userLoginError}
+                    UserLoginRequest={this.UserLoginRequest}
+                />
+                <UserRegisterProcess
+                    userRegisterPopUp={this.state.userRegisterPopUp}
+                    handleRegisterPopUp={this.handleRegisterPopUp}
+                    UserRegistrationRequest={this.UserRegistrationRequest}
+                    duplicateUserError={this.state.duplicateUserError}
+                />
+                <GreatBody>
+                    <img src={yourule_logo2} alt="fireSpot" />
+                </GreatBody>
+            </AppDiv>
+        )
 
-                }
-
-
-
-                } />
-            )
-        }
 
     }
 }
+
+export default withRouter(UserAccessProcess)
+
 
 
 const PopperStyled = styled(Popper)`

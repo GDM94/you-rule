@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './App.css';
-import Main from './Main'
+import MainRouter from './MainRouter'
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Main />
+    <MainRouter />
   </React.StrictMode>,
 
   document.getElementById('root')

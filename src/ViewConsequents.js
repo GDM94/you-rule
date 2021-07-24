@@ -34,14 +34,14 @@ function ItemList(props) {
                 var index = deviceIdList.indexOf(consequent.id)
                 return (
                     <div key={index}>
-                            <ListItem style={{color:"black"}} className={props.consequentId === consequent.id ? "ItemButtonClicked" : ""}
+                            <MyListItem style={{color:"black"}} className={props.consequentId === consequent.id ? "ItemButtonClicked" : ""}
                                 onClick={() => {
                                     props.getConsequentById(consequent.id);
                                     props.setNewConsequent(consequent.id, consequent.name, index);
 
                                 }}>
                                 <ListItemText primary={consequent.name} />
-                            </ListItem>
+                            </MyListItem>
                             <Divider />
                     </div>
                 )
@@ -59,10 +59,16 @@ function ItemList(props) {
 const MyList = styled.div`
  color: white;
   margin: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 5px;
+  padding-right: 0px;
   
   height: 100%;
   overflow-y:auto;
   text-align: center;
+`;
+
+const MyListItem = styled(ListItem)`
+padding-bottom: 0px !important;
+padding-top: 10px !important;
+
 `;

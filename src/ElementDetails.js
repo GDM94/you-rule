@@ -99,6 +99,10 @@ export default class ElementDetails extends React.Component {
                     setNewRuleMeasure={this.props.setNewRuleMeasure}
                     setRuleRequest={this.props.setRuleRequest}
                     getRuleById={this.props.getRuleById}
+                    getAntecedents={this.props.getAntecedents}
+                    getConsequents={this.props.getConsequents}
+                    setRuleConsequentDelay={this.props.setRuleConsequentDelay}
+                    onDragEnd={this.props.onDragEnd}
                     
                 />
             )

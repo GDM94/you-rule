@@ -121,7 +121,7 @@ background-color: #d9d9d9;
 
 
 function DeviceDetails(props) {
-    const deviceDetail = DeviceAntecedents(props.antecedents, props.antecedentIdx);
+    const deviceDetail = DeviceAntecedents("view",props.antecedents, props.antecedentIdx);
     var measure = deviceDetail.measure;
     var status = deviceDetail.status;
     var type = deviceDetail.type;
@@ -188,6 +188,8 @@ function DeviceDetails(props) {
                 <ElementMeasure>
                     <h3>{measure_type}</h3>
                     <h1>{measure} {measure_unit}</h1>
+                    <p style={{ margin: 0, display: deviceDetail.max_measure === "" ? "none" : "" }}>{deviceDetail.max_measure} ({deviceDetail.max_measure_time})</p>
+                    <p style={{ display: deviceDetail.min_measure === "" ? "none" : "" }}>{deviceDetail.min_measure} ({deviceDetail.min_measure_time})</p>
                     <ElementSettings style={{ display: settings === "/" ? "none" : "" }}>
                         <ul>
                             <li key={"max"}>Max measure ({measure_settings}): {settings}</li>

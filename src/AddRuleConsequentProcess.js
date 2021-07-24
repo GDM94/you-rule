@@ -59,6 +59,7 @@ function AddRuleConsequentDevice(props) {
     var i = -1;
     const ruleIdx = props.newRuleIdx;
     const consequentRule = props.rules[ruleIdx].consequent;
+    const consequent_order = (consequentRule.length+1).toString();
     var consequentsId = [];
     if (consequentRule.length > 0) {
         consequentsId = consequentRule.map(item => {
@@ -70,6 +71,7 @@ function AddRuleConsequentDevice(props) {
         props.consequents.map(item => {
             if (!consequentsId.some(c => c === item.id)) {
                 i++;
+                console.log(item)
                 return (
                     <tr key={i}>
                         <td>
@@ -83,7 +85,7 @@ function AddRuleConsequentDevice(props) {
                                     automatic=item.automatic;
                                     measure = item.measure
                                 }
-                                const newConsequent = { device_id: item.id, name: item.name, if_value: "on", else_value: "off", automatic: automatic, measure: measure};
+                                const newConsequent = { device_id: item.id, name: item.name, if_value: "on", else_value: "off", automatic: automatic, measure: measure, order: consequent_order, delay: "0"};
                                 props.setConsequentRuleLocal(props.newRuleIdx, newConsequent);
                                 props.handleModify(true);
                             }}>
