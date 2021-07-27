@@ -180,11 +180,6 @@ padding: 2%;
 background-color: #cccccc;
 `;
 
-const ConsequentContent = styled.div`
-height: 100%;
-width: 100%;
-`;
-
 const ElementMeasure = styled.div`
 border: solid black 2px;
 border-radius: 25px;
@@ -312,7 +307,7 @@ function SwitchDetails(props) {
     const consequent = props.consequents[props.index];
     const checkStatusDevice = checkDeviceStatusAndMeasure(props);
     const measure = checkStatusDevice["measure"]
-    const status = checkStatusDevice["status"]
+    //const status = checkStatusDevice["status"]
     const [openRule, handleOpenRule] = useState(false);
     const handleClick = () => {
         handleOpenRule(!openRule);

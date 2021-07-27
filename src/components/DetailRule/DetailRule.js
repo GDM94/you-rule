@@ -324,11 +324,6 @@ function setConsequentDelay(props, element_idx, oldDelay) {
 
 
 function SetRuleCondition(props, element_idx, oldCondition, deviceId) {
-    const submitFunction = (event) => {
-        props.setRuleRequest(props.newRuleIdx);
-        props.handleModify(false);
-        event.preventDefault();
-    }
     if (deviceId.includes("SWITCH")) {
         return (
             <form name="ruleCondition">
@@ -394,11 +389,6 @@ function SetRuleCondition(props, element_idx, oldCondition, deviceId) {
 
 
 function SetStartValueRuleAntecedent(props, element, element_idx) {
-    const submitFunction = (event) => {
-        props.setRuleRequest(props.newRuleIdx);
-        props.handleModify(false);
-        event.preventDefault();
-    }
     const oldValue = element.start_value;
     const elementId = element.device_id;
     if (elementId.includes("timer")) {
@@ -469,11 +459,6 @@ function SetStartValueRuleAntecedent(props, element, element_idx) {
 
 
 function SetStopValueRuleAntecedent(props, antecedent, element_idx) {
-    const submitFunction = (event) => {
-        props.setRuleRequest(props.newRuleIdx);
-        props.handleModify(false);
-        event.preventDefault();
-    }
     const elementId = antecedent.device_id;
     if (elementId.includes("timer") || elementId.includes("SWITCH")) {
         if (antecedent.condition === "between" || antecedent.condition === "delta") {
