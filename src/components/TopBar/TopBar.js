@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import IconButton from '@material-ui/core/IconButton';
-import Popper from '@material-ui/core/Popper';
 import MenuIcon from '@material-ui/icons/Menu';
 
 function TopBar(props) {
@@ -39,22 +38,7 @@ const TopBar1Element = styled.span`
   margin-left: 10px;
 `;
 
-const Group = styled.div`
-  flex-direction: row;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-`;
-
 const TopBar1Button = styled(IconButton)`
   float: right;
   margin: 2%;
-`;
-
-const PopperStyled = styled(Popper)`
-color: white;
-background-color: #737373;
-margin-top:45px;
-margin-right: -22px;
-height:90%;
 `;
