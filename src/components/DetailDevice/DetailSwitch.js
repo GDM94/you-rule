@@ -14,7 +14,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import RuleNameList from './RuleNameList'
 import Divider from '@material-ui/core/Divider';
-import AddAlertEmailProcess from '../../AddAlertEmailProcess';
+import AddAlertEmailProcess from './AddAlertEmailProcess';
 
 
 
