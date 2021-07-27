@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FormControlLabel, Switch } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import EditIcon from '@material-ui/icons/Edit';
@@ -13,9 +12,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import RuleNameList from './RuleNameList'
-import Divider from '@material-ui/core/Divider';
-import AddAlertEmailProcess from './AddAlertEmailProcess';
-
+import DetailAlert from './DetailAlert';
 
 
 export default class DetailSwitch extends React.Component {
@@ -115,7 +112,7 @@ function DeviceDetail(props) {
         deviceDetails = SwitchDetails(props)
     }
     else if (props.consequentId.includes("alert")) {
-        deviceDetails = AlertDetails(props)
+        deviceDetails = DetailAlert(props)
     }
     return (
         <div className="DeviceContentDetail">
@@ -202,104 +199,7 @@ flex-flow: column;
 align-items: center;
 `;
 
-const EmailTitle = styled.div`
-text-align: center;
-justify-content: center;
-margin-left: 2%;
-margin-right: 2%;
-margin-top: 2%;
-display: flex;
-flex-flow: row;
-`;
 
-function AlertDetails(props) {
-    const [openRule, handleOpenRule] = useState(false);
-    const handleClick = () => {
-        handleOpenRule(!openRule);
-    };
-    return (
-        <ElementContent>
-            <ul>
-                <li key={"name"}>Name: {props.modifyDevice ? ModifyName(props) : props.consequentName}</li>
-                <li key={"type"}>consequent - alert email sender</li>
-                <li key={"id"}>Id: {props.consequentId}</li>
-            </ul>
-            <ElementMeasure>
-                <EmailTitle>
-                    <h3> emails </h3>
-                    <Button onClick={() => {
-                        props.addNewAlertEmailRequest()
-                    }}>
-                        <AddIcon fontSize="small" style={{ color: "black" }} />
-                    </Button >
-                </EmailTitle>
-                <Divider />
-
-                <EmailDetail
-                    consequentIdx={props.consequentIdx}
-                    consequents={props.consequents}
-                    modifyAlertEmail={props.modifyAlertEmail}
-                    removeAlertEmailRequest={props.removeAlertEmailRequest}
-                    modifyEmailRequest={props.modifyEmailRequest}
-                />
-            </ElementMeasure>
-            <br></br>
-            <ul>
-                <li key={"rules"}><Button onClick={() => { handleClick(); }}>
-                    RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
-                </Button></li>
-                <Collapse in={openRule} timeout="auto" unmountOnExit>
-                    <RuleNameList
-                        {...props}
-                        rulesDevice={props.consequents[props.consequentIdx].rules}
-                    />
-                </Collapse>
-            </ul>
-
-        </ElementContent>
-    )
-}
-
-function EmailDetail(props) {
-    const consequent_idx = props.consequentIdx;
-    const email_list = props.consequents[consequent_idx].email_list;
-    var i = -1;
-    if (email_list.length > 0) {
-        const email_element = email_list.map(email => {
-            i++;
-            return (
-                <AddAlertEmailProcess
-                    email={email}
-                    idx={i}
-                    consequentIdx={props.consequentIdx}
-                    consequents={props.consequents}
-                    addNewAlertEmailRequest={props.addNewAlertEmailRequest}
-                    removeAlertEmailRequest={props.removeAlertEmailRequest}
-                    modifyEmailRequest={props.modifyEmailRequest}
-                />
-            )
-        })
-        return (
-
-            <table align="center">
-                <tbody>
-                    {email_element}
-                </tbody>
-            </table>
-        )
-    }
-    else {
-        return (
-            <table align="center">
-                <tbody>
-
-                </tbody>
-            </table>
-        )
-    }
-
-
-}
 
 
 

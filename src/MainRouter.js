@@ -700,7 +700,7 @@ export default class MainRouter extends React.Component {
         this.setState({ rules: rules });
     }
     onDragEnd = (result) => {
-        const { destination, source, reason } = result;
+        const { destination, source } = result;
         if (
             destination.droppableId === source.droppableId &&
             destination.index === source.index
@@ -781,6 +781,14 @@ export default class MainRouter extends React.Component {
             consequents: consequents
         }, () => {
             this.handleModifyAlertEmail(true);
+        })
+    }
+    modifyEmailLocal = (idx, email) => {
+        const index = this.state.consequentIdx;
+        const consequents = this.state.consequents;
+        consequents[index].email_list[idx] = email;
+        this.setState({
+            consequents: consequents
         })
     }
 
@@ -967,6 +975,7 @@ export default class MainRouter extends React.Component {
                             addEmailLocal={this.addEmailLocal}
                             addNewAlertEmailRequest={this.addNewAlertEmailRequest}
                             modifyEmailRequest={this.modifyEmailRequest}
+                            modifyEmailLocal={this.modifyEmailLocal}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_RULES_URL}
