@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
-import TOPBAR from "../components/TOPBAR";
-
-var jwt = require('jwt-simple');
+import TopBar from '../components/TopBar/TopBar';
+import LoginLateralMenu from "../components/TopBar/LoginLateralMenu";
 
 class SingUp extends React.Component {
   constructor(props) {
@@ -25,138 +23,127 @@ class SingUp extends React.Component {
 
   setName = (name) => {
     this.setState({ name: name })
-}
+  }
 
-setSurname = (surname) => {
+  setSurname = (surname) => {
     this.setState({ surname: surname })
-}
+  }
 
-setEmail = (email) => {
+  setEmail = (email) => {
     this.setState({ email: email })
-}
-setPassword = (password) => {
+  }
+  setPassword = (password) => {
     this.setState({ password: password })
-}
+  }
 
-setRepeatPassword = (password) => {
+  setRepeatPassword = (password) => {
     this.setState({ repeatPassword: password })
-}
+  }
 
-registrationSubmit = (event) =>{
+  registrationSubmit = (event) => {
     this.registrationFunction();
     event.preventDefault();
-}
-
-registrationFunction = () => {
-    if (
-    !this.state.duplicateUserError &&
-    this.state.password.length > this.state.password_length && 
-    this.state.email.includes("@") && 
-    this.state.password === this.state.repeatPassword &&
-    this.state.name.length>0 &&
-    this.state.surname.length>0
-    ) {
-        this.setState({checkError: false});
-        this.UserRegistrationRequest(this.state.email, this.state.password, this.state.name, this.state.surname);
-    }
-    else{
-        this.setState({checkError: true});
-        if(this.state.duplicateUserError){
-            this.setState({errorMessage: "Error: Email already registerd."});
-        }
-        else if(this.state.password.length <= this.state.password_length){
-            this.setState({errorMessage: "Error: password don't attempt security standard. Password must be at least 2 character long."});
-        }
-        else if(!this.state.email.includes("@")){
-            this.setState({errorMessage: "Error: email non valid"});
-        }
-        else if(this.state.password === this.state.repeatPassword){
-            this.setState({errorMessage: "Error: the repeated password must be identical to the previous password"});
-        }
-        else{
-            this.setState({errorMessage: "Error: you must register your name and surname"});
-        }
-    }
-}
-
-UserRegistrationRequest = async (email, password, name, surname) => {
-  console.log("UserAccess POST registration")
-  var access_token = jwt.encode({ email: email, password: password, name: name, surname: surname }, process.env.REACT_APP_JWT_SECRET);
-  const url = process.env.REACT_APP_BACKEND_URL + "/user/registration?access_token=" + access_token;
-  try {
-      let res = await axios.get(url)
-      const tokenId = res.data.tokenId;
-      if (tokenId !== "false") {
-          this.props.history.push({pathname: process.env.REACT_APP_SENSORS_URL, state: { token: tokenId } })
-      } else {
-          this.setState({ duplicateUserError: true });
-      }
-  } catch (err) {
-      console.warn(err)
   }
-}
 
+  registrationFunction = () => {
+    if (
+      !this.state.duplicateUserError &&
+      this.state.password.length > this.state.password_length &&
+      this.state.email.includes("@") &&
+      this.state.password === this.state.repeatPassword &&
+      this.state.name.length > 0 &&
+      this.state.surname.length > 0
+    ) {
+      this.setState({ checkError: false });
+      this.props.UserRegistrationRequest(this.state.email, this.state.password, this.state.name, this.state.surname);
+    }
+    else {
+      this.setState({ checkError: true });
+      if (this.state.duplicateUserError) {
+        this.setState({ errorMessage: "Error: Email already registerd." });
+      }
+      else if (this.state.password.length <= this.state.password_length) {
+        this.setState({ errorMessage: "Error: password don't attempt security standard. Password must be at least 2 character long." });
+      }
+      else if (!this.state.email.includes("@")) {
+        this.setState({ errorMessage: "Error: email non valid" });
+      }
+      else if (this.state.password === this.state.repeatPassword) {
+        this.setState({ errorMessage: "Error: the repeated password must be identical to the previous password" });
+      }
+      else {
+        this.setState({ errorMessage: "Error: you must register your name and surname" });
+      }
+    }
+  }
 
   render() {
     return (
       <Container>
-        <TOPBAR />
-        <Rect>
-          <Form>
-            <FormTitle>
-              <Title>SINGUP</Title>
-            </FormTitle>
-            <FormBody>
-              <div>
+        <TopBar
+          {...this.props}
+        />
+        <Rect2>
+          <Rect>
+            <Form>
+              <FormTitle>
+                <Title>SINGUP</Title>
+              </FormTitle>
+              <FormBody>
                 <div>
-                  <p style={{ display: this.state.checkError ? 'block' : 'none' }}> {this.state.errorMessage}</p>
+                  <div>
+                    <p style={{ display: this.state.checkError ? 'block' : 'none' }}> {this.state.errorMessage}</p>
+                  </div>
+                  <form name="login" onSubmit={this.registrationSubmit}>
+                    <input type="text" id="name" name="name" placeholder="name"
+                      onChange={(e) => {
+                        const name = e.target.value;
+                        this.setName(name)
+                      }} />
+                    <br></br>
+                    <input type="text" id="surname" name="surname" placeholder="surname"
+                      onChange={(e) => {
+                        const surname = e.target.value;
+                        this.setSurname(surname)
+                      }} />
+                    <br></br>
+                    <input type="text" id="email" name="email" placeholder="email"
+                      onChange={(e) => {
+                        const email = e.target.value;
+                        this.setEmail(email)
+                      }} />
+                    <br></br>
+                    <input type="password" id="password" name="password" placeholder="password"
+                      onChange={(e) => {
+                        const password = e.target.value;
+                        this.setPassword(password)
+                      }} />
+                    <br></br>
+                    <input type="password" id="repeat_password" name="repeat_password" placeholder="repeat password"
+                      onChange={(e) => {
+                        const password = e.target.value;
+                        this.setRepeatPassword(password)
+                      }} />
+                    <br></br>
+                    <input type="submit" style={{ visibility: "hidden" }} />
+                  </form>
                 </div>
-                <form name="login" onSubmit={this.registrationSubmit}>
-                  <input type="text" id="name" name="name" placeholder="name"
-                    onChange={(e) => {
-                      const name = e.target.value;
-                      this.setName(name)
-                    }} />
-                  <br></br>
-                  <input type="text" id="surname" name="surname" placeholder="surname"
-                    onChange={(e) => {
-                      const surname = e.target.value;
-                      this.setSurname(surname)
-                    }} />
-                  <br></br>
-                  <input type="text" id="email" name="email" placeholder="email"
-                    onChange={(e) => {
-                      const email = e.target.value;
-                      this.setEmail(email)
-                    }} />
-                  <br></br>
-                  <input type="password" id="password" name="password" placeholder="password"
-                    onChange={(e) => {
-                      const password = e.target.value;
-                      this.setPassword(password)
-                    }} />
-                  <br></br>
-                  <input type="password" id="repeat_password" name="repeat_password" placeholder="repeat password"
-                    onChange={(e) => {
-                      const password = e.target.value;
-                      this.setRepeatPassword(password)
-                    }} />
-                  <br></br>
-                  <input type="submit" style={{ visibility: "hidden" }} />
-                </form>
-              </div>
-            </FormBody>
-            <FormBottom>
-              <div>
-                <button onClick={() => {
-                  this.registrationFunction();
-                }}>
-                  SINGUP
-                </button>
-              </div>
-            </FormBottom>
-          </Form>
-        </Rect>
+              </FormBody>
+              <FormBottom>
+                <div>
+                  <button onClick={() => {
+                    this.registrationFunction();
+                  }}>
+                    SINGUP
+                  </button>
+                </div>
+              </FormBottom>
+            </Form>
+          </Rect>
+          <LoginLateralMenu
+            {...this.props}
+          />
+        </Rect2>
       </Container>
     );
   }
@@ -169,11 +156,20 @@ const Container = styled.div`
   height: 100%;
 `;
 
+const Rect2 = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+`;
+
+
 const Rect = styled.div`
   width: 100%;
   height: 100%;
   background-color: #E6E6E6;
   display: flex;
+  flex-direction: row;
   padding: 5%;
 `;
 

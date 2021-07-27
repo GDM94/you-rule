@@ -1,16 +1,11 @@
 import React from 'react';
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DoneIcon from '@material-ui/icons/Done';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import ButtonGroupRule from './ButtonGroupRule';
+import RuleBodyButton from './RuleBodyButton';
 
 
-export default class SetRuleProcess extends React.Component {
+export default class DetailRule extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -49,34 +44,12 @@ export default class SetRuleProcess extends React.Component {
         if (this.props.newRuleId !== "" && this.props.setRulePopUp) {
             return (
                 <RuleContent
-                    checkRuleName={this.state.checkRuleName}
-                    modify={this.props.modify}
-                    newRuleName={this.props.newRuleName}
-                    rules={this.props.rules}
-                    modifyRuleName={this.props.modifyRuleName}
+                    {...this.props}
+                    {...this.state}
                     checkRuleNameFunction={this.checkRuleNameFunction}
                     updateRuleName={this.updateRuleName}
-                    newRuleId={this.props.newRuleId}
-                    newRuleIdx={this.props.newRuleIdx}
-                    ruleBody={this.state.ruleBody}
                     AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
                     ConsequentRulePopUpBody={this.ConsequentRulePopUpBody}
-                    deleteRuleConsequentRequest={this.props.deleteRuleConsequentRequest}
-                    deleteRuleAntecedentRequest={this.props.deleteRuleAntecedentRequest}
-                    setNewRuleCondition={this.props.setNewRuleCondition}
-                    setNewStartValue={this.props.setNewStartValue}
-                    setNewStopValue={this.props.setNewStopValue}
-                    setNewRuleMeasure={this.props.setNewRuleMeasure}
-                    handleAddRuleConsequentPopUp={this.props.handleAddRuleConsequentPopUp}
-                    handleAddRuleAntecedentPopUp={this.props.handleAddRuleAntecedentPopUp}
-                    setRuleRequest={this.props.setRuleRequest}
-                    handleModify={this.props.handleModify}
-                    handleSetRulePopUp={this.props.handleSetRulePopUp}
-                    deleteRuleRequest={this.props.deleteRuleRequest}
-                    getRuleById={this.props.getRuleById}
-                    getAntecedents={this.props.getAntecedents}
-                    getConsequents={this.props.getConsequents}
-                    setRuleConsequentDelay={this.props.setRuleConsequentDelay}
                 />
 
             )
@@ -124,41 +97,11 @@ function RuleContent(props) {
             <RuleTitle>
                 <h1> <FiberManualRecordIcon style={{ color: evaluation === "true" ? "green" : "red" }} /> {props.newRuleName} </h1>
                 <p style={{ display: props.checkRuleName ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
-                <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                    <Button style={{ display: props.modify ? "" : "none" }}
-                        onClick={() => {
-                            props.handleModify(false);
-                            props.handleSetRulePopUp(false);
-                            props.AntecedentRulePopUpBody();
-                            props.deleteRuleRequest(props.newRuleId, props.newRuleIdx);
-
-                        }}>
-                        <DeleteIcon fontSize="large" style={{ color: "red" }} />
-                    </Button >
-                    <Button
-                        onClick={() => {
-                            props.getRuleById(props.newRuleId);
-                        }}>
-                        <RefreshIcon fontSize="large" style={{ color: "black" }} />
-                    </Button >
-                    <Button
-                        onClick={() => {
-                            if (props.modify) {
-                                const ruleIdx = props.newRuleIdx;
-                                props.setRuleRequest(ruleIdx);
-                                props.handleModify(false);
-                            }
-                            else {
-                                props.handleModify(true);
-                            }
-                        }}>
-                        {props.modify ? <DoneIcon fontSize="large" style={{ color: "black" }} /> : <EditIcon fontSize="large" style={{ color: "black" }} />}
-
-                    </Button >
-                </ButtonGroup>
+                <ButtonGroupRule
+                    {...props}
+                />
             </RuleTitle>
             <RuleContentDiv>
-
                 <ElementTitle>
                     <ul>
                         <li key={"name"}>Name: {props.modify ? ModifyNewRuleName(props) : props.newRuleName}</li>
@@ -166,59 +109,18 @@ function RuleContent(props) {
                         <li key={"last_false"}>Last time false:  {rule.last_false}</li>
                     </ul>
                 </ElementTitle>
-
                 <ElementContent>
-                    <div className="RuleHeaderButtons">
-                        <Button className={props.ruleBody ? "UnclickedRuleBodyButton" : "ClickedRuleBodyButton"} id="ruleAntecedentButton"
-                            onClick={() => { props.AntecedentRulePopUpBody(); }}>
-                            ANTECEDENTS
-                        </Button>
-                        <AddRuleElementButtonStyled style={{ display: props.ruleBody ? "none" : "" }} id="ruleAntecedentButton"
-                            onClick={() => {
-                                props.handleAddRuleAntecedentPopUp();
-                            }}>
-                            <AddIcon />
-                        </AddRuleElementButtonStyled>
-                        <Button className={props.ruleBody ? "ClickedRuleBodyButton" : "UnclickedRuleBodyButton"} id="ruleConsequentButton"
-                            onClick={() => { props.ConsequentRulePopUpBody(); }}>
-                            CONSEQUENTS
-                        </Button>
-                        <AddRuleElementButtonStyled style={{ display: props.ruleBody ? "" : "none" }} id="ruleConsequentButton"
-                            onClick={() => {
-                                props.handleAddRuleConsequentPopUp();
-                            }}>
-                            <AddIcon />
-                        </AddRuleElementButtonStyled>
-                    </div>
-
+                    <RuleBodyButton
+                        {...props}
+                    />
                     <RuleBody
-                        ruleBody={props.ruleBody}
-                        rules={props.rules}
-                        newRuleId={props.newRuleId}
-                        newRuleIdx={props.newRuleIdx}
-                        deleteRuleConsequentRequest={props.deleteRuleConsequentRequest}
-                        deleteRuleAntecedentRequest={props.deleteRuleAntecedentRequest}
-                        modify={props.modify}
-                        setNewRuleCondition={props.setNewRuleCondition}
-                        setNewStartValue={props.setNewStartValue}
-                        setNewStopValue={props.setNewStopValue}
-                        setNewRuleMeasure={props.setNewRuleMeasure}
-                        handleModify={props.handleModify}
-                        setRuleRequest={props.setRuleRequest}
-                        setRuleConsequentDelay={props.setRuleConsequentDelay}
+                        {...props}
                     />
                 </ElementContent>
             </RuleContentDiv>
         </div>
     )
 }
-
-
-const AddRuleElementButtonStyled = styled(Button)`
-border: solid black 2px !important;
-border-radius: 0px !important;
-background-color: #eead4c !important;
-`;
 
 const ElementTitle = styled.div`
 text-align: left;
@@ -345,7 +247,7 @@ function RuleConsequentDetails(props) {
         return (
             <tr key={idx}>
                 <td>{element.order}</td>
-                <td>{props.modify?  setConsequentDelay(props, idx, element.delay) : element.delay}</td>
+                <td>{props.modify ? setConsequentDelay(props, idx, element.delay) : element.delay}</td>
                 <td>{element.name}</td>
                 <td>{measure === "null" ? "disconnected" : "connected"}</td>
                 <td>{automatic === "true" ? "automatic" : "manual"}</td>

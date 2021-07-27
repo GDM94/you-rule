@@ -1,10 +1,8 @@
 import React from "react";
 import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
-import axios from 'axios';
-import TOPBAR from "../components/TOPBAR";
-
-var jwt = require('jwt-simple');
+import TopBar from '../components/TopBar/TopBar';
+import LoginLateralMenu from "../components/TopBar/LoginLateralMenu";
 
 class Login extends React.Component {
   constructor(props) {
@@ -24,79 +22,67 @@ class Login extends React.Component {
   }
 
   loginSubmit = (event) => {
-    this.UserLoginRequest(this.state.userName, this.state.password);
+    this.props.UserLoginRequest(this.state.userName, this.state.password);
     event.preventDefault();
+
   }
 
-  handleUserLoginError = (check) => {
-    this.setState({ userLoginError: check });
-}
 
 
-  UserLoginRequest = async (email, password) => {
-    console.log("UserAccess GET login")
-    var access_token = jwt.encode({ email: email, password: password }, process.env.REACT_APP_JWT_SECRET);
-    const url = process.env.REACT_APP_BACKEND_URL + "/user/login?access_token=" + access_token;
-    try {
-      let res = await axios.get(url)
-      const tokenId = res.data.tokenId;
-      if (tokenId !== "false") {
-        this.props.history.push({ pathname: process.env.REACT_APP_SENSORS_URL, state: { token: tokenId } })
-      }
-      else {
-        this.setState({ userLoginError: true });
-      }
-    } catch (err) {
-      console.warn(err)
-    }
-  }
 
   render() {
     return (
       <Container>
-        <TOPBAR />
-        <Rect>
-          <Form>
-            <FormTitle>
-              <Title>LOGIN</Title>
-            </FormTitle>
-            <FormBody>
-              <div>
-                <p style={{ display: this.state.userLoginError ? '' : 'none' }}> Error: User Name or Password are not correct!</p>
-              </div>
-              <div>
-                <form name="login" onSubmit={this.loginSubmit}>
-                  <input type="text" id="name" name="name" placeholder="email"
-                    onChange={(e) => {
-                      this.handleUserLoginError(false);
-                      const NewName = e.target.value;
-                      this.setUserName(NewName)
-                    }}
-                  />
-                  <br></br>
-                  <input type="password" id="password" name="password" placeholder="password"
-                    onChange={(e) => {
-                      this.handleUserLoginError(false);
-                      const password = e.target.value;
-                      this.setPassword(password)
-                    }}
-                  />
-                  <br></br>
-                  <input type="submit" style={{ visibility: "hidden" }} />
-                </form>
-              </div>
-            </FormBody>
-            <FormBottom>
-              <div>
-                <button onClick={() => {
-                  this.UserLoginRequest(this.state.userName, this.state.password);
-                }}>
-                  LOGIN
-                </button>
-              </div>
-            </FormBottom>
-          </Form>
-        </Rect>
+        <TopBar
+          {...this.props}
+        />
+        <Rect2>
+          <Rect>
+            <Form>
+              <FormTitle>
+                <Title>LOGIN</Title>
+              </FormTitle>
+              <FormBody>
+                <div>
+                  <p style={{ display: this.props.userLoginError ? '' : 'none' }}> Error: User Name or Password are not correct!</p>
+                </div>
+                <div>
+                  <form name="login" onSubmit={this.loginSubmit}>
+                    <input type="text" id="name" name="name" placeholder="email"
+                      onChange={(e) => {
+                        this.props.handleUserLoginError(false);
+                        const NewName = e.target.value;
+                        this.setUserName(NewName)
+                      }}
+                    />
+                    <br></br>
+                    <input type="password" id="password" name="password" placeholder="password"
+                      onChange={(e) => {
+                        this.props.handleUserLoginError(false);
+                        const password = e.target.value;
+                        this.setPassword(password)
+                      }}
+                    />
+                    <br></br>
+                    <input type="submit" style={{ visibility: "hidden" }} />
+                  </form>
+                </div>
+              </FormBody>
+              <FormBottom>
+                <div>
+                  <button onClick={() => {
+                    this.props.UserLoginRequest(this.state.userName, this.state.password);
+                  }}>
+                    LOGIN
+                  </button>
+                </div>
+              </FormBottom>
+            </Form>
+          </Rect>
+          <LoginLateralMenu
+            {...this.props}
+          />
+        </Rect2>
       </Container>
     );
   }
@@ -109,11 +95,19 @@ const Container = styled.div`
   height: 100%;
 `;
 
+const Rect2 = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+`;
+
 const Rect = styled.div`
   width: 100%;
   height: 100%;
   background-color: #E6E6E6;
   display: flex;
+  flex-direction: row;
   padding: 5%;
 `;
 

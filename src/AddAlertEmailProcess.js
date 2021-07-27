@@ -12,7 +12,7 @@ export default class AddAlertEmailProcess extends React.Component {
         this.key_count = 0;
         this.state = {
             checkAddNewEmail: false,
-            email: "",
+            email: this.props.email,
             modifyAlertEmail: false,
         }
     }
@@ -54,7 +54,7 @@ export default class AddAlertEmailProcess extends React.Component {
                 <td>
                     <FormModifyEmail
                         addNewAlertEmail={this.addNewAlertEmail}
-                        email={this.props.email}
+                        email={this.state.email}
                         checkAddEmailFunction={this.checkAddEmailFunction}
                         modifyAlertEmail={this.state.modifyAlertEmail}
                     />

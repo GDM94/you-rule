@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DoneIcon from '@material-ui/icons/Done';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import DeviceAntecedents from './DeviceAntecedents'
+import DeviceAntecedents from '../../DeviceAntecedents'
+import RuleNameList from './RuleNameList'
+import ButtonGroupSensor from './ButtonGroupSensor';
 
-
-export default class DeviceAntecedentPopUp extends React.Component {
+export default class DetailSensor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,26 +33,11 @@ export default class DeviceAntecedentPopUp extends React.Component {
     render() {
         if (this.props.antecedentId !== "" && this.props.deviceAntecedentPopUp) {
             const index = this.props.antecedentIdx;
-            const rulesName = GetRulesName(this.props);
             return (
                 <DeviceDetails
-                    antecedentIdx={this.props.antecedentIdx}
-                    antecedentId={this.props.antecedentId}
-                    antecedentName={this.props.antecedentName}
-                    antecedents={this.props.antecedents}
                     index={index}
-                    rulesName={rulesName}
-                    modifyAntecedentName={this.props.modifyAntecedentName}
-                    modifyAntecedentSetting={this.props.modifyAntecedentSetting}
-                    modifyAntecedentSettingError={this.props.modifyAntecedentSettingError}
-                    modifyDevice={this.props.modifyDevice}
                     checkDeviceNameFunction={this.checkDeviceNameFunction}
-                    checkDeviceName={this.state.checkDeviceName}
-                    updateDeviceRequest={this.props.updateDeviceRequest}
-                    handleModifyDevice={this.props.handleModifyDevice}
-                    handleDeviceAntecedentPopUp={this.props.handleDeviceAntecedentPopUp}
-                    deleteDeviceRequest={this.props.deleteDeviceRequest}
-                    getAntecedentById={this.props.getAntecedentById}
+                    {...this.props}
                 />
             )
         }
@@ -70,60 +47,10 @@ export default class DeviceAntecedentPopUp extends React.Component {
     }
 }
 
-function GetRulesName(props) {
-    const index = props.antecedentIdx;
-    const rules = props.antecedents[index].rules;
-
-    if (rules.length > 0) {
-        const rulesNameList = rules.map(rule => {
-            const ruleId = rule.id;
-            const ruleName = rule.name;
-            return (
-                <div key={ruleId}>
-                    <ListItem key={ruleId} button onClick={() => {
-                        props.setNewRule(ruleId, ruleName);
-                        props.ruleRoute();
-                    }}>
-                        <ListItemText primary={ruleName} />
-                    </ListItem>
-                    <Divider />
-                </div>
-
-            )
-        })
-        return (
-            <List component="div" aria-label="main mailbox folders">
-                {rulesNameList}
-            </List>
-        )
-    }
-    else {
-        return (
-            <List component="div" aria-label="main mailbox folders">
-                <ListItem>
-                    <ListItemText primary="no rules setted" />
-                </ListItem>
-                <Divider />
-            </List>)
-    }
-}
-
-const ContentContainer = styled.div`
-width: 100%;
-height: 100%;
-display: flex;
-flex-flow: column;
-text-align: center;
-max-height:100%;
-overflow-y: auto;
-background-color: #d9d9d9;
-`;
-
 
 function DeviceDetails(props) {
-    const deviceDetail = DeviceAntecedents("view",props.antecedents, props.antecedentIdx);
+    const deviceDetail = DeviceAntecedents("view", props.antecedents, props.antecedentIdx);
     var measure = deviceDetail.measure;
-    var status = deviceDetail.status;
     var type = deviceDetail.type;
     var settings = deviceDetail.settings;
     var error_measure = deviceDetail.error_measure;
@@ -148,36 +75,9 @@ function DeviceDetails(props) {
             <ElementTitle>
                 <p style={{ display: props.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
                 <h1> <FiberManualRecordIcon style={{ color: color }} /> {props.antecedentName} </h1>
-                <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                    <Button style={{ display: props.modifyDevice && !props.antecedentId.includes("timer") ? "" : "none" }}
-                        onClick={() => {
-                            props.handleModifyDevice();
-                            props.handleDeviceAntecedentPopUp(false);
-                            props.deleteDeviceRequest("antecedent");
-
-                        }}>
-                        <DeleteIcon fontSize="large" style={{ color: "red" }} />
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            props.getAntecedentById(props.antecedentId);
-                        }}>
-                        <RefreshIcon fontSize="large" style={{ color: "black" }} />
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            if (props.modifyDevice) {
-                                props.updateDeviceRequest("antecedent");
-                                props.handleModifyDevice();
-                            }
-                            else {
-                                props.handleModifyDevice();
-                            }
-                        }}>
-                        {props.modifyDevice ? <DoneIcon fontSize="large" style={{ color: "black" }} /> : <EditIcon fontSize="large" style={{ color: "black" }} />}
-
-                    </Button>
-                </ButtonGroup>
+                <ButtonGroupSensor
+                    {...props}
+                />
             </ElementTitle>
             <ElementContent>
                 <ul>
@@ -203,7 +103,10 @@ function DeviceDetails(props) {
                         RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
                     </Button></li>
                     <Collapse in={openRule} timeout="auto" unmountOnExit>
-                        {props.rulesName}
+                        <RuleNameList
+                            {...props}
+                            rulesDevice={props.antecedents[props.antecedentIdx].rules}
+                        />
                     </Collapse>
                 </ul>
             </ElementContent>
@@ -212,6 +115,17 @@ function DeviceDetails(props) {
     )
 }
 
+
+const ContentContainer = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+flex-flow: column;
+text-align: center;
+max-height:100%;
+overflow-y: auto;
+background-color: #d9d9d9;
+`;
 
 const ElementTitle = styled.div`
 text-align: left;

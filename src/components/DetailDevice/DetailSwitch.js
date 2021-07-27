@@ -12,15 +12,13 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import RuleNameList from './RuleNameList'
 import Divider from '@material-ui/core/Divider';
-import AddAlertEmailProcess from './AddAlertEmailProcess';
+import AddAlertEmailProcess from '../../AddAlertEmailProcess';
 
 
 
-export default class DeviceConsequentPopUp extends React.Component {
+export default class DetailSwitch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -45,34 +43,12 @@ export default class DeviceConsequentPopUp extends React.Component {
 
         if (this.props.consequentId !== "" && this.props.deviceConsequentPopUp) {
             const index = this.props.consequentIdx;
-            var rulesName = GetRulesName(this.props);
             return (
                 <DeviceDetail
                     checkDeviceName={this.state.checkDeviceName}
-                    modifyDevice={this.props.modifyDevice}
-                    consequentName={this.props.consequentName}
-                    consequentId={this.props.consequentId}
-                    consequents={this.props.consequents}
-                    consequentIdx={this.props.consequentIdx}
                     index={index}
-                    rulesName={rulesName}
-                    setConsequentAutomaticRequest={this.props.setConsequentAutomaticRequest}
-                    setConsequentManualMeasureRequest={this.props.setConsequentManualMeasureRequest}
-                    removeAlertEmailRequest={this.props.removeAlertEmailRequest}
-                    modifyAlertEmail={this.props.modifyAlertEmail}
-                    handleModifyAlertEmail={this.props.handleModifyAlertEmail}
-                    handleAddAlertEmailPopUp={this.props.handleAddAlertEmailPopUp}
                     checkDeviceNameFunction={this.checkDeviceNameFunction}
-                    modifyConsequentName={this.props.modifyConsequentName}
-                    updateDeviceRequest={this.props.updateDeviceRequest}
-                    handleModifyDevice={this.props.handleModifyDevice}
-                    handleDeviceAntecedentPopUp={this.props.handleDeviceAntecedentPopUp}
-                    deleteDeviceRequest={this.props.deleteDeviceRequest}
-                    getConsequentById={this.props.getConsequentById}
-                    addEmailLocal={this.props.addEmailLocal}
-                    addNewAlertEmailRequest={this.props.addNewAlertEmailRequest}
-                    modifyEmailRequest={this.props.modifyEmailRequest}
-                    handleDeviceConsequentPopUp={this.props.handleDeviceConsequentPopUp}
+                    {...this.props}
                 />
             )
         }
@@ -82,47 +58,6 @@ export default class DeviceConsequentPopUp extends React.Component {
     }
 }
 
-
-
-
-function GetRulesName(props) {
-    const index = props.consequentIdx;
-    const rules = props.consequents[index].rules;
-    if (rules.length > 0) {
-        const rulesNameList = rules.map(rule => {
-            const ruleId = rule.id;
-            const ruleName = rule.name;
-            return (<div key={ruleId}>
-                <ListItem button onClick={() => {
-                    props.setNewRule(ruleId, ruleName);
-                    props.ruleRoute();
-                    props.handleSetRulePopUp(true);
-                }}>
-                    <ListItemText primary={ruleName} />
-                </ListItem>
-                <Divider />
-
-            </div>)
-        })
-        return (
-            <List component="div" aria-label="main mailbox folders">
-                {rulesNameList}
-            </List>
-        )
-    }
-    else {
-        return (
-            <List component="div" aria-label="main mailbox folders">
-                <ListItem>
-                    <ListItemText primary="no rules setted" />
-                </ListItem>
-                <Divider />
-            </List>)
-    }
-
-
-
-}
 
 
 
@@ -319,7 +254,10 @@ function AlertDetails(props) {
                     RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
                 </Button></li>
                 <Collapse in={openRule} timeout="auto" unmountOnExit>
-                    {props.rulesName}
+                    <RuleNameList
+                        {...props}
+                        rulesDevice={props.consequents[props.consequentIdx].rules}
+                    />
                 </Collapse>
             </ul>
 
@@ -401,7 +339,10 @@ function SwitchDetails(props) {
                     RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
                 </Button></li>
                 <Collapse in={openRule} timeout="auto" unmountOnExit>
-                    {props.rulesName}
+                    <RuleNameList
+                        {...props}
+                        rulesDevice={props.consequents[props.consequentIdx].rules}
+                    />
                 </Collapse>
             </ul>
         </ElementContent>
