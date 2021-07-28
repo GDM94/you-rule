@@ -55,9 +55,6 @@ export default class MainRouter extends React.Component {
 
             logout: false,
             routeUrl: process.env.REACT_APP_SENSORS_URL,
-            refreshAntecedents: true,
-            refreshConsequents: true,
-            refreshRules: true,
 
             ruleBody: false,
             classButtonRuleSelection: "AntecedentRuleSelection",
@@ -135,7 +132,7 @@ export default class MainRouter extends React.Component {
             } else {
                 antecedents = antecedents_list;
             }
-            this.setState({ antecedents: antecedents, refreshAntecedents: false }, () => {
+            this.setState({ antecedents: antecedents }, () => {
                 if (!this.state.addRuleAntecedentPopUp) {
                     this.setState({ routeUrl: process.env.REACT_APP_SENSORS_URL, deviceAntecedentPopUp: true, deviceConsequentPopUp: false, setRulePopUp: false });
                     if (this.state.antecedentId !== "") {
@@ -170,7 +167,7 @@ export default class MainRouter extends React.Component {
             else {
                 consequents = consequents_list;
             }
-            this.setState({ consequents: consequents, refreshConsequents: false }, () => {
+            this.setState({ consequents: consequents}, () => {
                 if (!this.state.addRuleConsequentPopUp && !this.state.addRuleAntecedentPopUp) {
                     this.setState({ routeUrl: process.env.REACT_APP_SWITCHES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: true, setRulePopUp: false })
                     if (this.state.consequentId !== "") {
@@ -204,13 +201,11 @@ export default class MainRouter extends React.Component {
             else {
                 rules = rules_list;
             }
-            this.setState({ rules: rules, refreshRules: false }, () => {
+            this.setState({ rules: rules}, () => {
                 if (this.state.newRuleId !== "") {
                     this.getRuleById(this.state.newRuleId);
                 }
-                else {
-                    this.setState({ routeUrl: process.env.REACT_APP_RULES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: false, setRulePopUp: true });
-                }
+                this.setState({ routeUrl: process.env.REACT_APP_RULES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: false, setRulePopUp: true });
             });
         } catch (err) {
             console.warn(err)
@@ -880,15 +875,7 @@ export default class MainRouter extends React.Component {
         this.setState({ modifyAlertEmail: state })
     }
 
-    handleRefreshAntecedents = (refresh) => {
-        this.setState({ refreshAntecedents: refresh });
-    }
-    handleRefreshConsequents = (refresh) => {
-        this.setState({ refreshConsequents: refresh });
-    }
-    handleRefreshRules = (refresh) => {
-        this.setState({ refreshRules: refresh });
-    }
+    
     AntecedentRulePopUpBody = () => {
         this.setState({ ruleBody: false, classButtonRuleSelection: "AntecedentRuleSelection" })
     }
