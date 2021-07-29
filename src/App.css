@@ -263,7 +263,14 @@
 
 .deleteRuleRow button{
   background-color: rgb(240, 179, 179);
+  border: none !important;
 }
+
+.deleteRuleRow{
+  border: none !important;
+  background-color: #e6e6e6;
+}
+
 
 
 #tableRule {

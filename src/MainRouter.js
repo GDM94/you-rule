@@ -866,7 +866,8 @@ export default class MainRouter extends React.Component {
             consequentId: "",
             newRuleId: ""
         })
-        history.push({ pathname: process.env.REACT_APP_LOGIN_URL, state: { token: "" } })
+        //history.push({ pathname: "www.ruleapp.org", state: { token: "" } })
+        window.location.assign('http://ruleapp.org');
     }
     handleAddAlertEmailPopUp = () => {
         this.setState({ addAlertEmailPopUp: !this.state.addAlertEmailPopUp })
