@@ -7,13 +7,12 @@ import TopBar from '../components/TopBar/TopBar';
 import TopBar2 from '../components/TopBar2/TopBar2';
 import LateralMenu from '../components/LateralMenu/LateralMenu';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
-import DetailSensor from '../components/DetailDevice/DetailSensor';
-import DetailSwitch from '../components/DetailDevice/DetailSwitch';
+import DetailSensor from '../components/DetailDevice/AntecedentDevices';
+import DetailDevice from '../components/DetailDevice/DetailDevice';
 import DetailRule from '../components/DetailRule/DetailRule';
 import CreateRuleProcess from '../components/DetailRule/CreateRuleProcess';
 import AddRuleConsequentProcess from '../components/DetailRule/AddRuleConsequentProcess'
 import AddRuleAntecedentProcess from '../components/DetailRule/AddRuleAntecedentProcess'
-import RegisterDeviceProcess from '../components/DetailDevice/RegisterDeviceProcess';
 
 var jwt = require('jwt-simple');
 
@@ -34,28 +33,7 @@ class MainProtectedPage extends React.Component {
     }
 
     ContentContainerFunction = () => {
-        if (this.props.routeUrl === process.env.REACT_APP_SENSORS_URL) {
-            return (
-                <>
-                    <DetailSensor
-                        {...this.props}
-                    />
-                </>
-            )
-
-        }
-        else if (this.props.routeUrl === process.env.REACT_APP_SWITCHES_URL) {
-            return (
-                <>
-                    <DetailSwitch
-                        {...this.props}
-                    />
-                    
-                </>
-            )
-
-        }
-        else if (this.props.routeUrl === process.env.REACT_APP_RULES_URL) {
+        if (this.props.routeUrl === process.env.REACT_APP_RULES_URL) {
             return (
                 <>
                     <DetailRule
@@ -74,7 +52,14 @@ class MainProtectedPage extends React.Component {
             )
         }
         else {
-            return (<div></div>)
+            return (
+                <>
+                    <DetailDevice
+                        {...this.props}
+                    />
+                    
+                </>
+            )
         }
 
     }

@@ -906,6 +906,7 @@ export default class MainRouter extends React.Component {
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
                             modifyElementName={this.modifyAntecedentName}
                             elementType={"antecedent"}
+                            modify={this.state.modifyDevice}
 
                             setNewRule={this.setNewRule}
                             handleModifyDevice={this.handleModifyDevice}
@@ -942,6 +943,7 @@ export default class MainRouter extends React.Component {
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
                             modifyElementName={this.modifyConsequentName}
                             elementType={"consequent"}
+                            modify={this.state.modifyDevice}
 
                             setNewConsequent={this.setNewConsequent}
                             handleDeviceConsequentPopUp={this.handleDeviceConsequentPopUp}
@@ -984,6 +986,7 @@ export default class MainRouter extends React.Component {
                             addNewElement={this.state.AddRulePopUp}
                             handleRegisterDevicePopUp={this.handleAddRulePopUp}
                             modifyElementName={this.modifyRuleName}
+                            modify={this.state.modify}
 
                             handleSetRulePopUp={this.handleSetRulePopUp}
                             deleteRuleConsequentRequest={this.deleteRuleConsequentRequest}

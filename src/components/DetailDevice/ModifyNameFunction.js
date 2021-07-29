@@ -1,6 +1,16 @@
-
+import React from 'react';
 
 export default function ModifyName(props) {
+
+    const checkDeviceNameFunction = (newName) => {
+        var checkDeviceName = false;
+        const devices = props.elements;
+        if (devices.some(device => device.name === newName)) {
+            checkDeviceName = true;
+        }
+        return checkDeviceName
+    }
+
     const submitFunction = (event) => {
         props.updateDeviceRequest(props.elementType);
         props.handleModifyDevice();
@@ -12,7 +22,7 @@ export default function ModifyName(props) {
                 defaultValue={props.elementName}
                 onChange={(e) => {
                     const NewName = e.target.value;
-                    var checkName = props.checkDeviceNameFunction(props.elements, NewName);
+                    var checkName = checkDeviceNameFunction(NewName);
                     if (!checkName) {
                         props.modifyElementName(NewName)
                     }

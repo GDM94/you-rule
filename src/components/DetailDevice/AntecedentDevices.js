@@ -8,57 +8,9 @@ import Button from '@material-ui/core/Button';
 import DeviceAntecedents from '../../DeviceAntecedents'
 import RuleNameList from './RuleNameList'
 import ButtonGroupSensor from './ButtonGroupSensor';
-import RegisterDeviceProcess from './RegisterDeviceProcess'
-import ModifyName from './ModifyNameFunction';
+import InfoDescriptionComponent from './InfoDescriptionComponent';
 
-export default class DetailSensor extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            checkDeviceName: false
-        }
-    }
-
-    checkDeviceNameFunction = (devices, newName) => {
-        var checkDeviceName = false;
-        if (devices.some(device => device.name === newName)) {
-            checkDeviceName = true;
-        }
-        this.setState({
-            checkDeviceName: checkDeviceName
-        }, () => { this.render() });
-
-        return checkDeviceName
-    }
-
-
-    render() {
-        if (this.props.elementId !== ""  && this.props.elements.length>0 && this.props.addNewElement === false) {
-            const elementsIdList = this.props.elements.map(el=>{return el.id});
-            const index = elementsIdList.indexOf(this.props.elementId);
-            return (
-                <DeviceDetails
-                    index={index}
-                    checkDeviceNameFunction={this.checkDeviceNameFunction}
-                    {...this.props}
-                />
-            )
-        }
-        else if (this.props.elementId === "" && this.props.addNewElement === true) {
-            return (<ContentContainer>
-                <RegisterDeviceProcess
-                    {...this.props}
-                />
-            </ContentContainer>)
-        }
-        else {
-            return (<ContentContainer></ContentContainer>)
-        }
-    }
-}
-
-
-function DeviceDetails(props) {
+export default function AntecedentDevices(props) {
     const deviceDetail = DeviceAntecedents("view", props.antecedents, props.antecedentIdx);
     var measure = deviceDetail.measure;
     var type = deviceDetail.type;
@@ -83,18 +35,17 @@ function DeviceDetails(props) {
     return (
         <ContentContainer>
             <ElementTitle>
-                <p style={{ display: props.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
                 <h1> <FiberManualRecordIcon style={{ color: color }} /> {props.antecedentName} </h1>
                 <ButtonGroupSensor
                     {...props}
                 />
             </ElementTitle>
             <ElementContent>
-                <ul>
-                    <li key={"name"}>Name: {props.modifyDevice ? ModifyName(props) : props.antecedentName}</li>
-                    <li key={"type"}>{type}</li>
-                    <li key={"id"}>Id: {props.antecedentId}</li>
-                </ul>
+                <InfoDescriptionComponent
+                    {...props}
+                    description={type}
+                />
+
                 <ElementMeasure>
                     <h3>{measure_type}</h3>
                     <h1>{measure} {measure_unit}</h1>
