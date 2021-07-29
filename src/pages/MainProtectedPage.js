@@ -7,7 +7,6 @@ import TopBar from '../components/TopBar/TopBar';
 import TopBar2 from '../components/TopBar2/TopBar2';
 import LateralMenu from '../components/LateralMenu/LateralMenu';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
-import DetailSensor from '../components/DetailDevice/AntecedentDevices';
 import DetailDevice from '../components/DetailDevice/DetailDevice';
 import DetailRule from '../components/DetailRule/DetailRule';
 import CreateRuleProcess from '../components/DetailRule/CreateRuleProcess';
