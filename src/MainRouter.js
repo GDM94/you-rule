@@ -252,11 +252,11 @@ export default class MainRouter extends React.Component {
         try {
             let res = await axios.get(url);
             const newRule = res.data;
-            console.log(newRule)
             var rules = this.state.rules;
-            const idx = this.state.newRuleIdx;
+            const rulesIdList = rules.map(rule => { return rule.id });
+            const idx = rulesIdList.indexOf(ruleId);
             rules[idx] = newRule;
-            this.setState({ rules: rules }, () => {
+            this.setState({ newRuleIdx: idx, rules: rules }, () => {
                 this.setState({ routeUrl: process.env.REACT_APP_RULES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: false, setRulePopUp: true });
             });
         } catch (err) {
