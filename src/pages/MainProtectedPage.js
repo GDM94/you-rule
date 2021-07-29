@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
