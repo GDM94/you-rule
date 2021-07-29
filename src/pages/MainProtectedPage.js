@@ -40,9 +40,6 @@ class MainProtectedPage extends React.Component {
                     <DetailSensor
                         {...this.props}
                     />
-                    <RegisterDeviceProcess
-                        {...this.props}
-                    />
                 </>
             )
 
@@ -53,9 +50,7 @@ class MainProtectedPage extends React.Component {
                     <DetailSwitch
                         {...this.props}
                     />
-                    <RegisterDeviceProcess
-                        {...this.props}
-                    />
+                    
                 </>
             )
 

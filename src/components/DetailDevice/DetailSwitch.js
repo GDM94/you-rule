@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { FormControlLabel, Switch } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DoneIcon from '@material-ui/icons/Done';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Collapse from '@material-ui/core/Collapse';
@@ -13,7 +8,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import RuleNameList from './RuleNameList'
 import DetailAlert from './DetailAlert';
-
+import RegisterDeviceProcess from './RegisterDeviceProcess'
+import ButtonGroupSwitch from './ButtonGroupSwitch';
 
 export default class DetailSwitch extends React.Component {
     constructor(props) {
@@ -37,9 +33,9 @@ export default class DetailSwitch extends React.Component {
 
 
     render() {
-
-        if (this.props.consequentId !== "" && this.props.deviceConsequentPopUp) {
-            const index = this.props.consequentIdx;
+        if (this.props.elementId !== "" && this.props.elements.length > 0 && this.props.addNewElement === false) {
+            const elementsIdList = this.props.elements.map(el => { return el.id });
+            const index = elementsIdList.indexOf(this.props.elementId);
             return (
                 <DeviceDetail
                     checkDeviceName={this.state.checkDeviceName}
@@ -49,8 +45,15 @@ export default class DetailSwitch extends React.Component {
                 />
             )
         }
+        else if (this.props.elementId === "" && this.props.addNewElement === true) {
+            return (<ContentContainer>
+                <RegisterDeviceProcess
+                    {...this.props}
+                />
+            </ContentContainer>)
+        }
         else {
-            return (<div> </div>)
+            return (<ContentContainer> </ContentContainer>)
         }
     }
 }
@@ -115,46 +118,31 @@ function DeviceDetail(props) {
         deviceDetails = DetailAlert(props)
     }
     return (
-        <div className="DeviceContentDetail">
+        <ContentContainer>
             <ElementTitle>
                 <h1> <FiberManualRecordIcon style={{ color: color }} /> {props.consequentName} </h1>
                 <p style={{ display: props.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
-                <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                    <Button style={{ display: props.modifyDevice && !props.consequentId.includes("alert") ? "" : "none" }}
-                        onClick={() => {
-                            props.handleModifyDevice();
-                            props.handleDeviceConsequentPopUp(false);
-                            props.deleteDeviceRequest("consequent");
-
-                        }}>
-                        <DeleteIcon fontSize="large" style={{ color: "red" }} />
-                    </Button >
-                    <Button
-                        onClick={() => {
-                            props.getConsequentById(props.consequentId);
-                        }}>
-                        <RefreshIcon fontSize="large" style={{ color: "black" }} />
-                    </Button >
-                    <Button
-                        onClick={() => {
-                            if (props.modifyDevice) {
-                                props.updateDeviceRequest("consequent");
-                                props.handleModifyDevice();
-                            }
-                            else {
-                                props.handleModifyDevice();
-                            }
-                        }}>
-                        {props.modifyDevice ? <DoneIcon fontSize="large" style={{ color: "black" }} /> : <EditIcon fontSize="large" style={{ color: "black" }} />}
-
-                    </Button >
-                </ButtonGroup>
+                <ButtonGroupSwitch
+                    {...props}
+                />
             </ElementTitle>
             {deviceDetails}
-        </div>
+        </ContentContainer>
     )
 
 }
+
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  float:left;
+  text-align: center;
+  max-height:100%;
+  overflow-y: auto;
+  background-color: #d9d9d9;
+`;
 
 const ElementTitle = styled.div`
 text-align: left;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal'
+import styled from "styled-components";
 
 export default class RegisterDeviceProcess extends React.Component {
     constructor(props) {
@@ -56,39 +56,35 @@ export default class RegisterDeviceProcess extends React.Component {
 
     render() {
         return (
-            <div>
-                <Modal show={this.props.registerDevicePopUp} onHide={() => this.props.handleRegisterDevicePopUp()}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>ADD DEVICE</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="GenericModalBody">
-                            <p style={{ display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
-                            <form onSubmit={this.createDevice}>
-                                <label htmlFor="deviceId">DEVICE ID: </label>
-                                <input name="deviceId" id="deviceId" type="text"
-                                    onChange={(e) => {
-                                        var newDeviceId = e.target.value;
-                                        this.NewDeviceIdRegistration(newDeviceId);
-                                    }}
-                                />
-                            </form>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button onClick={() => {
-                            const checkRecognition = this.CheckRegisterDeviceRecognition();
-                            if (checkRecognition) {
-                                deviceInitialization(this.props, this.state.newDeviceId);
-                                this.props.handleRegisterDevicePopUp();
-                            }
-                        }}>
-                            NEXT
-                        </button>
-                        <button onClick={() => this.props.handleRegisterDevicePopUp()}>Close</button>
-                    </Modal.Footer>
-                </Modal>
-            </div >
+            <ContentContainer>
+                <ElementTitle>
+                    <h1>ADD DEVICE:</h1>
+                </ElementTitle>
+                <ElementContent>
+                    <ElementSettings>
+                        <p style={{ display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
+                        <form onSubmit={this.createDevice}>
+                            <label htmlFor="deviceId">DEVICE ID: </label>
+                            <input name="deviceId" id="deviceId" type="text"
+                                onChange={(e) => {
+                                    var newDeviceId = e.target.value;
+                                    this.NewDeviceIdRegistration(newDeviceId);
+                                }}
+                            />
+                        </form>
+                    </ElementSettings>
+                    <button onClick={() => {
+                        const checkRecognition = this.CheckRegisterDeviceRecognition();
+                        if (checkRecognition) {
+                            deviceInitialization(this.props, this.state.newDeviceId);
+                            this.props.handleRegisterDevicePopUp();
+                        }
+                    }}>
+                        NEXT
+                    </button>
+                    <button onClick={() => this.props.handleRegisterDevicePopUp()}>CANCEL</button>
+                </ElementContent>
+            </ContentContainer>
         )
     }
 }
@@ -116,9 +112,52 @@ function deviceInitialization(props, deviceId) {
         else if (deviceId.includes("AMMETER")) {
             newDevice = { id: deviceId, name: "ammeter", setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
-        else if (deviceId.includes("BUTTON")){
+        else if (deviceId.includes("BUTTON")) {
             newDevice = { id: deviceId, name: "button", setting: "", measure: "init", absolute_measure: "init", error: "", rules: [] };
         }
     }
     props.registerDeviceRequest(type, newDevice);
 }
+
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  float:left;
+  text-align: center;
+  max-height:100%;
+  overflow-y: auto;
+  background-color: #d9d9d9;
+`;
+
+const ElementContent = styled.div`
+border: solid #d9d9d9 1px;
+height: 100%;
+border-radius: 25px;
+margin-left: 2%;
+margin-right: 2%;
+margin-bottom: 2%;
+text-align: center;
+padding: 2%;
+background-color: #cccccc;
+`;
+
+const ElementTitle = styled.div`
+text-align: left;
+margin-left: 2%;
+margin-right: 2%;
+margin-top: 2%;
+display: flex;
+flex-flow: row;
+`;
+
+const ElementSettings = styled.div`
+margin-left: 2%;
+margin-right: 2%;
+justify-content: center;
+padding: 1%;
+display: flex;
+flex-flow: column;
+align-items: center;
+`;

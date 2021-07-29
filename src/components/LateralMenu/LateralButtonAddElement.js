@@ -8,7 +8,7 @@ function LateralButtonAddElement(props) {
     return (
         <div>
             <RouteTitle>
-                <AddButton onClick={() => { 
+                <AddButton active={props.addNewElement} onClick={() => { 
                     props.handleRegisterDevicePopUp(); 
                     props.setNewElement("", "", 0);
                     }}>
@@ -38,5 +38,8 @@ color: white !important;
 text-align: center;
 border-radius: 0% !important;
 width: 100%;
+${({ active }) => active && `
+    color: #eead4c !important;
+  `}
 `;
 

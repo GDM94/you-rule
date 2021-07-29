@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import DeviceAntecedents from '../../DeviceAntecedents'
 import RuleNameList from './RuleNameList'
 import ButtonGroupSensor from './ButtonGroupSensor';
+import RegisterDeviceProcess from './RegisterDeviceProcess'
 
 export default class DetailSensor extends React.Component {
     constructor(props) {
@@ -31,8 +32,9 @@ export default class DetailSensor extends React.Component {
 
 
     render() {
-        if (this.props.antecedentId !== "" && this.props.deviceAntecedentPopUp) {
-            const index = this.props.antecedentIdx;
+        if (this.props.elementId !== ""  && this.props.elements.length>0 && this.props.addNewElement === false) {
+            const elementsIdList = this.props.elements.map(el=>{return el.id});
+            const index = elementsIdList.indexOf(this.props.elementId);
             return (
                 <DeviceDetails
                     index={index}
@@ -40,6 +42,13 @@ export default class DetailSensor extends React.Component {
                     {...this.props}
                 />
             )
+        }
+        else if (this.props.elementId === "" && this.props.addNewElement === true) {
+            return (<ContentContainer>
+                <RegisterDeviceProcess
+                    {...this.props}
+                />
+            </ContentContainer>)
         }
         else {
             return (<ContentContainer></ContentContainer>)
@@ -71,7 +80,7 @@ function DeviceDetails(props) {
         handleOpenRule(!openRule);
     };
     return (
-        <div className="DeviceContentDetail">
+        <ContentContainer>
             <ElementTitle>
                 <p style={{ display: props.checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</p>
                 <h1> <FiberManualRecordIcon style={{ color: color }} /> {props.antecedentName} </h1>
@@ -110,21 +119,22 @@ function DeviceDetails(props) {
                     </Collapse>
                 </ul>
             </ElementContent>
-        </div>
+        </ContentContainer>
 
     )
 }
 
 
 const ContentContainer = styled.div`
-width: 100%;
-height: 100%;
-display: flex;
-flex-flow: column;
-text-align: center;
-max-height:100%;
-overflow-y: auto;
-background-color: #d9d9d9;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  float:left;
+  text-align: center;
+  max-height:100%;
+  overflow-y: auto;
+  background-color: #d9d9d9;
 `;
 
 const ElementTitle = styled.div`

@@ -59,7 +59,9 @@ export default class MainRouter extends React.Component {
             ruleBody: false,
             classButtonRuleSelection: "AntecedentRuleSelection",
 
-            server_error: false
+            server_error: false,
+            elementDetails: false,
+            addNewElementComponent: false,
 
         }
     }
@@ -134,7 +136,7 @@ export default class MainRouter extends React.Component {
             }
             this.setState({ antecedents: antecedents }, () => {
                 if (!this.state.addRuleAntecedentPopUp) {
-                    this.setState({ routeUrl: process.env.REACT_APP_SENSORS_URL, deviceAntecedentPopUp: true, deviceConsequentPopUp: false, setRulePopUp: false });
+                    this.setState({ routeUrl: process.env.REACT_APP_SENSORS_URL, elementDetails: true, deviceAntecedentPopUp: true, deviceConsequentPopUp: false, setRulePopUp: false });
                     if (this.state.antecedentId !== "") {
                         this.getAntecedentById(this.state.antecedentId);
                     }
@@ -167,9 +169,9 @@ export default class MainRouter extends React.Component {
             else {
                 consequents = consequents_list;
             }
-            this.setState({ consequents: consequents}, () => {
+            this.setState({ consequents: consequents }, () => {
                 if (!this.state.addRuleConsequentPopUp && !this.state.addRuleAntecedentPopUp) {
-                    this.setState({ routeUrl: process.env.REACT_APP_SWITCHES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: true, setRulePopUp: false })
+                    this.setState({ routeUrl: process.env.REACT_APP_SWITCHES_URL, elementDetails: true, deviceAntecedentPopUp: false, deviceConsequentPopUp: true, setRulePopUp: false })
                     if (this.state.consequentId !== "") {
                         this.getConsequentById(this.state.consequentId);
                     }
@@ -201,11 +203,11 @@ export default class MainRouter extends React.Component {
             else {
                 rules = rules_list;
             }
-            this.setState({ rules: rules}, () => {
+            this.setState({ rules: rules }, () => {
                 if (this.state.newRuleId !== "") {
                     this.getRuleById(this.state.newRuleId);
                 }
-                this.setState({ routeUrl: process.env.REACT_APP_RULES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: false, setRulePopUp: true });
+                this.setState({ routeUrl: process.env.REACT_APP_RULES_URL, elementDetails: true, deviceAntecedentPopUp: false, deviceConsequentPopUp: false, setRulePopUp: true });
             });
         } catch (err) {
             console.warn(err)
@@ -224,7 +226,7 @@ export default class MainRouter extends React.Component {
             var antecedents = this.state.antecedents;
             antecedents[idx] = newAntecedent;
             this.setState({ antecedents: antecedents }, () => {
-                this.setState({ routeUrl: process.env.REACT_APP_SENSORS_URL, deviceAntecedentPopUp: true, deviceConsequentPopUp: false, setRulePopUp: false });
+                this.setState({ routeUrl: process.env.REACT_APP_SENSORS_URL, elementDetails: true, deviceAntecedentPopUp: true, deviceConsequentPopUp: false, setRulePopUp: false });
             });
         } catch (err) {
             console.warn(err)
@@ -240,7 +242,7 @@ export default class MainRouter extends React.Component {
             const consequentIdx = this.state.consequentIdx;
             consequents[consequentIdx] = newConsequent;
             this.setState({ consequents: consequents }, () => {
-                this.setState({ routeUrl: process.env.REACT_APP_SWITCHES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: true, setRulePopUp: false })
+                this.setState({ routeUrl: process.env.REACT_APP_SWITCHES_URL, elementDetails: true, deviceAntecedentPopUp: false, deviceConsequentPopUp: true, setRulePopUp: false })
             });
         } catch (err) {
             console.warn(err)
@@ -257,7 +259,7 @@ export default class MainRouter extends React.Component {
             const idx = rulesIdList.indexOf(ruleId);
             rules[idx] = newRule;
             this.setState({ newRuleIdx: idx, rules: rules }, () => {
-                this.setState({ routeUrl: process.env.REACT_APP_RULES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: false, setRulePopUp: true });
+                this.setState({ routeUrl: process.env.REACT_APP_RULES_URL, elementDetails: true, deviceAntecedentPopUp: false, deviceConsequentPopUp: false, setRulePopUp: true });
             });
         } catch (err) {
             console.warn(err)
@@ -420,11 +422,7 @@ export default class MainRouter extends React.Component {
                 antecedentName: newDevice.name,
                 antecedentIdx: newIndex,
                 modifyDevice: true,
-            },
-                () => {
-                    this.sensorRoute();
-                    this.handleDeviceAntecedentPopUp(true);
-                })
+            })
         }
         else {
             var newConsequents = this.state.consequents;
@@ -435,11 +433,7 @@ export default class MainRouter extends React.Component {
                 consequentName: newDevice.name,
                 consequentIdx: newIndex,
                 modifyDevice: true,
-            },
-                () => {
-                    this.switchRoute();
-                    this.handleDeviceConsequentPopUp(true);
-                })
+            })
         }
     }
     updateRuleName = async () => {
@@ -529,7 +523,7 @@ export default class MainRouter extends React.Component {
             await axios.delete(url);
             var NewRules = this.state.rules;
             NewRules.splice(ruleIdx, 1)
-            this.setState({ rules: NewRules, newRuleIdx: 0, newRuleName: "", newRuleId: "", setRulePopUp: false })
+            this.setState({ rules: NewRules, newRuleIdx: 0, newRuleName: "", newRuleId: "", setRulePopUp: false, elementDetails: false })
         } catch (err) {
             console.warn(err)
         }
@@ -589,22 +583,21 @@ export default class MainRouter extends React.Component {
             var antecedents = this.state.antecedents;
             const index = this.state.antecedentIdx;
             antecedents.splice(index, 1);
+            this.setState({ antecedents: antecedents, antecedentIdx: 0, antecedentId: "", antecedentName: "", deviceAntecedentPopUp: false, elementDetails: false })
             try {
                 await axios.delete(url);
-                this.setState({ antecedentIdx: 0, antecedents: antecedents, deviceAntecedentPopUp: false })
             } catch (err) {
                 console.warn(err)
             }
         }
         else {
-            console.log(this.state.consequentId)
             const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + this.state.consequentId;
             const index = this.state.consequentIdx;
             var consequents = this.state.consequents;
             consequents.splice(index, 1);
+            this.setState({ consequents: consequents, consequentIdx: 0, consequentId: "", consequentName: "", elementDetails: false })
             try {
                 await axios.delete(url);
-                this.setState({ consequentIdx: 0, consequents: consequents })
             } catch (err) {
                 console.warn(err)
             }
@@ -876,7 +869,7 @@ export default class MainRouter extends React.Component {
         this.setState({ modifyAlertEmail: state })
     }
 
-    
+
     AntecedentRulePopUpBody = () => {
         this.setState({ ruleBody: false, classButtonRuleSelection: "AntecedentRuleSelection" })
     }
@@ -908,10 +901,10 @@ export default class MainRouter extends React.Component {
                             getElementById={this.getAntecedentById}
                             elementId={this.state.antecedentId}
                             elementName={this.state.antecedentName}
-                            setNewRule={this.setNewRule}
-
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
+
+                            setNewRule={this.setNewRule}
                             handleModifyDevice={this.handleModifyDevice}
                             handleDeviceAntecedentPopUp={this.handleDeviceAntecedentPopUp}
                             deleteDeviceRequest={this.deleteDeviceRequest}
@@ -924,6 +917,7 @@ export default class MainRouter extends React.Component {
                             handleSetRulePopUp={this.handleSetRulePopUp}
                             getAntecedentById={this.getAntecedentById}
                             getRuleById={this.getRuleById}
+                            registerDeviceRequest={this.registerDeviceRequest}
 
                         />}
                 />
@@ -964,6 +958,7 @@ export default class MainRouter extends React.Component {
                             addNewAlertEmailRequest={this.addNewAlertEmailRequest}
                             modifyEmailRequest={this.modifyEmailRequest}
                             modifyEmailLocal={this.modifyEmailLocal}
+                            registerDeviceRequest={this.registerDeviceRequest}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_RULES_URL}

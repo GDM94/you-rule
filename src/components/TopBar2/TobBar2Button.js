@@ -9,6 +9,9 @@ function TopBar2Button(props) {
                 console.log("switch to " + props.page)
                 props.location.state.page = props.page
                 props.history.push({ pathname: props.path, state: props.location.state })
+                if (props.addNewElement === true) {
+                    props.handleRegisterDevicePopUp();
+                }
             }}>
             {props.page}
         </Button>
