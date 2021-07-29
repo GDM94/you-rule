@@ -12,7 +12,7 @@ function LateralButtonAddElement(props) {
                     props.handleRegisterDevicePopUp(); 
                     props.setNewElement("", "", 0);
                     }}>
-                    ADD NEW {props.location.state.page} <AddIcon />
+                    ADD NEW {props.page} <AddIcon />
                 </AddButton>
             </RouteTitle>
         </div>

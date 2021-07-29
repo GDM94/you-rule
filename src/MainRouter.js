@@ -55,11 +55,13 @@ export default class MainRouter extends React.Component {
 
             logout: false,
             routeUrl: process.env.REACT_APP_SENSORS_URL,
+            page: process.env.REACT_APP_PAGE_SENSORS,
 
             ruleBody: false,
             classButtonRuleSelection: "AntecedentRuleSelection",
 
-            server_error: false
+            server_error: false,
+            getAllRefresh: false
 
         }
     }
@@ -132,7 +134,7 @@ export default class MainRouter extends React.Component {
             } else {
                 antecedents = antecedents_list;
             }
-            this.setState({ antecedents: antecedents }, () => {
+            this.setState({ antecedents: antecedents, getAllRefresh: false }, () => {
                 if (!this.state.addRuleAntecedentPopUp) {
                     this.setState({ routeUrl: process.env.REACT_APP_SENSORS_URL, deviceAntecedentPopUp: true, deviceConsequentPopUp: false, setRulePopUp: false });
                     if (this.state.antecedentId !== "") {
@@ -167,7 +169,7 @@ export default class MainRouter extends React.Component {
             else {
                 consequents = consequents_list;
             }
-            this.setState({ consequents: consequents }, () => {
+            this.setState({ consequents: consequents, getAllRefresh: false }, () => {
                 if (!this.state.addRuleConsequentPopUp && !this.state.addRuleAntecedentPopUp) {
                     this.setState({ routeUrl: process.env.REACT_APP_SWITCHES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: true, setRulePopUp: false })
                     if (this.state.consequentId !== "") {
@@ -201,7 +203,7 @@ export default class MainRouter extends React.Component {
             else {
                 rules = rules_list;
             }
-            this.setState({ rules: rules }, () => {
+            this.setState({ rules: rules, getAllRefresh: false }, () => {
                 if (this.state.newRuleId !== "") {
                     this.getRuleById(this.state.newRuleId);
                 }
@@ -815,8 +817,9 @@ export default class MainRouter extends React.Component {
             routeUrl: process.env.REACT_APP_SWITCHES_URL
         })
     }
-    setNewRouteUrl = (url) =>{
-        this.setState({routeUrl: url})
+    setNewRouteUrl = (url, page) =>{
+        console.log(url)
+        this.setState({routeUrl: url, page: page, getAllRefresh: true})
     }
 
 

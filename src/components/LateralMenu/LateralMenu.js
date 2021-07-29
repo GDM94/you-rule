@@ -19,11 +19,7 @@ function LateralMenu(props) {
                     />
                 </List>
             </MyList>
-
-
-
         </LateralMenuDiv>
-
     );
 }
 

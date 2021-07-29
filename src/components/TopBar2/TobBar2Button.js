@@ -7,7 +7,7 @@ function TopBar2Button(props) {
         <Button style={{ color: "#bfbfbf" }} className={props.routeUrl === props.path ? "ButtonClicked" : ""}
             onClick={() => {
                 console.log("switch to " + props.page)
-                props.setNewRouteUrl(props.path)
+                props.setNewRouteUrl(props.path, props.page);
             }}>
             {props.page}
         </Button>
