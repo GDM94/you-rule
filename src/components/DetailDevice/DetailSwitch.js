@@ -6,7 +6,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import RuleNameList from './RuleNameList'
-import InfoDescriptionComponent from './InfoDescriptionComponent';
+import DeviceDescription from './DeviceDescription';
 
 
 
@@ -21,7 +21,7 @@ export default function DetailSwitch(props) {
     };
     return (
         <ElementContent>
-            <InfoDescriptionComponent
+            <DeviceDescription
                 {...props}
                 description={"consequent - switch"}
             />

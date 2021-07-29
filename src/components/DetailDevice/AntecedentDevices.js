@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import DeviceAntecedents from '../../DeviceAntecedents'
 import RuleNameList from './RuleNameList'
 import SensorTitle from './SensorTitle';
-import InfoDescriptionComponent from './InfoDescriptionComponent';
+import DeviceDescription from './DeviceDescription';
 
 export default function AntecedentDevices(props) {
     const deviceDetail = DeviceAntecedents("view", props.antecedents, props.antecedentIdx);
@@ -38,7 +38,7 @@ export default function AntecedentDevices(props) {
                 color={color}
             />
             <ElementContent>
-                <InfoDescriptionComponent
+                <DeviceDescription
                     {...props}
                     description={type}
                 />

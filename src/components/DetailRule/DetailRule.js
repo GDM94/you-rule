@@ -3,6 +3,7 @@ import styled from "styled-components";
 import RuleTitle from './RuleTitle';
 import RuleBodyButton from './RuleBodyButton';
 import CreateRuleProcess from './CreateRuleProcess';
+import RuleDescription from './RuleDescription';
 
 
 export default class DetailRule extends React.Component {
@@ -10,8 +11,6 @@ export default class DetailRule extends React.Component {
         super(props);
         this.state = {
             ruleBody: false,
-            checkRuleName: false,
-            updateName: false,
             classButtonRuleSelection: "AntecedentRuleSelection"
         }
     }
@@ -23,22 +22,6 @@ export default class DetailRule extends React.Component {
         this.setState({ ruleBody: true, classButtonRuleSelection: "ConsequentRuleSelection" })
     }
 
-    checkRuleNameFunction = (rules, ruleName) => {
-        var checkRuleName = false;
-        if (rules.some(rule => rule.name === ruleName)) {
-            checkRuleName = true;
-        }
-        this.setState({
-            checkRuleName: checkRuleName
-        }, () => { this.render() });
-
-        return checkRuleName
-    }
-
-    updateRuleName = (update) => {
-        this.setState({ updateName: update })
-    }
-
 
     render() {
         if (this.props.elementId !== "" && this.props.elements.length > 0 && this.props.addNewElement === false) {
@@ -46,8 +29,6 @@ export default class DetailRule extends React.Component {
                 <RuleContent
                     {...this.props}
                     {...this.state}
-                    checkRuleNameFunction={this.checkRuleNameFunction}
-                    updateRuleName={this.updateRuleName}
                     AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
                     ConsequentRulePopUpBody={this.ConsequentRulePopUpBody}
                 />
@@ -85,21 +66,13 @@ flex-flow: column;
 
 
 function RuleContent(props) {
-    const rule = props.elements[props.elementIdx];
     return (
         <ContentContainer>
             <RuleTitle
                 {...props}
             />
             <RuleContentDiv>
-                <ElementTitle>
-                    <ul>
-                        <li key={"errorName"} style={{ display: props.checkRuleName ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</li>
-                        <li key={"name"}>Name: {props.modify ? ModifyNewRuleName(props) : props.newRuleName}</li>
-                        <li key={"last_true"}>Last time true: {rule.last_true}</li>
-                        <li key={"last_false"}>Last time false:  {rule.last_false}</li>
-                    </ul>
-                </ElementTitle>
+                <RuleDescription {...props} />
                 <ElementContent>
                     <RuleBodyButton
                         {...props}
@@ -120,14 +93,6 @@ display: flex;
 flex-flow: column;
 `;
 
-const ElementTitle = styled.div`
-text-align: left;
-margin-left: 2%;
-margin-right: 2%;
-margin-top: 2%;
-display: flex;
-flex-flow: row;
-`;
 
 const ElementContent = styled.div`
 border: solid black 2px;
@@ -140,29 +105,6 @@ width: 100%;
 height: 100%;
   
 `;
-
-function ModifyNewRuleName(props) {
-    const submitFunction = (event) => {
-        props.setRuleRequest(props.newRuleIdx);
-        props.handleModify(false);
-        event.preventDefault();
-    }
-    return (
-        <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
-            <input type="text" id="name" name="name"
-                defaultValue={props.newRuleName}
-                onChange={(e) => {
-                    const NewName = e.target.value;
-                    var checkRuleName = props.checkRuleNameFunction(props.rules, NewName)
-                    props.updateRuleName(true)
-                    if (!checkRuleName) {
-                        props.modifyRuleName(NewName)
-                    }
-                }}
-            />
-        </form>
-    )
-}
 
 
 function RuleBody(props) {

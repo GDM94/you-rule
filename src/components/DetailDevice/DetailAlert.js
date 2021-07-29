@@ -11,7 +11,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import InfoDescriptionComponent from './InfoDescriptionComponent';
+import DeviceDescription from './DeviceDescription';
 
 export default function DetailAlert(props){
     const [openRule, handleOpenRule] = useState(false);
@@ -20,7 +20,7 @@ export default function DetailAlert(props){
     };
     return (
         <ElementContent>
-            <InfoDescriptionComponent
+            <DeviceDescription
                 {...props}
                 description={"consequent - alert email sender"}
             />

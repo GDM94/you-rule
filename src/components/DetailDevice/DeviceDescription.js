@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import styled from "styled-components";
 
-export default function InfoDescriptionComponent(props) {
+export default function DeviceDescription(props) {
     const [checkDeviceName, handleCheckDeviceName] = useState(false);
 
 
@@ -14,19 +15,21 @@ export default function InfoDescriptionComponent(props) {
     }
 
     return (
-        <>
-            <li style={{ color: "red", display: checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</li>
-            <li>Name: {props.modify ?
-                <ModifyNameForm
-                    {...props}
-                    checkDeviceNameFunction={checkDeviceNameFunction}
-                    checkDeviceName={checkDeviceName}
-                />
-                : props.elementName}
-            </li>
-            <li>{props.description}</li>
-            <li>Id: {props.elementId}</li>
-        </>
+        <ElementDescription>
+            <ul>
+                <li style={{ color: "red", display: checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</li>
+                <li>Name: {props.modify ?
+                    <ModifyNameForm
+                        {...props}
+                        checkDeviceNameFunction={checkDeviceNameFunction}
+                        checkDeviceName={checkDeviceName}
+                    />
+                    : props.elementName}
+                </li>
+                <li>{props.description}</li>
+                <li>Id: {props.elementId}</li>
+            </ul>
+        </ElementDescription>
     )
 
 }
@@ -53,4 +56,14 @@ function ModifyNameForm(props) {
         </form>
     )
 }
+
+
+const ElementDescription = styled.div`
+text-align: left;
+margin-left: 2%;
+margin-right: 2%;
+margin-top: 2%;
+display: flex;
+flex-flow: row;
+`;
 
