@@ -9,6 +9,8 @@ import MainProtectedPage from './pages/MainProtectedPage'
 import axios from 'axios';
 import history from "./history";
 import DeviceAntecedents from './DeviceAntecedents'
+import DevicesPage from "./pages/DevicesPage";
+import RulesPage from "./pages/RulesPage";
 
 var jwt = require('jwt-simple');
 
@@ -66,6 +68,13 @@ export default class MainRouter extends React.Component {
         }
     }
 
+    loginRedirect = (token) => {
+        const decoded = jwt.decode(token, process.env.REACT_APP_JWT_SECRET);
+        const idToken = jwt.encode({ uid: decoded.uid }, process.env.REACT_APP_JWT_SECRET);
+        axios.defaults.headers.common['Authorization'] = idToken;
+        axios.defaults.timeout.toFixed(0);
+        history.push({ pathname: process.env.REACT_APP_SENSORS_URL, state: { token: idToken, page: process.env.REACT_APP_PAGE_SENSORS } })
+    }
 
     UserLoginRequest = async (email, password) => {
         console.log("UserAccess GET login")
@@ -78,6 +87,7 @@ export default class MainRouter extends React.Component {
                 this.setState({
                     menuPopUp: false
                 })
+                this.loginRedirect(tokenId);
                 history.push({ pathname: process.env.REACT_APP_SENSORS_URL, state: { token: tokenId, page: process.env.REACT_APP_PAGE_SENSORS } })
             }
             else {
@@ -103,7 +113,7 @@ export default class MainRouter extends React.Component {
                 this.setState({
                     menuPopUp: false
                 })
-                history.push({ pathname: process.env.REACT_APP_SENSORS_URL, state: { token: tokenId, page: process.env.REACT_APP_PAGE_SENSORS } })
+                this.setTokenDefault(tokenId);
             } else {
                 this.setState({ duplicateUserError: true });
             }
@@ -890,7 +900,7 @@ export default class MainRouter extends React.Component {
 
                 <Route exact path={process.env.REACT_APP_SENSORS_URL}
                     render={(props) =>
-                        <MainProtectedPage
+                        <DevicesPage
                             {...props}
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
@@ -900,7 +910,7 @@ export default class MainRouter extends React.Component {
                             getElements={this.getAntecedents}
                             getElementById={this.getAntecedentById}
                             elementId={this.state.antecedentId}
-                            elementIdx = {this.state.antecedentIdx}
+                            elementIdx={this.state.antecedentIdx}
                             elementName={this.state.antecedentName}
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
@@ -927,7 +937,7 @@ export default class MainRouter extends React.Component {
                 />
                 <Route exact path={process.env.REACT_APP_SWITCHES_URL}
                     render={(props) =>
-                        <MainProtectedPage
+                        <DevicesPage
                             {...props}
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
@@ -937,7 +947,7 @@ export default class MainRouter extends React.Component {
                             getElements={this.getConsequents}
                             getElementById={this.getConsequentById}
                             elementId={this.state.consequentId}
-                            elementIdx = {this.state.consequentIdx}
+                            elementIdx={this.state.consequentIdx}
                             elementName={this.state.consequentName}
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
@@ -971,7 +981,7 @@ export default class MainRouter extends React.Component {
                 />
                 <Route exact path={process.env.REACT_APP_RULES_URL}
                     render={(props) =>
-                        <MainProtectedPage
+                        <RulesPage
                             {...props}
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
@@ -981,7 +991,7 @@ export default class MainRouter extends React.Component {
                             getElements={this.getRules}
                             getElementById={this.getRuleById}
                             elementId={this.state.newRuleId}
-                            elementIdx = {this.state.newRuleIdx}
+                            elementIdx={this.state.newRuleIdx}
                             elementName={this.state.newRuleName}
                             addNewElement={this.state.AddRulePopUp}
                             handleRegisterDevicePopUp={this.handleAddRulePopUp}

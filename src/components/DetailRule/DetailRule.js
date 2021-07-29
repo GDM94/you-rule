@@ -93,7 +93,7 @@ function RuleContent(props) {
     const rule = props.rules[props.newRuleIdx];
     const evaluation = rule.evaluation;
     return (
-        <div className="DeviceContentDetail">
+        <ContentContainer>
             <RuleTitle>
                 <h1> <FiberManualRecordIcon style={{ color: evaluation === "true" ? "green" : "red" }} /> {props.newRuleName} </h1>
                 <p style={{ display: props.checkRuleName ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
@@ -118,9 +118,16 @@ function RuleContent(props) {
                     />
                 </ElementContent>
             </RuleContentDiv>
-        </div>
+        </ContentContainer>
     )
 }
+
+const ContentContainer = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+flex-flow: column;
+`;
 
 const ElementTitle = styled.div`
 text-align: left;

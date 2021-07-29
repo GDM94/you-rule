@@ -8,13 +8,8 @@ import TopBar2 from '../components/TopBar2/TopBar2';
 import LateralMenu from '../components/LateralMenu/LateralMenu';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
 import DetailDevice from '../components/DetailDevice/DetailDevice';
-import DetailRule from '../components/DetailRule/DetailRule';
-import CreateRuleProcess from '../components/DetailRule/CreateRuleProcess';
-import AddRuleConsequentProcess from '../components/DetailRule/AddRuleConsequentProcess'
-import AddRuleAntecedentProcess from '../components/DetailRule/AddRuleAntecedentProcess'
 
-
-class MainProtectedPage extends React.Component {
+class DevicesPage extends React.Component {
     constructor(props) {
         super(props);
         axios.defaults.headers.common['Authorization'] = this.props.location.state.token;
@@ -26,38 +21,6 @@ class MainProtectedPage extends React.Component {
 
     componentDidMount() {
         this.props.getElements();
-    }
-
-    ContentContainerFunction = () => {
-        if (this.props.routeUrl === process.env.REACT_APP_RULES_URL) {
-            return (
-                <>
-                    <DetailRule
-                        {...this.props}
-                    />
-                    <CreateRuleProcess
-                        {...this.props}
-                    />
-                    <AddRuleConsequentProcess
-                        {...this.props}
-                    />
-                    <AddRuleAntecedentProcess
-                        {...this.props}
-                    />
-                </>
-            )
-        }
-        else {
-            return (
-                <>
-                    <DetailDevice
-                        {...this.props}
-                    />
-                    
-                </>
-            )
-        }
-
     }
 
 
@@ -75,7 +38,9 @@ class MainProtectedPage extends React.Component {
                         {...this.props}
                     />
                     <ContentContainer>
-                        {this.ContentContainerFunction()}
+                        <DetailDevice
+                            {...this.props}
+                        />
                     </ContentContainer>
                     <LogoutLateralMenu
                         {...this.props}
@@ -87,7 +52,7 @@ class MainProtectedPage extends React.Component {
     }
 }
 
-export default withRouter(MainProtectedPage)
+export default withRouter(DevicesPage)
 
 
 
