@@ -8,7 +8,6 @@ import TopBar2 from '../components/TopBar2/TopBar2';
 import LateralMenu from '../components/LateralMenu/LateralMenu';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
 import DetailRule from '../components/DetailRule/DetailRule';
-import CreateRuleProcess from '../components/DetailRule/CreateRuleProcess';
 import AddRuleConsequentProcess from '../components/DetailRule/AddRuleConsequentProcess'
 import AddRuleAntecedentProcess from '../components/DetailRule/AddRuleAntecedentProcess'
 

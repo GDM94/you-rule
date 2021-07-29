@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import ButtonGroupRule from './ButtonGroupRule';
+import RuleTitle from './RuleTitle';
 import RuleBodyButton from './RuleBodyButton';
 import CreateRuleProcess from './CreateRuleProcess';
 
@@ -54,13 +53,13 @@ export default class DetailRule extends React.Component {
                 />
 
             )
-        } else if (this.props.elementId === "" && this.props.addNewElement === true){
+        } else if (this.props.elementId === "" && this.props.addNewElement === true) {
             return (
-                <CreateRuleProcess {...this.props}/>
+                <CreateRuleProcess {...this.props} />
             )
         }
-        else{
-            return(
+        else {
+            return (
                 <></>
             )
         }
@@ -68,14 +67,6 @@ export default class DetailRule extends React.Component {
     }
 }
 
-const RuleTitle = styled.div`
-display: flex;
-flex-flow: row;
-text-align: left;
-margin-left: 2%;
-margin-right: 2%;
-margin-top: 2%;
-`;
 
 const RuleContentDiv = styled.div`
 border: solid #d9d9d9 1px;
@@ -94,20 +85,16 @@ flex-flow: column;
 
 
 function RuleContent(props) {
-    const rule = props.rules[props.newRuleIdx];
-    const evaluation = rule.evaluation;
+    const rule = props.elements[props.elementIdx];
     return (
         <ContentContainer>
-            <RuleTitle>
-                <h1> <FiberManualRecordIcon style={{ color: evaluation === "true" ? "green" : "red" }} /> {props.newRuleName} </h1>
-                <p style={{ display: props.checkRuleName ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
-                <ButtonGroupRule
-                    {...props}
-                />
-            </RuleTitle>
+            <RuleTitle
+                {...props}
+            />
             <RuleContentDiv>
                 <ElementTitle>
                     <ul>
+                        <li key={"errorName"} style={{ display: props.checkRuleName ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</li>
                         <li key={"name"}>Name: {props.modify ? ModifyNewRuleName(props) : props.newRuleName}</li>
                         <li key={"last_true"}>Last time true: {rule.last_true}</li>
                         <li key={"last_false"}>Last time false:  {rule.last_false}</li>

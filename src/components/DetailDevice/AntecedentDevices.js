@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import DeviceAntecedents from '../../DeviceAntecedents'
 import RuleNameList from './RuleNameList'
-import ButtonGroupSensor from './ButtonGroupSensor';
+import SensorTitle from './SensorTitle';
 import InfoDescriptionComponent from './InfoDescriptionComponent';
 
 export default function AntecedentDevices(props) {
@@ -34,12 +33,10 @@ export default function AntecedentDevices(props) {
     };
     return (
         <ContentContainer>
-            <ElementTitle>
-                <h1> <FiberManualRecordIcon style={{ color: color }} /> {props.antecedentName} </h1>
-                <ButtonGroupSensor
-                    {...props}
-                />
-            </ElementTitle>
+            <SensorTitle
+                {...props}
+                color={color}
+            />
             <ElementContent>
                 <InfoDescriptionComponent
                     {...props}
@@ -87,15 +84,6 @@ const ContentContainer = styled.div`
   max-height:100%;
   overflow-y: auto;
   background-color: #d9d9d9;
-`;
-
-const ElementTitle = styled.div`
-text-align: left;
-margin-left: 2%;
-margin-right: 2%;
-margin-top: 2%;
-display: flex;
-flex-flow: row;
 `;
 
 const ElementContent = styled.div`
