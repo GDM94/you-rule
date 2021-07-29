@@ -86,7 +86,6 @@ export default class MainRouter extends React.Component {
                     menuPopUp: false
                 })
                 this.loginRedirect(tokenId);
-                history.push({ pathname: process.env.REACT_APP_SENSORS_URL, state: { token: tokenId, page: process.env.REACT_APP_PAGE_SENSORS } })
             }
             else {
                 this.handleUserLoginError("true");
@@ -111,7 +110,7 @@ export default class MainRouter extends React.Component {
                 this.setState({
                     menuPopUp: false
                 })
-                this.setTokenDefault(tokenId);
+                this.loginRedirect(tokenId);
             } else {
                 this.setState({ duplicateUserError: true });
             }
