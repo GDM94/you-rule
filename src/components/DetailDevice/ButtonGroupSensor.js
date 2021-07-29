@@ -9,7 +9,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 function ButtonGroupSensor(props) {
     return (
         <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-        <Button style={{ display: props.modifyDevice && !props.antecedentId.includes("timer") ? "" : "none" }}
+        <Button style={{ display: props.modifyDevice && !props.elementId.includes("timer") ? "" : "none" }}
             onClick={() => {
                 props.handleModifyDevice();
                 props.handleDeviceAntecedentPopUp(false);
@@ -20,7 +20,7 @@ function ButtonGroupSensor(props) {
         </Button>
         <Button
             onClick={() => {
-                props.getElementById(props.antecedentId);
+                props.getElementById(props.elementId);
             }}>
             <RefreshIcon fontSize="large" style={{ color: "black" }} />
         </Button>

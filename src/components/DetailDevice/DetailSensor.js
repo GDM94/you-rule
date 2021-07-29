@@ -9,6 +9,7 @@ import DeviceAntecedents from '../../DeviceAntecedents'
 import RuleNameList from './RuleNameList'
 import ButtonGroupSensor from './ButtonGroupSensor';
 import RegisterDeviceProcess from './RegisterDeviceProcess'
+import ModifyName from './ModifyNameFunction';
 
 export default class DetailSensor extends React.Component {
     constructor(props) {
@@ -175,29 +176,6 @@ text-align: left;
 `;
 
 
-
-
-function ModifyName(props) {
-    const submitFunction = (event) => {
-        props.updateDeviceRequest("antecedent");
-        props.handleModifyDevice();
-        event.preventDefault();
-    }
-    return (
-        <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
-            <input type="text" id="name" name="name"
-                defaultValue={props.antecedentName}
-                onChange={(e) => {
-                    const NewName = e.target.value;
-                    var checkName = props.checkDeviceNameFunction(props.antecedents, NewName);
-                    if (!checkName) {
-                        props.modifyAntecedentName(NewName)
-                    }
-                }}
-            />
-        </form>
-    )
-}
 
 function ModifyMaxMeasureSetting(props) {
     const index = props.antecedentIdx;

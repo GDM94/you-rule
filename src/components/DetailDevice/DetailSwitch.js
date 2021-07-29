@@ -10,6 +10,7 @@ import RuleNameList from './RuleNameList'
 import DetailAlert from './DetailAlert';
 import RegisterDeviceProcess from './RegisterDeviceProcess'
 import ButtonGroupSwitch from './ButtonGroupSwitch';
+import ModifyName from './ModifyNameFunction';
 
 export default class DetailSwitch extends React.Component {
     constructor(props) {
@@ -34,12 +35,9 @@ export default class DetailSwitch extends React.Component {
 
     render() {
         if (this.props.elementId !== "" && this.props.elements.length > 0 && this.props.addNewElement === false) {
-            const elementsIdList = this.props.elements.map(el => { return el.id });
-            const index = elementsIdList.indexOf(this.props.elementId);
             return (
                 <DeviceDetail
                     checkDeviceName={this.state.checkDeviceName}
-                    index={index}
                     checkDeviceNameFunction={this.checkDeviceNameFunction}
                     {...this.props}
                 />
@@ -60,32 +58,7 @@ export default class DetailSwitch extends React.Component {
 
 
 
-
-function ModifyName(props) {
-    const submitFunction = (event) => {
-        props.updateDeviceRequest("consequent");
-        props.handleModifyDevice();
-        event.preventDefault();
-    }
-    return (
-        <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
-            <input type="text" id="name" name="name"
-                defaultValue={props.consequentName}
-                onChange={(e) => {
-                    const NewName = e.target.value;
-                    var checkName = props.checkDeviceNameFunction(props.consequents, NewName);
-                    if (!checkName) {
-                        props.modifyConsequentName(NewName)
-                    }
-                }}
-            />
-        </form>
-    )
-}
-
-
-function checkDeviceStatusAndMeasure(props) {
-    const measure_device = props.consequents[props.index].measure
+function checkDeviceStatusAndMeasure(measure_device) {
     if (measure_device !== "null" && measure_device !== "init") {
         const status = "connected"
         const color = "green"
@@ -110,7 +83,8 @@ function DeviceDetail(props) {
     var deviceDetails = null;
     var color = "green";
     if (props.consequentId.includes("SWITCH")) {
-        const checkStatusDevice = checkDeviceStatusAndMeasure(props);
+        const measure_device = props.elements[props.elementIdx].measure
+        const checkStatusDevice = checkDeviceStatusAndMeasure(measure_device);
         color = checkStatusDevice.color;
         deviceDetails = SwitchDetails(props)
     }
@@ -192,10 +166,8 @@ align-items: center;
 
 
 function SwitchDetails(props) {
-    const consequent = props.consequents[props.index];
-    const checkStatusDevice = checkDeviceStatusAndMeasure(props);
-    const measure = checkStatusDevice["measure"]
-    //const status = checkStatusDevice["status"]
+    const consequent = props.elements[props.elementIdx];
+    const measure = props.elements[props.elementIdx].measure
     const [openRule, handleOpenRule] = useState(false);
     const handleClick = () => {
         handleOpenRule(!openRule);
@@ -224,7 +196,7 @@ function SwitchDetails(props) {
                 <Collapse in={openRule} timeout="auto" unmountOnExit>
                     <RuleNameList
                         {...props}
-                        rulesDevice={props.consequents[props.consequentIdx].rules}
+                        rulesDevice={props.elements[props.elementIdx].rules}
                     />
                 </Collapse>
             </ul>
@@ -235,7 +207,7 @@ function SwitchDetails(props) {
 
 
 function set_automatic_button(props) {
-    const consequent = props.consequents[props.index];
+    const consequent = props.elements[props.elementIdx];
     const automatic = consequent.automatic
     var value = false;
     if (automatic === "true") {
@@ -259,7 +231,7 @@ function set_automatic_button(props) {
 
 
 function SetManualMeasureButton(props) {
-    const consequent = props.consequents[props.index];
+    const consequent = props.elements[props.elementIdx];
     const measure = consequent.measure
     const automatic = consequent.automatic
     return (

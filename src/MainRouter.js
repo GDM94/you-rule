@@ -900,9 +900,12 @@ export default class MainRouter extends React.Component {
                             getElements={this.getAntecedents}
                             getElementById={this.getAntecedentById}
                             elementId={this.state.antecedentId}
+                            elementIdx = {this.state.antecedentIdx}
                             elementName={this.state.antecedentName}
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
+                            modifyElementName={this.modifyAntecedentName}
+                            elementType={"antecedent"}
 
                             setNewRule={this.setNewRule}
                             handleModifyDevice={this.handleModifyDevice}
@@ -933,9 +936,12 @@ export default class MainRouter extends React.Component {
                             getElements={this.getConsequents}
                             getElementById={this.getConsequentById}
                             elementId={this.state.consequentId}
+                            elementIdx = {this.state.consequentIdx}
                             elementName={this.state.consequentName}
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
+                            modifyElementName={this.modifyConsequentName}
+                            elementType={"consequent"}
 
                             setNewConsequent={this.setNewConsequent}
                             handleDeviceConsequentPopUp={this.handleDeviceConsequentPopUp}
@@ -973,9 +979,11 @@ export default class MainRouter extends React.Component {
                             getElements={this.getRules}
                             getElementById={this.getRuleById}
                             elementId={this.state.newRuleId}
+                            elementIdx = {this.state.newRuleIdx}
                             elementName={this.state.newRuleName}
                             addNewElement={this.state.AddRulePopUp}
                             handleRegisterDevicePopUp={this.handleAddRulePopUp}
+                            modifyElementName={this.modifyRuleName}
 
                             handleSetRulePopUp={this.handleSetRulePopUp}
                             deleteRuleConsequentRequest={this.deleteRuleConsequentRequest}

@@ -9,7 +9,7 @@ import DoneIcon from '@material-ui/icons/Done';
 export default function ButtonGroupSwitch(props) {
     return (
         <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-            <Button style={{ display: props.modifyDevice && !props.consequentId.includes("alert") ? "" : "none" }}
+            <Button style={{ display: props.modifyDevice && !props.elementId.includes("alert") ? "" : "none" }}
                 onClick={() => {
                     props.handleModifyDevice();
                     props.handleDeviceConsequentPopUp(false);
@@ -20,7 +20,7 @@ export default function ButtonGroupSwitch(props) {
             </Button >
             <Button
                 onClick={() => {
-                    props.getConsequentById(props.consequentId);
+                    props.getConsequentById(props.elementId);
                 }}>
                 <RefreshIcon fontSize="large" style={{ color: "black" }} />
             </Button >
