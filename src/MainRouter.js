@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 import Login from './pages/Login'
 import SingUp from './pages/SingUp'
-import MainProtectedPage from './pages/MainProtectedPage'
 import axios from 'axios';
 import history from "./history";
 import DeviceAntecedents from './DeviceAntecedents'

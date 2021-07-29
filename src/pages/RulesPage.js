@@ -44,9 +44,6 @@ class RulesPage extends React.Component {
                         <DetailRule
                             {...this.props}
                         />
-                        <CreateRuleProcess
-                            {...this.props}
-                        />
                         <AddRuleConsequentProcess
                             {...this.props}
                         />

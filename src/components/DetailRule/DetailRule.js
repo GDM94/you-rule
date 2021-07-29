@@ -3,6 +3,7 @@ import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import ButtonGroupRule from './ButtonGroupRule';
 import RuleBodyButton from './RuleBodyButton';
+import CreateRuleProcess from './CreateRuleProcess';
 
 
 export default class DetailRule extends React.Component {
@@ -41,7 +42,7 @@ export default class DetailRule extends React.Component {
 
 
     render() {
-        if (this.props.newRuleId !== "" && this.props.setRulePopUp) {
+        if (this.props.elementId !== "" && this.props.elements.length > 0 && this.props.addNewElement === false) {
             return (
                 <RuleContent
                     {...this.props}
@@ -53,11 +54,14 @@ export default class DetailRule extends React.Component {
                 />
 
             )
-        } else {
+        } else if (this.props.elementId === "" && this.props.addNewElement === true){
             return (
-                <div>
-
-                </div>
+                <CreateRuleProcess {...this.props}/>
+            )
+        }
+        else{
+            return(
+                <></>
             )
         }
 
