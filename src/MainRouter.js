@@ -58,7 +58,6 @@ export default class MainRouter extends React.Component {
             routeUrl: process.env.REACT_APP_SENSORS_URL,
 
             ruleBody: false,
-            classButtonRuleSelection: "AntecedentRuleSelection",
 
             server_error: false,
             elementDetails: false,
@@ -880,10 +879,10 @@ export default class MainRouter extends React.Component {
 
 
     AntecedentRulePopUpBody = () => {
-        this.setState({ ruleBody: false, classButtonRuleSelection: "AntecedentRuleSelection" })
+        this.setState({ ruleBody: false })
     }
     ConsequentRulePopUpBody = () => {
-        this.setState({ ruleBody: true, classButtonRuleSelection: "ConsequentRuleSelection" })
+        this.setState({ ruleBody: true })
     }
     handleServerErrorPopUp = () => {
         this.setState({
