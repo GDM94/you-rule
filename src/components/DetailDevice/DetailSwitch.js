@@ -58,23 +58,20 @@ export default class DetailSwitch extends React.Component {
 
 
 
-function checkDeviceStatusAndMeasure(measure_device) {
+function checkDeviceStatusAndColor(measure_device) {
     if (measure_device !== "null" && measure_device !== "init") {
-        const status = "connected"
         const color = "green"
-        return { measure: measure_device, status: status, color: color }
+        return { measure: measure_device, color: color }
     }
     else if (measure_device === "null") {
-        const measure = "off";
         const status = "disconnected"
         const color = "red"
-        return { measure: measure, status: status, color: color }
+        return { measure: status, color: color }
     }
     else {
-        const measure = "init";
         const status = "initialization"
         const color = "yellow"
-        return { measure: measure, status: status, color: color }
+        return { measure: status, color: color }
     }
 }
 
@@ -84,7 +81,7 @@ function DeviceDetail(props) {
     var color = "green";
     if (props.consequentId.includes("SWITCH")) {
         const measure_device = props.elements[props.elementIdx].measure
-        const checkStatusDevice = checkDeviceStatusAndMeasure(measure_device);
+        const checkStatusDevice = checkDeviceStatusAndColor(measure_device);
         color = checkStatusDevice.color;
         deviceDetails = SwitchDetails(props)
     }
@@ -167,7 +164,9 @@ align-items: center;
 
 function SwitchDetails(props) {
     const consequent = props.elements[props.elementIdx];
-    const measure = props.elements[props.elementIdx].measure
+    const measure_device = props.elements[props.elementIdx].measure
+    const checkStatusDevice = checkDeviceStatusAndColor(measure_device);
+    const measure = checkStatusDevice.measure
     const [openRule, handleOpenRule] = useState(false);
     const handleClick = () => {
         handleOpenRule(!openRule);
