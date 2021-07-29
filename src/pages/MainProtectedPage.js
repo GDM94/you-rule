@@ -22,10 +22,6 @@ class MainProtectedPage extends React.Component {
         }
     }
 
-    componentDidUpdate() {
-        this.props.getElements();
-    }
-
     ContentContainerFunction = () => {
         if (this.props.routeUrl === process.env.REACT_APP_SENSORS_URL) {
             return (

@@ -61,8 +61,6 @@ export default class MainRouter extends React.Component {
             classButtonRuleSelection: "AntecedentRuleSelection",
 
             server_error: false,
-            getAllRefresh: false
-
         }
     }
 
@@ -119,22 +117,7 @@ export default class MainRouter extends React.Component {
         try {
             let res = await axios.get(url);
             const antecedents_list = res.data;
-            var antecedents = this.state.antecedents;
-            if (antecedents.length > 0) {
-                const antecedentId_list = antecedents.map(antecedent => { return antecedent.id });
-                antecedentId_list.map(antecedent => {
-                    if (!antecedentId_list.some(id => id === antecedent.id)) {
-                        antecedents.concat(antecedent);
-                    } else {
-                        const antecedent_idx = antecedentId_list.indexOf(antecedent.id);
-                        antecedents[antecedent_idx].measure = antecedent.measure;
-                    }
-                    return null;
-                })
-            } else {
-                antecedents = antecedents_list;
-            }
-            this.setState({ antecedents: antecedents, getAllRefresh: false }, () => {
+            this.setState({ antecedents: antecedents_list }, () => {
                 if (!this.state.addRuleAntecedentPopUp) {
                     this.setState({ routeUrl: process.env.REACT_APP_SENSORS_URL, deviceAntecedentPopUp: true, deviceConsequentPopUp: false, setRulePopUp: false });
                     if (this.state.antecedentId !== "") {
@@ -151,25 +134,8 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/device/get/consequents";
         try {
             let res = await axios.get(url);
-            const consequents_list = res.data;
-            var consequents = this.state.consequents;
-            if (consequents.length > 0) {
-                const consequentId_list = consequents.map(consequent => { return consequent.id });
-                consequents_list.map(consequent => {
-                    if (!consequentId_list.some(id => id === consequent.id)) {
-                        consequents.concat(consequent);
-                    }
-                    else {
-                        const consequent_idx = consequentId_list.indexOf(consequent.id);
-                        consequents[consequent_idx].measure = consequent.measure;
-                    }
-                    return null;
-                })
-            }
-            else {
-                consequents = consequents_list;
-            }
-            this.setState({ consequents: consequents, getAllRefresh: false }, () => {
+            const consequents_list = res.data;        
+            this.setState({ consequents: consequents_list }, () => {
                 if (!this.state.addRuleConsequentPopUp && !this.state.addRuleAntecedentPopUp) {
                     this.setState({ routeUrl: process.env.REACT_APP_SWITCHES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: true, setRulePopUp: false })
                     if (this.state.consequentId !== "") {
@@ -187,23 +153,7 @@ export default class MainRouter extends React.Component {
         try {
             let res = await axios.get(url);
             const rules_list = res.data;
-            var rules = this.state.rules;
-            if (rules.length > 0) {
-                const rulesId_list = rules.map(rule => { return rule.id });
-                rules_list.map(rule => {
-                    if (!rulesId_list.some(id => id === rule.id)) {
-                        rules.concat(rule)
-                    } else {
-                        const ruleIdx = rulesId_list.indexOf(rule.id);
-                        rules[ruleIdx].evaluation = rule.evaluation;
-                    }
-                    return null;
-                });
-            }
-            else {
-                rules = rules_list;
-            }
-            this.setState({ rules: rules, getAllRefresh: false }, () => {
+            this.setState({ rules: rules_list }, () => {
                 if (this.state.newRuleId !== "") {
                     this.getRuleById(this.state.newRuleId);
                 }
@@ -254,11 +204,11 @@ export default class MainRouter extends React.Component {
         try {
             let res = await axios.get(url);
             const newRule = res.data;
-            console.log(newRule)
             var rules = this.state.rules;
-            const idx = this.state.newRuleIdx;
+            const rulesIdList = rules.map(rule => { return rule.id });
+            const idx = rulesIdList.indexOf(ruleId);
             rules[idx] = newRule;
-            this.setState({ rules: rules }, () => {
+            this.setState({ newRuleIdx: idx, rules: rules }, () => {
                 this.setState({ routeUrl: process.env.REACT_APP_RULES_URL, deviceAntecedentPopUp: false, deviceConsequentPopUp: false, setRulePopUp: true });
             });
         } catch (err) {
@@ -818,8 +768,17 @@ export default class MainRouter extends React.Component {
         })
     }
     setNewRouteUrl = (url, page) =>{
-        console.log(url)
-        this.setState({routeUrl: url, page: page, getAllRefresh: true})
+        this.setState({routeUrl: url, page: page}, ()=>{
+            if(url===process.env.REACT_APP_SENSORS_URL){
+                this.getAntecedents()
+            }
+            else if (url===process.env.REACT_APP_SWITCHES_URL){
+                this.getConsequents()
+            }
+            else if (url===process.env.REACT_APP_RULES_URL){
+                this.getRules()
+            }
+        })
     }
 
 

@@ -17,8 +17,11 @@ class App extends React.Component {
         this.state = {}
     }
 
+    componentDidMount(){
+        this.props.getAntecedents()
+    }
+
     render() {
-        console.log(this.props.routeUrl)
         if (this.props.routeUrl === process.env.REACT_APP_LOGIN_URL) {
             return (
                 <Redirect to={process.env.REACT_APP_LOGIN_URL} />
