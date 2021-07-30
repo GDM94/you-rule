@@ -111,10 +111,10 @@ function AddRuleAntecedentsDevice(props) {
                                     newAntecedent.measure = "power (W)";
                                 }
                                 else if (item.id.includes("BUTTON")) {
-                                    newAntecedent.measure = "status (On/Off)";
+                                    newAntecedent.measure = "On/Off";
                                     newAntecedent.condition = "=";
                                     newAntecedent.start_value = "on"
-                                    newAntecedent.stop_value = "//"
+                                    newAntecedent.stop_value = "off"
                                 }
                                 console.log(newAntecedent)
                                 props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);

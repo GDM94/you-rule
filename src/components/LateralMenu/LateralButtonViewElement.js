@@ -12,20 +12,20 @@ function LateralButtonViewElement(props) {
             props.elements.map(element => {
                 var index = deviceIdList.indexOf(element.id)
                 return (
-                    <div key={index}>
-                            <MyListItem style={{ color: "black" }} selected={props.elementId === element.id}
-                                onClick={() => {
-                                    props.getElementById(element.id);
-                                    props.setNewElement(element.id, element.name, index);
-                                    props.AntecedentRulePopUpBody();
-                                    if(props.addNewElement===true){
-                                        props.handleRegisterDevicePopUp();
-                                    }
-                                }}>
-                                <ListItemText primary={element.name} />
-                            </MyListItem>
-                            <Divider />
-                    </div>
+                    <>
+                        <MyListItem style={{ color: "black" }} selected={props.elementId === element.id}
+                            onClick={() => {
+                                props.getElementById(element.id);
+                                props.setNewElement(element.id, element.name, index);
+                                props.AntecedentRulePopUpBody();
+                                if (props.addNewElement === true) {
+                                    props.handleRegisterDevicePopUp();
+                                }
+                            }}>
+                            <ListItemText primary={element.name} />
+                        </MyListItem>
+                        <Divider />
+                    </>
                 )
             })
         );
@@ -43,16 +43,16 @@ export default LateralButtonViewElement;
 
 const MyListItem = withStyles({
     root: {
-      "&$selected": {
-        fontWeight: "bold !important",
-        color: "#000000 !important",
-        borderBottom: "#000000 solid 5px !important",
-        backgroundColor: "#d5d8d8",
-      },
-      "&:hover": {
-        backgroundColor: "#d5d8d8",
-        color: "black"
-      }
+        "&$selected": {
+            fontWeight: "bold !important",
+            color: "#000000 !important",
+            borderBottom: "#000000 solid 5px !important",
+            backgroundColor: "#d5d8d8",
+        },
+        "&:hover": {
+            backgroundColor: "#d5d8d8",
+            color: "black"
+        }
     },
     selected: {}
-  })(MuiListItem);
+})(MuiListItem);

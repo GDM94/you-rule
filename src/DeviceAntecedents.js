@@ -34,7 +34,7 @@ export default function DeviceAntecedents(operation, antecedents, idx) {
 
         if (deviceId.includes("timer")) {
             var today = new Date();
-            device.measure = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+            device.measure = today.getHours() + ':' + today.getMinutes();
             device.status = "connected";
             device.color = "green";
             device.type = "sensor - timer";

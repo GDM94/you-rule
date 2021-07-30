@@ -7,9 +7,9 @@ export default function AntecedentRuleBody(props) {
             <thead>
                 <tr>
                     <th>DEVICE</th>
-                    <th>STATUS</th>
-                    <th>MEASURE</th>
-                    <th>VALUE</th>
+                    <th>CONNECTION</th>
+                    <th>MEASURE TYPE</th>
+                    <th>MEASURE VALUE</th>
                     <th>CONDITION</th>
                     <th>START</th>
                     <th>STOP</th>

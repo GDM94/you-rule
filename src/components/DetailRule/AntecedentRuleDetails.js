@@ -9,7 +9,8 @@ export default function AntecedentRuleDetails(props) {
         element_idx++;
         var value = "//";
         if (element.device_id.includes("timer")) {
-            value = "now";
+            var today = new Date();
+            value = today.getHours() + ':' + today.getMinutes();
         }
         else {
             if (element.value !== "null") {
