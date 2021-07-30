@@ -11,30 +11,29 @@ export default class RegisterDeviceProcess extends React.Component {
     }
 
     CheckRegisterDeviceRecognition() {
-        const allDeviceId = this.props.allDeviceId;
         const deviceId = this.state.newDeviceId;
         var deviceRecognition = false;
-        if (!allDeviceId.some(el => el === deviceId)) {
-            if (deviceId.includes("SWITCH")) {
-                deviceRecognition = true;
-            }
-            else if (deviceId.includes("PHOTOCELL")) {
-                deviceRecognition = true
-            }
-            else if (deviceId.includes("WATERLEVEL")) {
-                deviceRecognition = true
-            }
-            else if (deviceId.includes("SOILMOISTURE")) {
-                deviceRecognition = true
-            }
-            else if (deviceId.includes("AMMETER")) {
-                deviceRecognition = true
-            }
-            else if (deviceId.includes("BUTTON")) {
-                deviceRecognition = true
-            }
 
+        if (deviceId.includes("SWITCH")) {
+            deviceRecognition = true;
         }
+        else if (deviceId.includes("PHOTOCELL")) {
+            deviceRecognition = true
+        }
+        else if (deviceId.includes("WATERLEVEL")) {
+            deviceRecognition = true
+        }
+        else if (deviceId.includes("SOILMOISTURE")) {
+            deviceRecognition = true
+        }
+        else if (deviceId.includes("AMMETER")) {
+            deviceRecognition = true
+        }
+        else if (deviceId.includes("BUTTON")) {
+            deviceRecognition = true
+        }
+
+
         this.setState({ registerDeviceError: !deviceRecognition })
         return deviceRecognition
     }
@@ -96,24 +95,24 @@ function deviceInitialization(props, deviceId) {
     var type = ""
     if (deviceId.includes("SWITCH")) {
         type = "consequent"
-        newDevice = { id: deviceId, name: "switch-"+props.consequents.length.toString(), measure: "off", rules: [], automatic: "true", manual_measure: "off" };
+        newDevice = { id: deviceId, name: "switch-" + props.consequents.length.toString(), measure: "off", rules: [], automatic: "true", manual_measure: "off" };
     }
     else {
         type = "antecedent"
         if (deviceId.includes("PHOTOCELL")) {
-            newDevice = { id: deviceId, name: "photocell-"+props.antecedents.length.toString(), setting: "1024", measure: "init", absolute_measure: "init", error: "0", rules: [] };
+            newDevice = { id: deviceId, name: "photocell-" + props.antecedents.length.toString(), setting: "1024", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
         else if (deviceId.includes("WATERLEVEL")) {
-            newDevice = { id: deviceId, name: "waterlevel-"+props.antecedents.length.toString(), setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
+            newDevice = { id: deviceId, name: "waterlevel-" + props.antecedents.length.toString(), setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
         else if (deviceId.includes("SOILMOISTURE")) {
-            newDevice = { id: deviceId, name: "soilmoisture-"+props.antecedents.length.toString(), setting: "1024", measure: "init", absolute_measure: "init", error: "0", rules: [] };
+            newDevice = { id: deviceId, name: "soilmoisture-" + props.antecedents.length.toString(), setting: "1024", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
         else if (deviceId.includes("AMMETER")) {
-            newDevice = { id: deviceId, name: "ammeter-"+props.antecedents.length.toString(), setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
+            newDevice = { id: deviceId, name: "ammeter-" + props.antecedents.length.toString(), setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
         }
         else if (deviceId.includes("BUTTON")) {
-            newDevice = { id: deviceId, name: "button-"+props.antecedents.length.toString(), setting: "", measure: "init", absolute_measure: "init", error: "", rules: [] };
+            newDevice = { id: deviceId, name: "button-" + props.antecedents.length.toString(), setting: "", measure: "init", absolute_measure: "init", error: "", rules: [] };
         }
     }
     props.registerDeviceRequest(type, newDevice);

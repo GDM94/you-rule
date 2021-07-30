@@ -61,12 +61,6 @@ export default function RuleBodyButton(props) {
     )
 }
 
-const AddRuleElementButtonStyled = styled(Button)`
-border: solid black 2px !important;
-border-radius: 0px !important;
-background-color: #f6ca88 !important;
-border-bottom: none !important;
-`;
 
 
 const RuleHeaderButtons = styled.div`
