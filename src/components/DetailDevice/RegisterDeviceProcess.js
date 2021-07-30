@@ -49,7 +49,6 @@ export default class RegisterDeviceProcess extends React.Component {
         const checkRecognition = this.CheckRegisterDeviceRecognition();
         if (checkRecognition) {
             deviceInitialization(this.props, this.state.newDeviceId);
-            this.props.handleRegisterDevicePopUp();
         }
         event.preventDefault();
     }
@@ -63,7 +62,7 @@ export default class RegisterDeviceProcess extends React.Component {
                 <ElementContent>
                     <ElementSettings>
                         <p style={{ color: "red", display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
-                        <p style={{ color: "red", display: this.props.registerElementError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
+                        <p style={{ color: "red", display: this.props.registerElementError ? 'block' : 'none' }} > Error: device Id is not correct because already registered!</p>
                         <form onSubmit={this.createDevice}>
                             <label htmlFor="deviceId">DEVICE ID: </label>
                             <input name="deviceId" id="deviceId" type="text"
@@ -79,7 +78,6 @@ export default class RegisterDeviceProcess extends React.Component {
                         const checkRecognition = this.CheckRegisterDeviceRecognition();
                         if (checkRecognition) {
                             deviceInitialization(this.props, this.state.newDeviceId);
-                            this.props.handleRegisterDevicePopUp();
                         }
                     }}>
                         NEXT

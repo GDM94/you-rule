@@ -416,8 +416,9 @@ export default class MainRouter extends React.Component {
                 }
             });
             const result = res.data;
-            if(result === "true"){
+            if(result === true){
                 this.registerNewDeviceLocal(type, newDevice);
+                this.handleRegisterDevicePopUp();
             }else{
                 this.handleRegisterElementError(true);
             }
@@ -854,6 +855,7 @@ export default class MainRouter extends React.Component {
     }
     handleRegisterDevicePopUp = () => {
         this.setState({ registerDevicePopUp: !this.state.registerDevicePopUp });
+        this.handleRegisterElementError(false);
     }
     handleDeviceAntecedentPopUp = (event) => {
         this.setState({ deviceAntecedentPopUp: event });
@@ -895,6 +897,7 @@ export default class MainRouter extends React.Component {
         })
     }
     handleRegisterElementError = (error) =>{
+        console.log("errorRegistration: "+error)
         this.setState({registerElementError: error});
     }
 
