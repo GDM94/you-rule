@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from "styled-components";
 
 
 export default class AddRuleConsequent extends React.Component {
@@ -11,27 +12,46 @@ export default class AddRuleConsequent extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="GenericModalBody">
-                    <table>
-                        <tbody>
-                            <AddRuleConsequentDevice
-                                {...this.props}
-                            />
-                        </tbody>
-                    </table>
-
-                </div>
-                <button onClick={() => {
-                    this.props.handleRuleBody(process.env.REACT_APP_RULE_BODY_CONSEQUENTS);
-                }}>
-                    Close
-                </button>
-            </div>
+            <AddContainer>
+                <ContentContainer>
+                    <AddRuleConsequentDevice
+                        {...this.props}
+                    />
+                </ContentContainer>
+                <ContentContainer>
+                    <Element>
+                        <button onClick={() => {
+                            this.props.handleRuleBody(process.env.REACT_APP_RULE_BODY_CONSEQUENTS);
+                        }}>
+                            Close
+                        </button>
+                    </Element>
+                </ContentContainer>
+            </AddContainer>
         )
     }
 
 }
+
+const AddContainer = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+flex-flow: column;
+justify-content: center;
+`;
+
+const ContentContainer = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+flex-flow: row;
+justify-content: center;
+`;
+
+const Element = styled.div`
+margin: 1%;
+`;
 
 
 function AddRuleConsequentDevice(props) {
@@ -52,26 +72,24 @@ function AddRuleConsequentDevice(props) {
                 i++;
                 console.log(item)
                 return (
-                    <tr key={i}>
-                        <td>
-                            <button onClick={() => {
-                                var automatic = "";
-                                var measure = "measure"
-                                if (item.id.includes("alert")) {
-                                    automatic = "true";
-                                }
-                                else {
-                                    automatic = item.automatic;
-                                    measure = item.measure
-                                }
-                                const newConsequent = { device_id: item.id, name: item.name, if_value: "on", else_value: "off", automatic: automatic, measure: measure, order: consequent_order, delay: "0" };
-                                props.setConsequentRuleLocal(props.newRuleIdx, newConsequent);
-                                props.handleModify(true);
-                            }}>
-                                {item.name}
-                            </button>
-                        </td>
-                    </tr>
+                    <Element>
+                        <button onClick={() => {
+                            var automatic = "";
+                            var measure = "measure"
+                            if (item.id.includes("alert")) {
+                                automatic = "true";
+                            }
+                            else {
+                                automatic = item.automatic;
+                                measure = item.measure
+                            }
+                            const newConsequent = { device_id: item.id, name: item.name, if_value: "on", else_value: "off", automatic: automatic, measure: measure, order: consequent_order, delay: "0" };
+                            props.setConsequentRuleLocal(props.newRuleIdx, newConsequent);
+                            props.handleModify(true);
+                        }}>
+                            {item.name}
+                        </button>
+                    </Element>
                 )
             }
             else {

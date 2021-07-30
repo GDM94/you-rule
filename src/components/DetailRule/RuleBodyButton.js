@@ -5,16 +5,27 @@ import AddIcon from '@material-ui/icons/Add';
 
 export default function RuleBodyButton(props) {
     //var antecedents = props.ruleBody === process.env.REACT_APP_RULE_BODY_ANTECEDENTS || props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_ANTECEDENTS
-    var consequents = props.ruleBody === process.env.REACT_APP_RULE_BODY_CONSEQUENTS || props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_CONSEQUENTS
+    const consequents = props.ruleBody === process.env.REACT_APP_RULE_BODY_CONSEQUENTS || props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_CONSEQUENTS
     var antecedentButtonClass = "ClickedRuleBodyButton";
     var addAntecedentButtonDisplay = "";
     var consequentButtonClass = "UnclickedRuleBodyButton";
     var addConsequentButtonDisplay = "none";
+    var addElementButtonClass = "AddRuleElementButtonUnclicked"
     if (consequents) {
         antecedentButtonClass = "UnclickedRuleBodyButton";
         addAntecedentButtonDisplay = "none";
         consequentButtonClass = "ClickedRuleBodyButton";
         addConsequentButtonDisplay = "";
+    }
+    const addConsequentElement = props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_CONSEQUENTS 
+    if (addConsequentElement){
+        consequentButtonClass = "CurrentRuleBodyElements"
+        addElementButtonClass= "AddRuleElementButtonClicked"
+    }
+    const addAntecedentElement = props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_ANTECEDENTS
+    if (addAntecedentElement){
+        antecedentButtonClass = "CurrentRuleBodyElements"
+        addElementButtonClass= "AddRuleElementButtonClicked"
     }
     return (
         <RuleHeaderButtons>
@@ -24,26 +35,28 @@ export default function RuleBodyButton(props) {
                 }}>
                 {process.env.REACT_APP_RULE_BODY_ANTECEDENTS}
             </Button>
-            <AddRuleElementButtonStyled style={{ display: addAntecedentButtonDisplay }} id="ruleAntecedentButton"
+            <Button className={addElementButtonClass} style={{ display: addAntecedentButtonDisplay }} id="ruleAntecedentButton"
                 onClick={() => {
+                    props.getAntecedents();
+                    props.getConsequents();
                     props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ADD_ANTECEDENTS);
                 }}>
                 <AddIcon />
-            </AddRuleElementButtonStyled>
+            </Button>
 
             <Button className={consequentButtonClass} id="ruleConsequentButton"
                 onClick={() => {
-                    props.getConsequents();
                     props.handleRuleBody(process.env.REACT_APP_RULE_BODY_CONSEQUENTS);
                 }}>
                 {process.env.REACT_APP_RULE_BODY_CONSEQUENTS}
             </Button>
-            <AddRuleElementButtonStyled style={{ display: addConsequentButtonDisplay }} id="ruleConsequentButton"
+            <Button className={addElementButtonClass} style={{ display: addConsequentButtonDisplay }} id="ruleConsequentButton"
                 onClick={() => {
+                    props.getConsequents();
                     props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ADD_CONSEQUENTS);
                 }}>
                 <AddIcon />
-            </AddRuleElementButtonStyled>
+            </Button>
         </RuleHeaderButtons>
     )
 }
