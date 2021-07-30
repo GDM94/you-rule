@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
 import TopBar from '../components/TopBar/TopBar';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
-import Profile from '../components/Settings/Profile';
 import LateralMenuSettings from '../components/LateralMenu/LateralMenuSettings';
 import SettingsDetails from '../components/Settings/SettingsDetails';
 
