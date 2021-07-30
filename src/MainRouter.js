@@ -72,7 +72,12 @@ export default class MainRouter extends React.Component {
         const idToken = jwt.encode({ uid: decoded.uid }, process.env.REACT_APP_JWT_SECRET);
         axios.defaults.headers.common['Authorization'] = idToken;
         axios.defaults.timeout.toFixed(0);
-        history.push({ pathname: process.env.REACT_APP_SENSORS_URL, state: { token: idToken, page: process.env.REACT_APP_PAGE_SENSORS } })
+        history.push({ pathname: process.env.REACT_APP_SENSORS_URL, 
+            state: { 
+                token: idToken, 
+                page: process.env.REACT_APP_PAGE_SENSORS 
+            } 
+        })
     }
 
     UserLoginRequest = async (email, password) => {
