@@ -72,6 +72,7 @@ function AddRuleAntecedentsDevice(props) {
     var i = -1;
     const ruleIdx = props.newRuleIdx;
     const antecedentRule = props.rules[ruleIdx].antecedent;
+    const order = (antecedentRule.length + 1).toString();
     var antecedentsId = [];
     if (antecedentRule.length > 0) {
         antecedentsId = antecedentRule.map(item => {
@@ -88,10 +89,10 @@ function AddRuleAntecedentsDevice(props) {
                         <td>
                             <button onClick={() => {
                                 var value = "//"
-                                if (item.measure !== null){
+                                if (item.measure !== null) {
                                     value = item.measure
                                 }
-                                var newAntecedent = { device_id: item.id, name: item.name, start_value: "0", stop_value: "0", condition: "between", measure: "", value: value };
+                                var newAntecedent = { device_id: item.id, name: item.name, start_value: "0", stop_value: "0", condition: "between", measure: "", value: value, order: order };
                                 if (item.id.includes("timer")) {
                                     newAntecedent.start_value = "00:00";
                                     newAntecedent.stop_value = "00:00";
@@ -106,10 +107,10 @@ function AddRuleAntecedentsDevice(props) {
                                 else if (item.id.includes("SOILMOISTURE")) {
                                     newAntecedent.measure = "soil moisture (%)";
                                 }
-                                else if (item.id.includes("AMMETER")){
+                                else if (item.id.includes("AMMETER")) {
                                     newAntecedent.measure = "power (W)";
-                                } 
-                                else if (item.id.includes("BUTTON")){
+                                }
+                                else if (item.id.includes("BUTTON")) {
                                     newAntecedent.measure = "status (On/Off)";
                                     newAntecedent.condition = "=";
                                     newAntecedent.start_value = "on"
@@ -135,6 +136,7 @@ function AddRuleAntecedentsDevice(props) {
 function AddRuleAntecedentSwitchLastTimeOn(props) {
     const ruleIdx = props.newRuleIdx;
     const antecedentRule = props.rules[ruleIdx].antecedent;
+    const order = (antecedentRule.length + 1).toString();
     var antecedentsId = [];
     if (antecedentRule.length > 0) {
         antecedentsId = antecedentRule.map(item => {
@@ -153,7 +155,7 @@ function AddRuleAntecedentSwitchLastTimeOn(props) {
                             <tr key={i}>
                                 <td>
                                     <button onClick={() => {
-                                        var newAntecedent = { device_id: item.device_id, name: item.name, start_value: "00:00", stop_value: "00:00", condition: "delta", measure: "last time on", value: "-" };
+                                        var newAntecedent = { device_id: item.device_id, name: item.name, start_value: "00:00", stop_value: "00:00", condition: "delta", measure: "last time on", value: "-", order: order };
                                         props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);
                                         props.handleModify(true);
                                     }}>
@@ -166,7 +168,7 @@ function AddRuleAntecedentSwitchLastTimeOn(props) {
                     else {
                         return null
                     }
-                }else {
+                } else {
                     return null
                 }
 

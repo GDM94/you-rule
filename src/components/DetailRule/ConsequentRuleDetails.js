@@ -2,8 +2,7 @@ import React from 'react';
 
 export default function ConsequentRuleDetails(props) {
     const ruleIdx = props.newRuleIdx;
-    var consequents_list_unsorted = props.rules[ruleIdx].consequent;
-    const consequents_list = consequents_list_unsorted.sort((a, b) => parseInt(a.order) > parseInt(b.order) ? 1 : -1);
+    const consequents_list = props.rules[ruleIdx].consequent;
     var idx = -1;
     return (consequents_list.map(element => {
         idx++;
