@@ -81,8 +81,6 @@ height: 100%;
 display: flex;
 flex-flow: column;
 text-align: center;
-max-height:100%;
-overflow-y: auto;
 background-color: #e6e6e6;
 `;
 
