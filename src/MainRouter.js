@@ -62,6 +62,7 @@ export default class MainRouter extends React.Component {
             server_error: false,
             elementDetails: false,
             addNewElementComponent: false,
+            registerElementError:false,
 
         }
     }
@@ -408,13 +409,18 @@ export default class MainRouter extends React.Component {
         console.log("App POST register device");
         const url = process.env.REACT_APP_BACKEND_URL + "/device/register";
         try {
-            await axios.post(url, {}, {
+            let res = await axios.post(url, {}, {
                 params: {
                     device_id: newDevice.id,
                     device_name: newDevice.name,
                 }
             });
-            this.registerNewDeviceLocal(type, newDevice);
+            const result = res.data;
+            if(result === "true"){
+                this.registerNewDeviceLocal(type, newDevice);
+            }else{
+                this.handleRegisterElementError(true);
+            }
         } catch (err) {
             console.warn(err)
         }
@@ -888,6 +894,9 @@ export default class MainRouter extends React.Component {
             server_error: !this.state.server_error
         })
     }
+    handleRegisterElementError = (error) =>{
+        this.setState({registerElementError: error});
+    }
 
 
 
@@ -929,6 +938,7 @@ export default class MainRouter extends React.Component {
                             getAntecedentById={this.getAntecedentById}
                             getRuleById={this.getRuleById}
                             registerDeviceRequest={this.registerDeviceRequest}
+                            handleRegisterElementError={this.handleRegisterElementError}
 
                         />}
                 />
@@ -974,6 +984,7 @@ export default class MainRouter extends React.Component {
                             modifyEmailRequest={this.modifyEmailRequest}
                             modifyEmailLocal={this.modifyEmailLocal}
                             registerDeviceRequest={this.registerDeviceRequest}
+                            handleRegisterElementError={this.handleRegisterElementError}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_RULES_URL}

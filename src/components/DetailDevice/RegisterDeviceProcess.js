@@ -35,14 +35,14 @@ export default class RegisterDeviceProcess extends React.Component {
             }
 
         }
-        this.setState({ registerDeviceError: !deviceRecognition }, () => { this.render() })
+        this.setState({ registerDeviceError: !deviceRecognition })
         return deviceRecognition
     }
 
     NewDeviceIdRegistration(newDeviceId) {
         this.setState({
             newDeviceId: newDeviceId
-        }, () => { this.render() })
+        })
     }
 
     createDevice = (event) => {
@@ -62,12 +62,14 @@ export default class RegisterDeviceProcess extends React.Component {
                 </ElementTitle>
                 <ElementContent>
                     <ElementSettings>
-                        <p style={{ display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
+                        <p style={{ color: "red", display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
+                        <p style={{ color: "red", display: this.props.registerElementError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
                         <form onSubmit={this.createDevice}>
                             <label htmlFor="deviceId">DEVICE ID: </label>
                             <input name="deviceId" id="deviceId" type="text"
                                 onChange={(e) => {
                                     var newDeviceId = e.target.value;
+                                    this.props.handleRegisterElementError(false);
                                     this.NewDeviceIdRegistration(newDeviceId);
                                 }}
                             />
