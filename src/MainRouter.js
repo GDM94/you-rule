@@ -1019,10 +1019,10 @@ export default class MainRouter extends React.Component {
                 <Route exact path={process.env.REACT_APP_SINGUP_URL}
                     render={(props) =>
                         <SingUp
-                            handleMenuPopUp={this.handleMenuPopUp}
-                            UserRegistrationRequest={this.UserRegistrationRequest}
                             {...props}
                             {...this.state}
+                            handleMenuPopUp={this.handleMenuPopUp}
+                            UserRegistrationRequest={this.UserRegistrationRequest}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_SETTINGS_URL}
