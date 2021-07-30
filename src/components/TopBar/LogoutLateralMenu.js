@@ -3,7 +3,7 @@ import styled from "styled-components";
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ButtonLogout from "./ButtonLogout";
-import ButtonProfile from "./ButtonProfile";
+import ButtonSettings from "./ButtonSettings";
 import ButtonMain from "./ButtonMain";
 
 function LogoutLateralMenu(props) {
@@ -12,7 +12,7 @@ function LogoutLateralMenu(props) {
             <List component="nav" aria-label="main mailbox folders">
                 <ButtonMain {...props} />
                 <Divider style={{ color: 'white !important' }} />
-                <ButtonProfile {...props} />
+                <ButtonSettings {...props} />
                 <Divider style={{ color: 'white !important' }} />
                 <ButtonLogout {...props} />
             </List>

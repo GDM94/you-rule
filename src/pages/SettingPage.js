@@ -4,12 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
 import TopBar from '../components/TopBar/TopBar';
-import TopBar2 from '../components/TopBar2/TopBar2';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
+import Profile from '../components/Settings/Profile';
+import LateralMenuSettings from '../components/LateralMenu/LateralMenuSettings';
+import SettingsDetails from '../components/Settings/SettingsDetails';
 
 var jwt = require('jwt-simple');
 
-class ProfilePage extends React.Component {
+class SettingPage extends React.Component {
     constructor(props) {
         super(props);
         const decoded = jwt.decode(this.props.location.state.token, process.env.REACT_APP_JWT_SECRET);
@@ -32,9 +34,14 @@ class ProfilePage extends React.Component {
                     {...this.props}
                 />
                 <GreatBody>
+                    <LateralMenuSettings
+                        {...this.props}
+                    />
                     <ContentContainer>
-                        profile
-                        {this.state.email}
+                        <SettingsDetails
+                            {...this.props}
+                            {...this.state}
+                        />
                     </ContentContainer>
                     <LogoutLateralMenu
                         {...this.props}
@@ -46,7 +53,7 @@ class ProfilePage extends React.Component {
     }
 }
 
-export default withRouter(ProfilePage)
+export default withRouter(SettingPage)
 
 
 

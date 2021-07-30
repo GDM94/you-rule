@@ -10,7 +10,7 @@ import history from "./history";
 import DeviceAntecedents from './DeviceAntecedents'
 import DevicesPage from "./pages/DevicesPage";
 import RulesPage from "./pages/RulesPage";
-import ProfilePage from "./pages/ProfilePage";
+import SettingPage from "./pages/SettingPage";
 
 var jwt = require('jwt-simple');
 
@@ -64,6 +64,7 @@ export default class MainRouter extends React.Component {
             elementDetails: false,
             addNewElementComponent: false,
             registerElementError: false,
+            settingsPage: process.env.REACT_APP_PAGE_SETTINGS
 
         }
     }
@@ -883,13 +884,14 @@ export default class MainRouter extends React.Component {
         })
         window.location.assign('http://ruleapp.org');
     }
-    handleProfile = () => {
-        console.log("main");
+    handleSettings = () => {
+        console.log("settings");
         this.setState({
             menuPopUp: false,
             antecedentId: "",
             consequentId: "",
             newRuleId: "",
+            settingsPage: process.env.REACT_APP_PAGE_SETTINGS
         })
     }
     handleAddAlertEmailPopUp = () => {
@@ -914,6 +916,10 @@ export default class MainRouter extends React.Component {
     handleRegisterElementError = (error) => {
         console.log("errorRegistration: " + error)
         this.setState({ registerElementError: error });
+    }
+
+    setSettingsPage = (page) =>{
+        this.setState({settingsPage: page})
     }
 
 
@@ -958,7 +964,7 @@ export default class MainRouter extends React.Component {
                             registerDeviceRequest={this.registerDeviceRequest}
                             handleRegisterElementError={this.handleRegisterElementError}
                             AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
-                            handleProfile={this.handleProfile}
+                            handleSettings={this.handleSettings}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_SWITCHES_URL}
@@ -1005,7 +1011,7 @@ export default class MainRouter extends React.Component {
                             registerDeviceRequest={this.registerDeviceRequest}
                             handleRegisterElementError={this.handleRegisterElementError}
                             AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
-                            handleProfile={this.handleProfile}
+                            handleSettings={this.handleSettings}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_RULES_URL}
@@ -1056,7 +1062,7 @@ export default class MainRouter extends React.Component {
                             setAntecedentRuleLocal={this.setAntecedentRuleLocal}
                             AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
                             ConsequentRulePopUpBody={this.ConsequentRulePopUpBody}
-                            handleProfile={this.handleProfile}
+                            handleSettings={this.handleSettings}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_LOGIN_URL}
@@ -1078,17 +1084,18 @@ export default class MainRouter extends React.Component {
                             {...this.state}
                         />}
                 />
-                <Route exact path={process.env.REACT_APP_PROFILE_URL}
+                <Route exact path={process.env.REACT_APP_SETTINGS_URL}
                     render={(props) =>
-                        <ProfilePage
+                        <SettingPage
                             {...props}
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
                             UserRegistrationRequest={this.UserRegistrationRequest}
-                            handleProfile={this.handleProfile}
+                            handleSettings={this.handleSettings}
                             handleLogOut={this.handleLogOut}
                             addNewElement={false}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
+                            setSettingsPage={this.setSettingsPage}
                         />}
                 />
             </Router>

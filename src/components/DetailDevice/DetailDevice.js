@@ -14,7 +14,6 @@ class DetailDevice extends React.Component {
 
 
     render() {
-        console.log(this.props.location.state.page)
         if (this.props.elementId !== "" && this.props.elements.length > 0 && this.props.addNewElement === false) {
             if (this.props.location.state.page === process.env.REACT_APP_PAGE_SENSORS) {
                 return (

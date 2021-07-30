@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 function ButtonMain(props) {
     return (
         <ListItem button onClick={() => {
-            props.handleProfile();
+            props.handleSettings();
             props.history.push({ pathname: process.env.REACT_APP_SENSORS_URL, state: props.location.state })
         }}>
             <ListItemIcon>
