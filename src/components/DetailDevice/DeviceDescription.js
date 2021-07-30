@@ -61,8 +61,7 @@ function ModifyNameForm(props) {
 const ElementDescription = styled.div`
 text-align: left;
 margin-left: 2%;
-margin-right: 2%;
-margin-top: 2%;
+margin-top: 10px;
 display: flex;
 flex-flow: row;
 `;
