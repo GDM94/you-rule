@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import Button from '@material-ui/core/Button';
 
 
 export default class CreateRuleProcess extends React.Component {
@@ -43,57 +44,43 @@ export default class CreateRuleProcess extends React.Component {
       <ContentContainer>
 
         <ElementTitle>
-          <h1>ADD RULE:</h1>
+          <h2>ADD RULE:</h2>
         </ElementTitle>
         <ElementContent>
+          <p style={{ color: "red", display: this.state.checkCreateNewRule ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
           <ElementSettings>
-            <div className="GenericModalBody">
-              <p style={{ display: this.state.checkCreateNewRule ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
-              <form onSubmit={this.createRule}>
-                <label htmlFor="ruleName">rule name: </label>
-                <input name="ruleName" id="ruleName" type="text"
-                  onChange={(e) => {
-                    const ruleName = e.target.value;
-                    this.checkCreateRuleFunction(this.props.rules, ruleName);
-                  }}
-                />
-              </form>
-            </div>
+            <form style={{ marginRight: "10px" }} onSubmit={this.createRule}>
+              <label style={{ marginRight: "10px" }} htmlFor="ruleName">rule name: </label>
+              <input name="ruleName" id="ruleName" type="text"
+                onChange={(e) => {
+                  const ruleName = e.target.value;
+                  this.checkCreateRuleFunction(this.props.rules, ruleName);
+                }}
+              />
+            </form>
+            <MyButton onClick={() => {
+              if (!this.state.checkCreateNewRule) {
+                const ruleName = this.state.ruleName;
+                this.props.createRuleRequest(ruleName);
+              }
+            }}>
+              NEXT
+            </MyButton>
           </ElementSettings>
-          <button onClick={() => {
-            if (!this.state.checkCreateNewRule) {
-              const ruleName = this.state.ruleName;
-              this.props.createRuleRequest(ruleName);
-            }
-          }}>
-            NEXT
-          </button>
-          <button onClick={() => this.props.handleAddRulePopUp()}>CANCEL</button>
         </ElementContent>
-
-
-
-
-
-
-
-
-
       </ContentContainer>)
   }
 
 }
 
 const ContentContainer = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-flow: column;
   float:left;
   text-align: center;
   max-height:100%;
   overflow-y: auto;
-  background-color: #d9d9d9;
+  background-color: #e6e6e6;
 `;
 
 const ElementContent = styled.div`
@@ -124,6 +111,10 @@ margin-right: 2%;
 justify-content: center;
 padding: 1%;
 display: flex;
-flex-flow: column;
+flex-flow: row;
 align-items: center;
+`;
+
+const MyButton = styled(Button)`
+border: black solid 1px !important;
 `;

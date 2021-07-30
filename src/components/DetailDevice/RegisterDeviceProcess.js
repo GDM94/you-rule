@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import Button from '@material-ui/core/Button';
 
 export default class RegisterDeviceProcess extends React.Component {
     constructor(props) {
@@ -56,14 +57,14 @@ export default class RegisterDeviceProcess extends React.Component {
         return (
             <ContentContainer>
                 <ElementTitle>
-                    <h1>ADD DEVICE:</h1>
+                    <h2>ADD DEVICE:</h2>
                 </ElementTitle>
                 <ElementContent>
+                    <p style={{ color: "red", display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
+                    <p style={{ color: "red", display: this.props.registerElementError ? 'block' : 'none' }} > Error: device Id is not correct because already registered!</p>
                     <ElementSettings>
-                        <p style={{ color: "red", display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
-                        <p style={{ color: "red", display: this.props.registerElementError ? 'block' : 'none' }} > Error: device Id is not correct because already registered!</p>
-                        <form onSubmit={this.createDevice}>
-                            <label htmlFor="deviceId">DEVICE ID: </label>
+                        <form style={{ marginRight: "10px" }} onSubmit={this.createDevice}>
+                            <label style={{ marginRight: "10px" }} htmlFor="deviceId">DEVICE ID: </label>
                             <input name="deviceId" id="deviceId" type="text"
                                 onChange={(e) => {
                                     var newDeviceId = e.target.value;
@@ -72,16 +73,16 @@ export default class RegisterDeviceProcess extends React.Component {
                                 }}
                             />
                         </form>
+                        <MyButton onClick={() => {
+                            const checkRecognition = this.CheckRegisterDeviceRecognition();
+                            if (checkRecognition) {
+                                deviceInitialization(this.props, this.state.newDeviceId);
+                            }
+                        }}>
+                            NEXT
+                        </MyButton>
                     </ElementSettings>
-                    <button onClick={() => {
-                        const checkRecognition = this.CheckRegisterDeviceRecognition();
-                        if (checkRecognition) {
-                            deviceInitialization(this.props, this.state.newDeviceId);
-                        }
-                    }}>
-                        NEXT
-                    </button>
-                    <button onClick={() => this.props.handleRegisterDevicePopUp()}>CANCEL</button>
+
                 </ElementContent>
             </ContentContainer>
         )
@@ -124,10 +125,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-flow: column;
   float:left;
-  text-align: center;
-  max-height:100%;
-  overflow-y: auto;
-  background-color: #d9d9d9;
+  background-color: #e6e6e6;
 `;
 
 const ElementContent = styled.div`
@@ -157,6 +155,10 @@ margin-right: 2%;
 justify-content: center;
 padding: 1%;
 display: flex;
-flex-flow: column;
+flex-flow: row;
 align-items: center;
+`;
+
+const MyButton = styled(Button)`
+border: black solid 1px !important;
 `;

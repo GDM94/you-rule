@@ -63,9 +63,7 @@ export default withRouter(RulesPage)
 const AppDiv = styled.div`
 display: flex;
 flex-direction: column;
-width: 100%;
-height: 100%;
-background-color: rgb(190, 210, 218);
+background-color: #e6e6e6;
 `;
 
 const GreatBody = styled.div`
@@ -73,6 +71,7 @@ display: flex;
 flex-flow: row;
 width: 100%;
 height: 100%;
+background-color:#e6e6e6;
 `;
 
 const ContentContainer = styled.div`

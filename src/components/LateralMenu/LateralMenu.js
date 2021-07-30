@@ -36,7 +36,6 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: "flex",
         flexDirection: "column",
-        height: "100%",
         float:"left",
         textAlign: "center",
         color: "#0f540d",
@@ -51,9 +50,6 @@ const MyList = styled.div`
   margin: 5px;
   padding-left: 5px;
   padding-right: 0px;
-  
-  height: 100%;
-  overflow-y:auto;
   text-align: center;
 `;
 
