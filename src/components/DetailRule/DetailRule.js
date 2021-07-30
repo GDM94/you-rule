@@ -12,16 +12,11 @@ export default class DetailRule extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ruleBody: false
+            
         }
     }
 
-    AntecedentRulePopUpBody = () => {
-        this.setState({ ruleBody: false })
-    }
-    ConsequentRulePopUpBody = () => {
-        this.setState({ ruleBody: true })
-    }
+   
 
 
     render() {
@@ -29,9 +24,6 @@ export default class DetailRule extends React.Component {
             return (
                 <RuleContent
                     {...this.props}
-                    {...this.state}
-                    AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
-                    ConsequentRulePopUpBody={this.ConsequentRulePopUpBody}
                 />
 
             )

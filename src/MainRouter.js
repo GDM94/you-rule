@@ -942,6 +942,7 @@ export default class MainRouter extends React.Component {
                             getRuleById={this.getRuleById}
                             registerDeviceRequest={this.registerDeviceRequest}
                             handleRegisterElementError={this.handleRegisterElementError}
+                            AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
 
                         />}
                 />
@@ -988,6 +989,7 @@ export default class MainRouter extends React.Component {
                             modifyEmailLocal={this.modifyEmailLocal}
                             registerDeviceRequest={this.registerDeviceRequest}
                             handleRegisterElementError={this.handleRegisterElementError}
+                            AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_RULES_URL}
@@ -1036,6 +1038,8 @@ export default class MainRouter extends React.Component {
                             createRuleRequest={this.createRuleRequest}
                             setConsequentRuleLocal={this.setConsequentRuleLocal}
                             setAntecedentRuleLocal={this.setAntecedentRuleLocal}
+                            AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
+                            ConsequentRulePopUpBody={this.ConsequentRulePopUpBody}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_LOGIN_URL}
