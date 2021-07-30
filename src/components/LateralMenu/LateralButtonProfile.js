@@ -1,34 +1,46 @@
 import React from "react";
-import styled from "styled-components";
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { ListItemIcon } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import MuiListItem from "@material-ui/core/ListItem";
 
 function LateralButtonProfile(props) {
     return (
-        <div key={"profile"}>
-            <MyListItem style={{ color: "black" }} className={props.settingsPage === process.env.REACT_APP_PAGE_PROFILE ? "ItemButtonClicked" : ""}
+        <>
+            <MyListItem style={{ color: "black" }} selected={props.settingsPage === process.env.REACT_APP_PAGE_PROFILE}
                 onClick={() => {
                     props.setSettingsPage(process.env.REACT_APP_PAGE_PROFILE)
                 }}>
                 <ListItemIcon>
-                    <AccountCircleIcon/>
+                    <AccountCircleIcon />
                 </ListItemIcon>
-                
+
                 <ListItemText primary={process.env.REACT_APP_PAGE_PROFILE} />
             </MyListItem>
             <Divider />
-        </div>
+        </>
     )
 
 }
 
 export default LateralButtonProfile;
 
-const MyListItem = styled(ListItem)`
-padding-bottom: 0px !important;
-padding-top: 10px !important;
 
-`;
+
+const MyListItem = withStyles({
+    root: {
+      "&$selected": {
+        fontWeight: "bold !important",
+        color: "#000000 !important",
+        borderBottom: "#000000 solid 5px !important",
+        backgroundColor: "#d5d8d8",
+      },
+      "&:hover": {
+        backgroundColor: "#d5d8d8",
+        color: "black"
+      }
+    },
+    selected: {}
+  })(MuiListItem);

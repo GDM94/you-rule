@@ -10,7 +10,7 @@ function LateralButtonAddElement(props) {
         <div>
             <Divider />
             <RouteTitle>
-                <SettingsButton onClick={() => { 
+                <SettingsButton style={{ color: 'white' }}onClick={() => { 
                     props.setSettingsPage(process.env.REACT_APP_PAGE_SETTINGS)
                     }}>
                     <SettingsIcon/>  {process.env.REACT_APP_PAGE_SETTINGS} 

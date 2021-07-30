@@ -4,11 +4,13 @@ import { withRouter } from 'react-router-dom';
 import LateralButtonAddElement from "./LateralButtonAddElement";
 import List from '@material-ui/core/List';
 import LateralButtonViewElement from './LateralButtonViewElement'
+import { makeStyles } from "@material-ui/core/styles";
 
 
 function LateralMenu(props) {
+    const classes = useStyles();
     return (
-        <LateralMenuDiv>
+        <div className={classes.root}>
             <LateralButtonAddElement
                 {...props}
             />
@@ -22,7 +24,7 @@ function LateralMenu(props) {
 
 
 
-        </LateralMenuDiv>
+        </div>
 
     );
 }
@@ -30,17 +32,19 @@ function LateralMenu(props) {
 
 export default withRouter(LateralMenu);
 
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        float:"left",
+        textAlign: "center",
+        color: "#0f540d",
+        borderRight: "#bfbfbf solid 1px !important",
+        backgroundColor: "#e6e6e6"
+    }
+  }));
 
-const LateralMenuDiv = styled.div`
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-  float:left;
-  text-align: center;
-  color: rgba(15, 82, 13, 0.541);
-  border-right: #bfbfbf solid 1px !important;
-  background-color: #e6e6e6;
-`;
 
 const MyList = styled.div`
  color: white;
