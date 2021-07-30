@@ -198,6 +198,7 @@
   width: 30%;
   font-weight: bold !important;
   border: solid black 2px !important;
+  border-bottom: none !important;
   background-color: #eead4c !important;
   border-radius: 0px !important;
   border-right: none !important;
@@ -206,7 +207,9 @@
 .UnclickedRuleBodyButton{
   font-size: 12px;
   border-radius: 0px !important;
-  background-color: #cccccc !important;
+  background-color: #cccccc5d !important;
+  border: solid black 1px !important;
+  border-bottom: none !important;
 }
 
 .AddRuleElementButton{

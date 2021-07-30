@@ -25,6 +25,7 @@ class DevicesPage extends React.Component {
 
     componentDidMount() {
         this.props.getElements();
+        this.props.setRouteUrl(this.props.location.state.path)
     }
 
 

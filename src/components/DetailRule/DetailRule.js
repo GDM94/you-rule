@@ -6,17 +6,19 @@ import CreateRuleProcess from './CreateRuleProcess';
 import RuleDescription from './RuleDescription';
 import ConsequentRuleBody from './ConsequentRuleBody';
 import AntecedentRuleBody from './AntecedentRuleBody';
+import AddRuleAntecedent from './AddRuleAntecedent';
+import AddRuleConsequent from './AddRuleConsequent';
 
 
 export default class DetailRule extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+
         }
     }
 
-   
+
 
 
     render() {
@@ -50,10 +52,10 @@ function RuleContent(props) {
             />
             <RuleContentDiv>
                 <RuleDescription {...props} />
+                <RuleBodyButton
+                    {...props}
+                />
                 <ElementContent>
-                    <RuleBodyButton
-                        {...props}
-                    />
                     <RuleBody
                         {...props}
                     />
@@ -65,15 +67,21 @@ function RuleContent(props) {
 
 
 function RuleBody(props) {
-    if (props.ruleBody) {
-        return (
-            <ConsequentRuleBody {...props} />
-        )
+    var antecedents = props.ruleBody === process.env.REACT_APP_RULE_BODY_ANTECEDENTS
+    var consequents = props.ruleBody === process.env.REACT_APP_RULE_BODY_CONSEQUENTS
+    var add_antecedents = props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_ANTECEDENTS
+    var add_consequents = props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_CONSEQUENTS
+    if (antecedents) {
+        return (<AntecedentRuleBody {...props} />)
     }
-    else {
-        return (
-            <AntecedentRuleBody {...props} />
-        )
+    else if (consequents) {
+        return (<ConsequentRuleBody {...props} />)
+    }
+    else if (add_antecedents) {
+        return (<AddRuleAntecedent {...props}/>)
+    }
+    else if (add_consequents) {
+        return (<AddRuleConsequent {...props}/>)
     }
 }
 
@@ -89,7 +97,7 @@ const ElementContent = styled.div`
 border: solid black 2px;
 border-radius: 25px;
 margint: 2%;
-padding: 2%;
+padding: 1%;
 text-align: center;
 background-color: #e6e6e6;
 width: 100%;

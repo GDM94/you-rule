@@ -60,29 +60,6 @@ export default function DetailAlert(props){
     )
 }
 
-
-function ModifyName(props) {
-    const submitFunction = (event) => {
-        props.updateDeviceRequest("consequent");
-        props.handleModifyDevice();
-        event.preventDefault();
-    }
-    return (
-        <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
-            <input type="text" id="name" name="name"
-                defaultValue={props.consequentName}
-                onChange={(e) => {
-                    const NewName = e.target.value;
-                    var checkName = props.checkDeviceNameFunction(props.consequents, NewName);
-                    if (!checkName) {
-                        props.modifyConsequentName(NewName)
-                    }
-                }}
-            />
-        </form>
-    )
-}
-
 function EmailDetail(props) {
     const consequent_idx = props.consequentIdx;
     const email_list = props.consequents[consequent_idx].email_list;

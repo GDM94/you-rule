@@ -11,7 +11,7 @@ function LateralButtonAddElement(props) {
                 <AddButton style={{ color: props.addNewElement? '#eead4c' : 'white' }}  onClick={() => { 
                     props.handleRegisterDevicePopUp(); 
                     props.setNewElement("", "", 0);
-                    props.AntecedentRulePopUpBody();
+                    props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
                     }}>
                     ADD NEW {props.location.state.page} <AddIcon />
                 </AddButton>

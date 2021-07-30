@@ -15,8 +15,7 @@ export default function RuleTitle(props) {
                 <Button style={{ display: props.modify ? "" : "none" }}
                     onClick={() => {
                         props.handleModify(false);
-                        props.handleSetRulePopUp(false);
-                        props.AntecedentRulePopUpBody();
+                        props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
                         props.deleteRuleRequest(props.newRuleId, props.newRuleIdx);
 
                     }}>

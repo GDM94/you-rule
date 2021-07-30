@@ -8,8 +8,6 @@ import TopBar2 from '../components/TopBar2/TopBar2';
 import LateralMenu from '../components/LateralMenu/LateralMenu';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
 import DetailRule from '../components/DetailRule/DetailRule';
-import AddRuleConsequentProcess from '../components/DetailRule/AddRuleConsequentProcess'
-import AddRuleAntecedentProcess from '../components/DetailRule/AddRuleAntecedentProcess'
 
 var jwt = require('jwt-simple');
 
@@ -27,6 +25,7 @@ class RulesPage extends React.Component {
 
     componentDidMount() {
         this.props.getElements();
+        this.props.setRouteUrl(this.props.location.state.path)
     }
 
     render() {
@@ -44,12 +43,6 @@ class RulesPage extends React.Component {
                     />
                     <ContentContainer>
                         <DetailRule
-                            {...this.props}
-                        />
-                        <AddRuleConsequentProcess
-                            {...this.props}
-                        />
-                        <AddRuleAntecedentProcess
                             {...this.props}
                         />
                     </ContentContainer>

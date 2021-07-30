@@ -16,7 +16,6 @@ function SensorTitle(props) {
                 <Button style={{ display: props.modifyDevice && !props.elementId.includes("timer") ? "" : "none" }}
                     onClick={() => {
                         props.handleModifyDevice();
-                        props.handleDeviceAntecedentPopUp(false);
                         props.deleteDeviceRequest("antecedent");
 
                     }}>

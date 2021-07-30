@@ -16,7 +16,6 @@ export default class AddRuleConsequentProcess extends React.Component {
                 <Modal show={this.props.addRuleConsequentPopUp}
                     onHide={() => {
                         this.props.handleAddRuleConsequentPopUp();
-                        this.props.handleSetRulePopUp(true);
                     }}>
                     <Modal.Header closeButton>
                         <Modal.Title>
@@ -42,7 +41,6 @@ export default class AddRuleConsequentProcess extends React.Component {
                     <Modal.Footer>
                         <button onClick={() => {
                             this.props.handleAddRuleConsequentPopUp();
-                            this.props.handleSetRulePopUp(true);
                         }}>
                             Close
                         </button>

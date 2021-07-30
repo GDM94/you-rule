@@ -17,7 +17,7 @@ function LateralButtonViewElement(props) {
                             onClick={() => {
                                 props.getElementById(element.id);
                                 props.setNewElement(element.id, element.name, index);
-                                props.AntecedentRulePopUpBody();
+                                props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
                                 if (props.addNewElement === true) {
                                     props.handleRegisterDevicePopUp();
                                 }

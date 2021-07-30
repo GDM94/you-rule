@@ -1,8 +1,7 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
 
 
-export default class AddRuleAntecedentProcess extends React.Component {
+export default class AddRuleAntecedent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,54 +12,31 @@ export default class AddRuleAntecedentProcess extends React.Component {
     render() {
         return (
             <div>
-                <Modal show={this.props.addRuleAntecedentPopUp}
-                    onHide={() => {
-                        this.props.handleAddRuleAntecedentPopUp();
-                        this.props.handleSetRulePopUp(true);
-                    }}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>
-                            <div>SENSORS</div>
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="GenericModalBody">
-                            <div>
-                                <table>
-                                    <tbody>
-                                        <AddRuleAntecedentsDevice
-                                            newRuleIdx={this.props.newRuleIdx}
-                                            rules={this.props.rules}
-                                            antecedents={this.props.antecedents}
-                                            setAntecedentRuleLocal={this.props.setAntecedentRuleLocal}
-                                            handleModify={this.props.handleModify}
-                                        />
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div>
-                                <table>
-                                    <tbody>
-                                        <AddRuleAntecedentSwitchLastTimeOn
-                                            newRuleIdx={this.props.newRuleIdx}
-                                            rules={this.props.rules}
-                                            setAntecedentRuleLocal={this.props.setAntecedentRuleLocal}
-                                            handleModify={this.props.handleModify}
-                                        />
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button onClick={() => {
-                            this.props.handleAddRuleAntecedentPopUp();
-                            this.props.handleSetRulePopUp(true);
-                        }}>
-                            Close
-                        </button>
-                    </Modal.Footer>
-                </Modal>
+                <div className="GenericModalBody">
+                    <div>
+                        <table>
+                            <tbody>
+                                <AddRuleAntecedentsDevice
+                                  {...this.props}
+                                />
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <table>
+                            <tbody>
+                                <AddRuleAntecedentSwitchLastTimeOn
+                                    {...this.props}
+                                />
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button onClick={() => {
+                    this.props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
+                }}>
+                    Close
+                </button>
             </div>
         )
     }
@@ -116,7 +92,6 @@ function AddRuleAntecedentsDevice(props) {
                                     newAntecedent.start_value = "on"
                                     newAntecedent.stop_value = "off"
                                 }
-                                console.log(newAntecedent)
                                 props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);
                                 props.handleModify(true);
                             }}>

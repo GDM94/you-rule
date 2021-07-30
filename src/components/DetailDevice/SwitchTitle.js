@@ -26,7 +26,6 @@ export default function SwitchTitle(props) {
                 <Button style={{ display: props.modifyDevice && !props.elementId.includes("alert") ? "" : "none" }}
                     onClick={() => {
                         props.handleModifyDevice();
-                        props.handleDeviceConsequentPopUp(false);
                         props.deleteDeviceRequest("consequent");
 
                     }}>
