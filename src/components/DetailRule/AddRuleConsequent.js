@@ -35,7 +35,6 @@ border-radius: 0px !important;
 
 
 function AddRuleConsequentDevice(props) {
-    var i = -1;
     const ruleIdx = props.newRuleIdx;
     const consequentRule = props.rules[ruleIdx].consequent;
     const consequent_order = (consequentRule.length + 1).toString();
