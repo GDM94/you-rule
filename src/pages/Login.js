@@ -44,7 +44,7 @@ class Login extends React.Component {
               </FormTitle>
               <FormBody>
                 <div>
-                  <p style={{ display: this.props.userLoginError ? '' : 'none' }}> Error: User Name or Password are not correct!</p>
+                  <p style={{ color: "red", display: this.props.userLoginError ? '' : 'none' }}> Error: User Name or Password are not correct!</p>
                 </div>
                 <div>
                   <form name="login" onSubmit={this.loginSubmit}>
@@ -129,7 +129,9 @@ const FormBody = styled.div`
   width: 100%;
   background-color: rgba(243,240,240,1);
   display: flex;
+  flex-flow: column;
   justify-content: center;
+  text-align: center;
   padding: 5%;
 `;
 

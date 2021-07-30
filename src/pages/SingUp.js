@@ -92,7 +92,7 @@ class SingUp extends React.Component {
               <FormBody>
                 <div>
                   <div>
-                    <p style={{ display: this.state.checkError ? 'block' : 'none' }}> {this.state.errorMessage}</p>
+                    <p style={{ color: "red", display: this.state.checkError ? 'block' : 'none' }}> {this.state.errorMessage}</p>
                   </div>
                   <form name="login" onSubmit={this.registrationSubmit}>
                     <input type="text" id="name" name="name" placeholder="name"
@@ -191,7 +191,9 @@ const FormBody = styled.div`
   width: 100%;
   background-color: rgba(243,240,240,1);
   display: flex;
+  flex-flow: column;
   justify-content: center;
+  text-align: center;
   padding: 5%;
 `;
 
