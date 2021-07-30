@@ -10,6 +10,7 @@ import history from "./history";
 import DeviceAntecedents from './DeviceAntecedents'
 import DevicesPage from "./pages/DevicesPage";
 import RulesPage from "./pages/RulesPage";
+import ProfilePage from "./pages/ProfilePage";
 
 var jwt = require('jwt-simple');
 
@@ -62,7 +63,7 @@ export default class MainRouter extends React.Component {
             server_error: false,
             elementDetails: false,
             addNewElementComponent: false,
-            registerElementError:false,
+            registerElementError: false,
 
         }
     }
@@ -72,11 +73,12 @@ export default class MainRouter extends React.Component {
         const idToken = jwt.encode({ uid: decoded.uid }, process.env.REACT_APP_JWT_SECRET);
         axios.defaults.headers.common['Authorization'] = idToken;
         axios.defaults.timeout.toFixed(0);
-        history.push({ pathname: process.env.REACT_APP_SENSORS_URL, 
-            state: { 
-                token: idToken, 
-                page: process.env.REACT_APP_PAGE_SENSORS 
-            } 
+        history.push({
+            pathname: process.env.REACT_APP_SENSORS_URL,
+            state: {
+                token: token,
+                page: process.env.REACT_APP_PAGE_SENSORS
+            }
         })
     }
 
@@ -421,10 +423,10 @@ export default class MainRouter extends React.Component {
                 }
             });
             const result = res.data;
-            if(result === true){
+            if (result === true) {
                 this.registerNewDeviceLocal(type, newDevice);
                 this.handleRegisterDevicePopUp();
-            }else{
+            } else {
                 this.handleRegisterElementError(true);
             }
         } catch (err) {
@@ -872,15 +874,23 @@ export default class MainRouter extends React.Component {
         this.setState({ setRulePopUp: event });
     }
     handleLogOut = () => {
-        console.log("logout")
+        console.log("logout");
         this.setState({
             menuPopUp: false,
             antecedentId: "",
             consequentId: "",
             newRuleId: ""
         })
-        //history.push({ pathname: "www.ruleapp.org", state: { token: "" } })
         window.location.assign('http://ruleapp.org');
+    }
+    handleProfile = () => {
+        console.log("main");
+        this.setState({
+            menuPopUp: false,
+            antecedentId: "",
+            consequentId: "",
+            newRuleId: "",
+        })
     }
     handleAddAlertEmailPopUp = () => {
         this.setState({ addAlertEmailPopUp: !this.state.addAlertEmailPopUp })
@@ -901,9 +911,9 @@ export default class MainRouter extends React.Component {
             server_error: !this.state.server_error
         })
     }
-    handleRegisterElementError = (error) =>{
-        console.log("errorRegistration: "+error)
-        this.setState({registerElementError: error});
+    handleRegisterElementError = (error) => {
+        console.log("errorRegistration: " + error)
+        this.setState({ registerElementError: error });
     }
 
 
@@ -948,7 +958,7 @@ export default class MainRouter extends React.Component {
                             registerDeviceRequest={this.registerDeviceRequest}
                             handleRegisterElementError={this.handleRegisterElementError}
                             AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
-
+                            handleProfile={this.handleProfile}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_SWITCHES_URL}
@@ -995,6 +1005,7 @@ export default class MainRouter extends React.Component {
                             registerDeviceRequest={this.registerDeviceRequest}
                             handleRegisterElementError={this.handleRegisterElementError}
                             AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
+                            handleProfile={this.handleProfile}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_RULES_URL}
@@ -1045,6 +1056,7 @@ export default class MainRouter extends React.Component {
                             setAntecedentRuleLocal={this.setAntecedentRuleLocal}
                             AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
                             ConsequentRulePopUpBody={this.ConsequentRulePopUpBody}
+                            handleProfile={this.handleProfile}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_LOGIN_URL}
@@ -1064,6 +1076,19 @@ export default class MainRouter extends React.Component {
                             UserRegistrationRequest={this.UserRegistrationRequest}
                             {...props}
                             {...this.state}
+                        />}
+                />
+                <Route exact path={process.env.REACT_APP_PROFILE_URL}
+                    render={(props) =>
+                        <ProfilePage
+                            {...props}
+                            {...this.state}
+                            handleMenuPopUp={this.handleMenuPopUp}
+                            UserRegistrationRequest={this.UserRegistrationRequest}
+                            handleProfile={this.handleProfile}
+                            handleLogOut={this.handleLogOut}
+                            addNewElement={false}
+                            handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
                         />}
                 />
             </Router>

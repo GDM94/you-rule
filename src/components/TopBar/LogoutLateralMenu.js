@@ -4,18 +4,17 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ButtonLogout from "./ButtonLogout";
 import ButtonProfile from "./ButtonProfile";
+import ButtonMain from "./ButtonMain";
 
 function LogoutLateralMenu(props) {
     return (
         <PopperStyled id='menu-popper' style={{ display: props.menuPopUp ? "" : "none" }}>
             <List component="nav" aria-label="main mailbox folders">
-                <ButtonProfile
-                    {...props}
-                />
+                <ButtonMain {...props} />
                 <Divider style={{ color: 'white !important' }} />
-                <ButtonLogout
-                    {...props}
-                />
+                <ButtonProfile {...props} />
+                <Divider style={{ color: 'white !important' }} />
+                <ButtonLogout {...props} />
             </List>
             <Divider />
         </PopperStyled>

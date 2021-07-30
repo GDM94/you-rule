@@ -13,11 +13,14 @@ import CreateRuleProcess from '../components/DetailRule/CreateRuleProcess';
 import AddRuleConsequentProcess from '../components/DetailRule/AddRuleConsequentProcess'
 import AddRuleAntecedentProcess from '../components/DetailRule/AddRuleAntecedentProcess'
 
+var jwt = require('jwt-simple');
 
 class MainProtectedPage extends React.Component {
     constructor(props) {
         super(props);
-        axios.defaults.headers.common['Authorization'] = this.props.location.state.token;
+        const decoded = jwt.decode(this.props.location.state.token, process.env.REACT_APP_JWT_SECRET);
+        const idToken = jwt.encode({ uid: decoded.uid }, process.env.REACT_APP_JWT_SECRET);
+        axios.defaults.headers.common['Authorization'] = idToken;
         axios.defaults.timeout.toFixed(0);
         this.state = {
 

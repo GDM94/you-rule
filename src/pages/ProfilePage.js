@@ -7,13 +7,20 @@ import TopBar from '../components/TopBar/TopBar';
 import TopBar2 from '../components/TopBar2/TopBar2';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
 
-class DevicesPage extends React.Component {
+var jwt = require('jwt-simple');
+
+class ProfilePage extends React.Component {
     constructor(props) {
         super(props);
-        axios.defaults.headers.common['Authorization'] = this.props.location.state.token;
+        const decoded = jwt.decode(this.props.location.state.token, process.env.REACT_APP_JWT_SECRET);
+        const idToken = jwt.encode({ uid: decoded.uid }, process.env.REACT_APP_JWT_SECRET);
+        axios.defaults.headers.common['Authorization'] = idToken;
         axios.defaults.timeout.toFixed(0);
         this.state = {
-
+            email: decoded.email,
+            password: decoded.password,
+            name: decoded.name,
+            surname: decoded.surname
         }
     }
 
@@ -24,12 +31,10 @@ class DevicesPage extends React.Component {
                 <TopBar
                     {...this.props}
                 />
-                <TopBar2
-                    {...this.props}
-                />
                 <GreatBody>
                     <ContentContainer>
                         profile
+                        {this.state.email}
                     </ContentContainer>
                     <LogoutLateralMenu
                         {...this.props}
@@ -41,7 +46,7 @@ class DevicesPage extends React.Component {
     }
 }
 
-export default withRouter(DevicesPage)
+export default withRouter(ProfilePage)
 
 
 
