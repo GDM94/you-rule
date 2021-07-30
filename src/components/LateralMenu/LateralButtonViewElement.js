@@ -1,8 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
 import { withStyles } from "@material-ui/core/styles";
 import MuiListItem from "@material-ui/core/ListItem";
 
