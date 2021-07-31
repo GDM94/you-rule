@@ -16,7 +16,6 @@ class SingUp extends React.Component {
       repeatPassword: "",
       errorMessage: "",
       password_length: 2,
-      duplicateUserError: false
 
     }
   }
@@ -47,7 +46,6 @@ class SingUp extends React.Component {
 
   registrationFunction = () => {
     if (
-      !this.state.duplicateUserError &&
       this.state.password.length > this.state.password_length &&
       this.state.email.includes("@") &&
       this.state.password === this.state.repeatPassword &&
@@ -59,10 +57,7 @@ class SingUp extends React.Component {
     }
     else {
       this.setState({ checkError: true });
-      if (this.state.duplicateUserError) {
-        this.setState({ errorMessage: "Error: Email already registerd." });
-      }
-      else if (this.state.password.length <= this.state.password_length) {
+      if (this.state.password.length <= this.state.password_length) {
         this.setState({ errorMessage: "Error: password don't attempt security standard. Password must be at least 2 character long." });
       }
       else if (!this.state.email.includes("@")) {
@@ -93,6 +88,7 @@ class SingUp extends React.Component {
                 <div>
                   <div>
                     <p style={{ color: "red", display: this.state.checkError ? 'block' : 'none' }}> {this.state.errorMessage}</p>
+                    <p style={{ color: "red", display: this.props.duplicateUserError ? 'block' : 'none' }}> Error: Email already registerd</p>
                   </div>
                   <form name="login" onSubmit={this.registrationSubmit}>
                     <input type="text" id="name" name="name" placeholder="name"
@@ -110,6 +106,7 @@ class SingUp extends React.Component {
                     <input type="text" id="email" name="email" placeholder="email"
                       onChange={(e) => {
                         const email = e.target.value;
+                        this.props.changeUserSingUpCredentials();
                         this.setEmail(email)
                       }} />
                     <br></br>

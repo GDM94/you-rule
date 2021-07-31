@@ -48,7 +48,13 @@ export default class MainRouter extends React.Component {
 
             antecedents: [],
             consequents: [],
-            rules: []
+            rules: [],
+
+            locationName: "",
+            locationCountry: "",
+            locationLat: "",
+            locationLon: "",
+            locationList: []
         }
     }
 
@@ -64,6 +70,10 @@ export default class MainRouter extends React.Component {
                 page: process.env.REACT_APP_PAGE_SENSORS
             }
         })
+    }
+
+    handleUserLoginError = (error) =>{
+        this.setState({userLoginError: error})
     }
 
     UserLoginRequest = async (email, password) => {
@@ -87,8 +97,8 @@ export default class MainRouter extends React.Component {
         }
     }
 
-    handleUserLoginError = (check) => {
-        this.setState({ userLoginError: check });
+    changeUserSingUpCredentials = () =>{
+        this.setState({ duplicateUserError: false });
     }
 
     UserRegistrationRequest = async (email, password, name, surname) => {
@@ -98,6 +108,7 @@ export default class MainRouter extends React.Component {
         try {
             let res = await axios.get(url)
             const tokenId = res.data.tokenId;
+            console.log(tokenId)
             if (tokenId !== "false") {
                 this.setState({
                     menuPopUp: false
@@ -201,6 +212,72 @@ export default class MainRouter extends React.Component {
                     this.getRuleById(this.state.newRuleId);
                 }
             });
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    // GEOGRAPHIC LOCATION
+    getLocationByUserId = async () => {
+        console.log('App GET user location');
+        const url = process.env.REACT_APP_BACKEND_URL + "/user/location";
+        try {
+            let res = await axios.get(url);
+            const location = res.data;
+            console.log(location)
+            this.setState({
+                locationName: location.name,
+                locationCountry: location.country,
+                locationLat: location.lat,
+                locationLon: location.lon
+            })
+
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    getCurrentLocation = async (name) => {
+        console.log('App GET current location');
+        const url = process.env.REACT_APP_BACKEND_URL+ "/user/search/location/"+name
+        try {
+            let res = await axios.get(url);
+            const locationList = res.data;
+            console.log(locationList)
+            if(locationList.constructor === Array){
+                this.setState({
+                    locationList: locationList
+                })
+            }
+            else{
+                this.setState({
+                    locationList: []
+                })
+            }
+            
+
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    setNewUserLocation = async (name, country, lat, lon) => {
+        console.log('App POST set new user location');
+        const url = process.env.REACT_APP_BACKEND_URL + "/user/set/location";
+        try {
+            await axios.post(url, {}, {params:{
+                name: name,
+                country: country,
+                lat: lat,
+                lon: lon
+            }});
+            this.setState({
+                locationName: name,
+                locationCountry: country,
+                locationLat: lat,
+                locationLon: lon
+            })
+
         } catch (err) {
             console.warn(err)
         }
@@ -1023,6 +1100,7 @@ export default class MainRouter extends React.Component {
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
                             UserRegistrationRequest={this.UserRegistrationRequest}
+                            changeUserSingUpCredentials={this.changeUserSingUpCredentials}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_SETTINGS_URL}
@@ -1037,6 +1115,9 @@ export default class MainRouter extends React.Component {
                             addNewElement={false}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
                             setSettingsPage={this.setSettingsPage}
+                            getCurrentLocation={this.getCurrentLocation}
+                            getLocationByUserId={this.getLocationByUserId}
+                            setNewUserLocation={this.setNewUserLocation}
                         />}
                 />
             </Router>

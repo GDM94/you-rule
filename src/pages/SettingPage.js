@@ -25,6 +25,10 @@ class SettingPage extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.getLocationByUserId();
+    }
+
 
     render() {
         return (
