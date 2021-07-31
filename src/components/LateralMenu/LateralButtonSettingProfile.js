@@ -6,18 +6,18 @@ import { ListItemIcon } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import MuiListItem from "@material-ui/core/ListItem";
 
-function LateralButtonProfile(props) {
+function LateralButtonSettingProfile(props) {
     return (
         <>
-            <MyListItem style={{ color: "black" }} selected={props.settingsPage === process.env.REACT_APP_PAGE_PROFILE}
+            <MyListItem style={{ color: "black" }} selected={props.settingsPage === process.env.REACT_APP_PAGE_SETTINGS_PROFILE}
                 onClick={() => {
-                    props.setSettingsPage(process.env.REACT_APP_PAGE_PROFILE)
+                    props.setSettingsPage(process.env.REACT_APP_PAGE_SETTINGS_PROFILE)
                 }}>
                 <ListItemIcon>
                     <AccountCircleIcon />
                 </ListItemIcon>
 
-                <ListItemText primary={process.env.REACT_APP_PAGE_PROFILE} />
+                <ListItemText primary={process.env.REACT_APP_PAGE_SETTINGS_PROFILE} />
             </MyListItem>
             <Divider />
         </>
@@ -25,7 +25,7 @@ function LateralButtonProfile(props) {
 
 }
 
-export default LateralButtonProfile;
+export default LateralButtonSettingProfile;
 
 
 

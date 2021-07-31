@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 import { withRouter } from 'react-router';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+
 
 class Profile extends React.Component {
     constructor(props) {
@@ -14,15 +15,10 @@ class Profile extends React.Component {
         return(
             <ContentContainer>
                 <ElementTitle>
-                     <h2> <AccountCircleIcon fontSize="large" style={{ color: 'balck' }}/>  {process.env.REACT_APP_PAGE_SETTINGS_PROFILE}</h2>
+                     <h2> <LocationOnIcon fontSize="large" style={{ color: 'balck' }}/>  {process.env.REACT_APP_PAGE_SETTINGS_LOCATION}</h2>
                 </ElementTitle>
                 <ElementContent>
-                    <ul>
-                        <li>name:  {this.props.name}</li>
-                        <li>surname:  {this.props.surname}</li>
-                        <li>email:  {this.props.email}</li>
-                        <li>password:  {this.props.password}</li>
-                    </ul>
+                    Location
                 </ElementContent>
 
             </ContentContainer>

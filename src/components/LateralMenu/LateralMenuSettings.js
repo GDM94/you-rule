@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { withRouter } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import LateralButtonSettings from "./LateralButtonSettings";
-import LateralButtonProfile from "./LateralButtonProfile";
+import LateralButtonSettingProfile from "./LateralButtonSettingProfile";
 import { makeStyles } from "@material-ui/core/styles";
+import LateralButtonSettingLocation from "./LateralButtonSettingLocation";
 
 
 
@@ -18,9 +19,8 @@ function LateralMenuSettings(props) {
             />
             <MyList>
                 <List component="div" aria-label="main mailbox folders">
-                    <LateralButtonProfile
-                        {...props}
-                    />
+                    <LateralButtonSettingProfile {...props} />
+                    <LateralButtonSettingLocation {...props}/>
                 </List>
             </MyList>
 

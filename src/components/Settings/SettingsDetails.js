@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import Location from './Location';
 import Profile from './Profile';
 
 class SettingsDetails extends React.Component {
@@ -16,9 +17,14 @@ class SettingsDetails extends React.Component {
                 <></>
             )
         }
-        else if(this.props.settingsPage === process.env.REACT_APP_PAGE_PROFILE){
+        else if(this.props.settingsPage === process.env.REACT_APP_PAGE_SETTINGS_PROFILE){
             return(
                 <Profile {...this.props}/>
+            )
+        }
+        else if(this.props.settingsPage === process.env.REACT_APP_PAGE_SETTINGS_LOCATION){
+            return(
+                <Location {...this.props}/>
             )
         }
         
