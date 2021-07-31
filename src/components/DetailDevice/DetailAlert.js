@@ -13,7 +13,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import DeviceDescription from './DeviceDescription';
 
-export default function DetailAlert(props){
+export default function DetailAlert(props) {
     const [openRule, handleOpenRule] = useState(false);
     const handleClick = () => {
         handleOpenRule(!openRule);
@@ -34,11 +34,9 @@ export default function DetailAlert(props){
                     </Button >
                 </EmailTitle>
                 <Divider />
-                <table align="center" key="TableEmailList">
-                    <tbody  key="tbodyEmailList">
-                        <EmailDetail
-                            {...props}
-                        />
+                <table align="center">
+                    <tbody>
+                        <EmailDetail {...props} />
                     </tbody>
                 </table>
 
@@ -67,11 +65,13 @@ function EmailDetail(props) {
     if (email_list.length > 0) {
         var email_element = email_list.map(email => {
             idx++;
+            const key = idx.toString()
             return (
                 <AddAlertEmailProcess
                     {...props}
                     email={email}
                     idx={idx}
+                    key={key}
                 />
             )
         })
@@ -84,16 +84,14 @@ function EmailDetail(props) {
 }
 
 function AddAlertEmailProcess(props) {
-    const [modifyAlertEmail, handleModifyAlertEmail] = useState(props.email === ""? true : false);
-    const addNewAlertEmail = ( ) => {
+    const [modifyAlertEmail, handleModifyAlertEmail] = useState(props.email === "" ? true : false);
+    const addNewAlertEmail = () => {
         props.modifyEmailRequest(props.email, props.idx);
         handleModifyAlertEmail(false);
     };
 
-
-
     return (
-        <tr key={props.idx.toString()}>
+        <tr>
             <td>
                 <FormModifyEmail
                     {...props}

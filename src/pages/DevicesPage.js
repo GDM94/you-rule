@@ -68,10 +68,10 @@ background-color: #e6e6e6;
 `;
 
 const GreatBody = styled.div`
-display: flex;
-flex-flow: row;
 width: 100%;
 height: 100%;
+display: flex;
+flex-flow: row;
 background-color: #e6e6e6;
 `;
 

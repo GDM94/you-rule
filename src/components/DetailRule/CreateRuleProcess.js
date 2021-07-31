@@ -42,7 +42,6 @@ export default class CreateRuleProcess extends React.Component {
   render() {
     return (
       <ContentContainer>
-
         <ElementTitle>
           <h2>ADD RULE:</h2>
         </ElementTitle>
@@ -78,8 +77,6 @@ const ContentContainer = styled.div`
   flex-flow: column;
   float:left;
   text-align: center;
-  max-height:100%;
-  overflow-y: auto;
   background-color: #e6e6e6;
 `;
 

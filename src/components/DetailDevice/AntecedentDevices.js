@@ -57,9 +57,11 @@ export default function AntecedentDevices(props) {
                 </ElementMeasure>
                 <br></br>
                 <ul>
-                    <li key={"rules"}><Button onClick={() => { handleClick(); }}>
-                        RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
-                    </Button></li>
+                    <li key={"rules"}>
+                        <Button onClick={() => { handleClick(); }}>
+                            RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
+                        </Button>
+                    </li>
                     <Collapse in={openRule} timeout="auto" unmountOnExit>
                         <RuleNameList
                             {...props}

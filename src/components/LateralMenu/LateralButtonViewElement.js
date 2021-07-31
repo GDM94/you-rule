@@ -12,8 +12,8 @@ function LateralButtonViewElement(props) {
             props.elements.map(element => {
                 var index = deviceIdList.indexOf(element.id)
                 return (
-                    <>
-                        <MyListItem style={{ color: "black" }} selected={props.elementId === element.id}
+                    <div key={element.id+"lateral"}>
+                        <MyListItem key={element.id+"lateralItem"} style={{ color: "black" }} selected={props.elementId === element.id}
                             onClick={() => {
                                 props.getElementById(element.id);
                                 props.setNewElement(element.id, element.name, index);
@@ -25,7 +25,7 @@ function LateralButtonViewElement(props) {
                             <ListItemText primary={element.name} />
                         </MyListItem>
                         <Divider />
-                    </>
+                    </div>
                 )
             })
         );
