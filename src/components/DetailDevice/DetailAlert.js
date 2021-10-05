@@ -12,6 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import DeviceDescription from './DeviceDescription';
+import SwitchTitle from './SwitchTitle';
 
 export default function DetailAlert(props) {
     const [openRule, handleOpenRule] = useState(false);
@@ -19,42 +20,48 @@ export default function DetailAlert(props) {
         handleOpenRule(!openRule);
     };
     return (
-        <ElementContent>
-            <DeviceDescription
+        <ContentContainer>
+            <SwitchTitle
                 {...props}
-                description={"consequent - alert email sender"}
             />
-            <ElementMeasure>
-                <EmailTitle>
-                    <h3> emails </h3>
-                    <Button onClick={() => {
-                        props.addNewAlertEmailRequest()
-                    }}>
-                        <AddIcon fontSize="small" style={{ color: "black" }} />
-                    </Button >
-                </EmailTitle>
-                <Divider />
-                <table align="center">
-                    <tbody>
-                        <EmailDetail {...props} />
-                    </tbody>
-                </table>
+            <ElementContent>
+                <DeviceDescription
+                    {...props}
+                    description={"consequent - alert email sender"}
+                />
+                <ElementMeasure>
+                    <EmailTitle>
+                        <h3> emails </h3>
+                        <Button onClick={() => {
+                            props.addNewAlertEmailRequest()
+                        }}>
+                            <AddIcon fontSize="small" style={{ color: "black" }} />
+                        </Button >
+                    </EmailTitle>
+                    <Divider />
+                    <table align="center">
+                        <tbody>
+                            <EmailDetail {...props} />
+                        </tbody>
+                    </table>
+                </ElementMeasure>
+                <br></br>
+                <ul>
+                    <li key={"rules"}>
+                        <Button onClick={() => { handleClick(); }}>
+                            RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
+                        </Button>
+                    </li>
+                    <Collapse in={openRule} timeout="auto" unmountOnExit>
+                        <RuleNameList
+                            {...props}
+                            rulesDevice={props.consequents[props.consequentIdx].rules}
+                        />
+                    </Collapse>
+                </ul>
 
-            </ElementMeasure>
-            <br></br>
-            <ul>
-                <li key={"rules"}><Button onClick={() => { handleClick(); }}>
-                    RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
-                </Button></li>
-                <Collapse in={openRule} timeout="auto" unmountOnExit>
-                    <RuleNameList
-                        {...props}
-                        rulesDevice={props.consequents[props.consequentIdx].rules}
-                    />
-                </Collapse>
-            </ul>
-
-        </ElementContent>
+            </ElementContent>
+        </ContentContainer>
     )
 }
 
@@ -156,6 +163,17 @@ function EmailButtonGroup(props) {
 }
 
 
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  float:left;
+  text-align: center;
+  max-height:100%;
+  overflow-y: auto;
+  background-color: #d9d9d9;
+`;
 
 const ElementContent = styled.div`
 border: solid #d9d9d9 1px;

@@ -15,7 +15,6 @@ import SettingPage from "./pages/SettingPage";
 var jwt = require('jwt-simple');
 
 export default class MainRouter extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -49,6 +48,9 @@ export default class MainRouter extends React.Component {
             antecedents: [],
             consequents: [],
             rules: [],
+            antecedent: {},
+            consequent: {},
+            rule: {},
 
             locationName: "",
             locationCountry: "",
@@ -128,23 +130,7 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/device/get/antecedents";
         try {
             let res = await axios.get(url);
-            const antecedents_list = res.data;
-            var antecedents = this.state.antecedents;
-            if (antecedents.length > 0) {
-                const antecedentId_list = antecedents.map(antecedent => { return antecedent.id });
-                antecedentId_list.map(antecedent => {
-                    if (!antecedentId_list.some(id => id === antecedent.id)) {
-                        antecedents.concat(antecedent);
-                    } else {
-                        const antecedent_idx = antecedentId_list.indexOf(antecedent.id);
-                        antecedents[antecedent_idx].measure = antecedent.measure;
-                    }
-                    return null;
-                })
-            } else {
-                antecedents = antecedents_list;
-            }
-            this.setState({ antecedents: antecedents }, () => {
+            this.setState({ antecedents: res.data }, () => {
                 if (this.state.antecedentId !== "") {
                     this.getAntecedentById(this.state.antecedentId);
                 }
@@ -158,25 +144,7 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/device/get/consequents";
         try {
             let res = await axios.get(url);
-            const consequents_list = res.data;
-            var consequents = this.state.consequents;
-            if (consequents.length > 0) {
-                const consequentId_list = consequents.map(consequent => { return consequent.id });
-                consequents_list.map(consequent => {
-                    if (!consequentId_list.some(id => id === consequent.id)) {
-                        consequents.concat(consequent);
-                    }
-                    else {
-                        const consequent_idx = consequentId_list.indexOf(consequent.id);
-                        consequents[consequent_idx].measure = consequent.measure;
-                    }
-                    return null;
-                })
-            }
-            else {
-                consequents = consequents_list;
-            }
-            this.setState({ consequents: consequents }, () => {
+            this.setState({ consequents: res.data }, () => {
                 if (this.state.consequentId !== "") {
                     this.getConsequentById(this.state.consequentId);
                 }
@@ -190,24 +158,7 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/rule/user";
         try {
             let res = await axios.get(url);
-            const rules_list = res.data;
-            var rules = this.state.rules;
-            if (rules.length > 0) {
-                const rulesId_list = rules.map(rule => { return rule.id });
-                rules_list.map(rule => {
-                    if (!rulesId_list.some(id => id === rule.id)) {
-                        rules.concat(rule)
-                    } else {
-                        const ruleIdx = rulesId_list.indexOf(rule.id);
-                        rules[ruleIdx].evaluation = rule.evaluation;
-                    }
-                    return null;
-                });
-            }
-            else {
-                rules = rules_list;
-            }
-            this.setState({ rules: rules }, () => {
+            this.setState({ rules: res.data }, () => {
                 if (this.state.newRuleId !== "") {
                     this.getRuleById(this.state.newRuleId);
                 }
@@ -289,12 +240,7 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/device/antecedent/id/" + antecedentId;
         try {
             let res = await axios.get(url);
-            const newAntecedent = res.data;
-            console.log(newAntecedent)
-            const idx = this.state.antecedentIdx;
-            var antecedents = this.state.antecedents;
-            antecedents[idx] = newAntecedent;
-            this.setState({ antecedents: antecedents });
+            this.setState({ antecedent: res.data });
         } catch (err) {
             console.warn(err)
         }
@@ -303,12 +249,8 @@ export default class MainRouter extends React.Component {
         console.log('App GET consequent By Id');
         const url = process.env.REACT_APP_BACKEND_URL + "/device/consequent/id/" + consequentId;
         try {
-            let res = await axios.get(url);
-            const newConsequent = res.data;
-            var consequents = this.state.consequents;
-            const consequentIdx = this.state.consequentIdx;
-            consequents[consequentIdx] = newConsequent;
-            this.setState({ consequents: consequents });
+            let res = await axios.get(url);        
+            this.setState({ consequent: res.data });
         } catch (err) {
             console.warn(err)
         }
@@ -318,46 +260,12 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/rule/id/" + ruleId;
         try {
             let res = await axios.get(url);
-            const newRule = res.data;
-            var rules = this.state.rules;
-            const rulesIdList = rules.map(rule => { return rule.id });
-            const idx = rulesIdList.indexOf(ruleId);
-            rules[idx] = newRule;
-            this.setState({ newRuleIdx: idx, rules: rules });
+            this.setState({ rule: res.data});
         } catch (err) {
             console.warn(err)
         }
     }
-    getDeviceMeasureRequest = async (type) => {
-        console.log('App GET device measure');
-        if (type === "antecedent") {
-            const url = process.env.REACT_APP_BACKEND_URL + "/device/measure/" + this.state.antecedentId;
-            try {
-                let res = await axios.get(url);
-                const newMeasure = res.data;
-                const index = this.state.antecedentIdx;
-                var antecedents = this.state.antecedents;
-                antecedents[index].measure = newMeasure;
-                this.setState({ antecedents: antecedents }, () => { this.render() });
-            } catch (err) {
-                console.warn(err)
-            }
-        }
-        else {
-            const url = process.env.REACT_APP_BACKEND_URL + "/device/measure/" + this.state.consequentId;
-            try {
-                let res = await axios.get(url);
-                const newMeasure = res.data;
-                const index = this.state.consequentIdx;
-                var consequents = this.state.consequents;
-                consequents[index].measure = newMeasure;
-                this.setState({ consequents: consequents }, () => { this.render() });
-            } catch (err) {
-                console.warn(err)
-            }
-        }
-    }
-
+   
     //ADD and UPDATE ELEMENTS
     createRuleRequest = async (rule_name) => {
         console.log('App POST create rule');
@@ -532,7 +440,7 @@ export default class MainRouter extends React.Component {
             const consequents = this.state.consequents;
             const idx = this.state.consequentIdx;
             consequents[idx] = consequent;
-            this.setState({ consequents: consequents }, () => { this.render() })
+            this.setState({ consequents: consequents })
         } catch (err) {
             console.warn(err)
         }
@@ -547,11 +455,10 @@ export default class MainRouter extends React.Component {
                     manual_measure: manual_measure
                 }
             });
-            const consequents = this.state.consequents;
-            const idx = this.state.consequentIdx;
-            consequents[idx].manual_measure = manual_measure;
-            consequents[idx].measure = manual_measure;
-            this.setState({ consequents: consequents }, () => { this.render() })
+            const consequent = this.state.consequent;
+            consequent.manual_measure = manual_measure;
+            consequent.measure = manual_measure;
+            this.setState({ consequent: consequent })
         } catch (err) {
             console.warn(err)
         }
@@ -687,8 +594,6 @@ export default class MainRouter extends React.Component {
             console.warn(err)
         }
     }
-
-
 
     //MODIFY AND SET RULE LOCAL
     modifyRuleName = (newRuleName) => {
@@ -846,9 +751,6 @@ export default class MainRouter extends React.Component {
         })
     }
 
-
-
-
     // CURRENT SELECTED ITEM VARIABLES
     setNewRule = (ruleId, ruleName, ruleIdx) => {
         this.setState({
@@ -947,7 +849,6 @@ export default class MainRouter extends React.Component {
     render() {
         return (
             <Router history={history}>
-
                 <Route exact path={process.env.REACT_APP_SENSORS_URL}
                     render={(props) =>
                         <DevicesPage

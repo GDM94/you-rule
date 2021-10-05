@@ -2,46 +2,38 @@ import React from 'react';
 import styled from "styled-components";
 import RegisterDeviceProcess from './RegisterDeviceProcess'
 import ConsequentDevices from './ConsequentDevices';
-import AntecedentDevices from './AntecedentDevices'
 import { withRouter } from 'react-router';
+import Switch from './Switch/Switch';
 
-class DetailDevice extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
-
-
-    render() {
-        if (this.props.elementId !== "" && this.props.elements.length > 0 && this.props.addNewElement === false) {
-            if (this.props.location.state.page === process.env.REACT_APP_PAGE_SENSORS) {
-                return (
-                    <AntecedentDevices
-                        {...this.props}
-                    />
-                )
-            }
-            if (this.props.location.state.page === process.env.REACT_APP_PAGE_SWITCHES) {
-                return (
-                    <ConsequentDevices
-                        {...this.props}
-                    />
-                )
-            }
-
-        }
-        else if (this.props.elementId === "" && this.props.addNewElement === true) {
-            return (<ContentContainer>
-                <RegisterDeviceProcess
-                    {...this.props}
+function DetailDevice(props) {
+    if (props.elementId !== "" && props.addNewElement === false) {
+        if (props.elementId.includes("SWITCH")) {
+            return (
+                <Switch
+                    {...props}
                 />
-            </ContentContainer>)
+            )
         }
-        else {
-            return (<ContentContainer> </ContentContainer>)
+        if (props.location.state.page === process.env.REACT_APP_PAGE_SWITCHES) {
+            return (
+                <ConsequentDevices
+                    {...props}
+                />
+            )
         }
+
     }
+    else if (props.elementId === "" && props.addNewElement === true) {
+        return (<ContentContainer>
+            <RegisterDeviceProcess
+                {...props}
+            />
+        </ContentContainer>)
+    }
+    else {
+        return (<ContentContainer> </ContentContainer>)
+    }
+
 }
 
 export default withRouter(DetailDevice)

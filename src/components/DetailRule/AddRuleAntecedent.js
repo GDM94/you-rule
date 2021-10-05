@@ -27,13 +27,17 @@ export default class AddRuleAntecedent extends React.Component {
 
 const GridContainer = styled.div`
 display: grid;
-grid-template-columns: repeat(5, 1fr);
+grid-template-columns: repeat(auto-fill, 250px);
+grid-gap: 5px;
 `;
 
-const Element = styled(Button)`
+const MyButton = styled(Button)`
 border: solid black 1px !important;
 border-radius: 0px !important;
+font-size: 0.6rem !important;
 `;
+
+
 
 
 function AddRuleAntecedentsDevice(props) {
@@ -51,7 +55,7 @@ function AddRuleAntecedentsDevice(props) {
         props.antecedents.map(item => {
             if (!antecedentsId.some(c => c === item.id)) {
                 return (
-                    <Element onClick={() => {
+                    <MyButton onClick={() => {
                         var value = "//"
                         if (item.measure !== null) {
                             value = item.measure
@@ -84,7 +88,7 @@ function AddRuleAntecedentsDevice(props) {
                         props.handleModify(true);
                     }}>
                         {item.name}
-                    </Element>
+                    </MyButton>
                 )
             }
             else {
@@ -113,13 +117,13 @@ function AddRuleAntecedentSwitchLastTimeOn(props) {
                 if (!item.device_id.includes("alert")) {
                     if (!antecedentsId.some(c => c === item.device_id)) {
                         return (
-                            <Element onClick={() => {
+                            <MyButton onClick={() => {
                                 var newAntecedent = { device_id: item.device_id, name: item.name, start_value: "00:00", stop_value: "00:00", condition: "delta", measure: "last time on", value: "-", order: order };
                                 props.setAntecedentRuleLocal(props.newRuleIdx, newAntecedent);
                                 props.handleModify(true);
                             }}>
                                 {item.name}
-                            </Element>
+                            </MyButton>
                         )
                     }
                     else {
