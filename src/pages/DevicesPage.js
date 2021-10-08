@@ -31,7 +31,7 @@ class DevicesPage extends React.Component {
 
     render() {
         return (
-            <AppDiv>
+            <>
                 <TopBar
                     {...this.props}
                 />
@@ -51,7 +51,7 @@ class DevicesPage extends React.Component {
                         {...this.props}
                     />
                 </GreatBody>
-            </AppDiv>
+            </>
         );
 
     }

@@ -48,6 +48,7 @@ const ContentContainer = styled.div`
   flex-flow: column;
   float:left;
   text-align: center;
+  min-height: 100%;
 `;
 
 

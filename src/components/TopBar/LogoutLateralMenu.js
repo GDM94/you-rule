@@ -11,9 +11,9 @@ function LogoutLateralMenu(props) {
         <PopperStyled id='menu-popper' style={{ display: props.menuPopUp ? "" : "none" }}>
             <List component="nav" aria-label="main mailbox folders">
                 <ButtonMain {...props} />
-                <Divider style={{ color: 'white !important' }} />
+                <Divider />
                 <ButtonSettings {...props} />
-                <Divider style={{ color: 'white !important' }} />
+                <Divider />
                 <ButtonLogout {...props} />
             </List>
             <Divider />
@@ -27,4 +27,5 @@ const PopperStyled = styled.div`
 color: white;
 background-color: #737373;
 height:100%;
+width: 20%;
 `;

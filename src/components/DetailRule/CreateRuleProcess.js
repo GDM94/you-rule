@@ -35,10 +35,6 @@ export default class CreateRuleProcess extends React.Component {
     event.preventDefault();
   }
 
-
-
-
-
   render() {
     return (
       <ContentContainer>

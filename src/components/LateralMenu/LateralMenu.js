@@ -21,9 +21,6 @@ function LateralMenu(props) {
                     />
                 </List>
             </MyList>
-
-
-
         </div>
 
     );
@@ -40,7 +37,9 @@ const useStyles = makeStyles(theme => ({
         textAlign: "center",
         color: "#0f540d",
         borderRight: "#bfbfbf solid 1px !important",
-        backgroundColor: "#e6e6e6"
+        backgroundColor: "#e6e6e6",
+        width: "30%",
+        minWidth: "30%"
     }
   }));
 
@@ -52,5 +51,4 @@ const MyList = styled.div`
   padding-right: 0px;
   text-align: center;
 `;
-
 

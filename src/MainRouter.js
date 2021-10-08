@@ -64,9 +64,7 @@ export default class MainRouter extends React.Component {
     loginRedirect = (token) => {
         this.setState({menuPopUp: false})
         const decoded = jwt.decode(token, process.env.REACT_APP_JWT_SECRET);
-        console.log(decoded)
         const idToken = jwt.encode({"user_id": decoded.user_id}, process.env.REACT_APP_JWT_SECRET);
-        console.log(idToken)
         axios.defaults.headers.common['token'] = idToken;
         axios.defaults.timeout.toFixed(0);
         history.push({

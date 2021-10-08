@@ -40,5 +40,5 @@ const TopBar1Element = styled.span`
 
 const TopBar1Button = styled(IconButton)`
   float: right;
-  margin: 2%;
+  padding-bottom: 0% !important;
 `;

@@ -30,7 +30,7 @@ class RulesPage extends React.Component {
 
     render() {
         return (
-            <AppDiv>
+            <>
                 <TopBar
                     {...this.props}
                 />
@@ -50,7 +50,7 @@ class RulesPage extends React.Component {
                         {...this.props}
                     />
                 </GreatBody>
-            </AppDiv>
+            </>
         );
 
     }
@@ -58,13 +58,6 @@ class RulesPage extends React.Component {
 
 export default withRouter(RulesPage)
 
-
-
-const AppDiv = styled.div`
-display: flex;
-flex-direction: column;
-background-color: #e6e6e6;
-`;
 
 const GreatBody = styled.div`
 display: flex;
