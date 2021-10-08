@@ -18,8 +18,7 @@ export default class Switch extends React.Component {
             last_time_on: "-",
             last_time_off: "-",
             status: "disconnected",
-            color: "red",
-            expire_time: "10",
+            color: "red"
         }
     }
 
@@ -36,8 +35,7 @@ export default class Switch extends React.Component {
             last_time_on: props.element.last_time_on,
             last_time_off: props.element.last_time_off,
             status: props.element.status,
-            color: props.element.color,
-            expire_time: props.element.expire_time
+            color: props.element.color
         };
     }
 

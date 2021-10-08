@@ -51,6 +51,7 @@ export default class MainRouter extends React.Component {
             antecedent: {},
             consequent: {},
             rule: {},
+            device: {},
 
             locationName: "",
             locationCountry: "",
@@ -61,9 +62,12 @@ export default class MainRouter extends React.Component {
     }
 
     loginRedirect = (token) => {
+        this.setState({menuPopUp: false})
         const decoded = jwt.decode(token, process.env.REACT_APP_JWT_SECRET);
-        const idToken = jwt.encode({ uid: decoded.uid }, process.env.REACT_APP_JWT_SECRET);
-        axios.defaults.headers.common['Authorization'] = idToken;
+        console.log(decoded)
+        const idToken = jwt.encode({"user_id": decoded.user_id}, process.env.REACT_APP_JWT_SECRET);
+        console.log(idToken)
+        axios.defaults.headers.common['token'] = idToken;
         axios.defaults.timeout.toFixed(0);
         history.push({
             pathname: process.env.REACT_APP_SENSORS_URL,
@@ -74,8 +78,8 @@ export default class MainRouter extends React.Component {
         })
     }
 
-    handleUserLoginError = (error) =>{
-        this.setState({userLoginError: error})
+    handleUserLoginError = (e) => {
+        this.setState({ userLoginError: e })
     }
 
     UserLoginRequest = async (email, password) => {
@@ -84,22 +88,19 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/user/login?access_token=" + access_token;
         try {
             let res = await axios.get(url)
-            const tokenId = res.data.tokenId;
-            if (tokenId !== "false") {
-                this.setState({
-                    menuPopUp: false
-                })
+            const tokenId = res.data;
+            if (tokenId !== false) {
                 this.loginRedirect(tokenId);
             }
             else {
-                this.handleUserLoginError("true");
+                this.handleUserLoginError(true);
             }
         } catch (err) {
             console.warn(err)
         }
     }
 
-    changeUserSingUpCredentials = () =>{
+    changeUserSingUpCredentials = () => {
         this.setState({ duplicateUserError: false });
     }
 
@@ -109,12 +110,8 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/user/registration?access_token=" + access_token;
         try {
             let res = await axios.get(url)
-            const tokenId = res.data.tokenId;
-            console.log(tokenId)
-            if (tokenId !== "false") {
-                this.setState({
-                    menuPopUp: false
-                })
+            const tokenId = res.data;
+            if (tokenId !== false) {
                 this.loginRedirect(tokenId);
             } else {
                 this.setState({ duplicateUserError: true });
@@ -132,7 +129,7 @@ export default class MainRouter extends React.Component {
             let res = await axios.get(url);
             this.setState({ antecedents: res.data }, () => {
                 if (this.state.antecedentId !== "") {
-                    this.getAntecedentById(this.state.antecedentId);
+                    this.getDeviceById(this.state.antecedentId);
                 }
             });
         } catch (err) {
@@ -146,7 +143,7 @@ export default class MainRouter extends React.Component {
             let res = await axios.get(url);
             this.setState({ consequents: res.data }, () => {
                 if (this.state.consequentId !== "") {
-                    this.getConsequentById(this.state.consequentId);
+                    this.getDeviceById(this.state.consequentId);
                 }
             });
         } catch (err) {
@@ -168,89 +165,13 @@ export default class MainRouter extends React.Component {
         }
     }
 
-    // GEOGRAPHIC LOCATION
-    getLocationByUserId = async () => {
-        console.log('App GET user location');
-        const url = process.env.REACT_APP_BACKEND_URL + "/user/location";
-        try {
-            let res = await axios.get(url);
-            const location = res.data;
-            console.log(location)
-            this.setState({
-                locationName: location.name,
-                locationCountry: location.country,
-                locationLat: location.lat,
-                locationLon: location.lon
-            })
-
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-
-    getCurrentLocation = async (name) => {
-        console.log('App GET current location');
-        const url = process.env.REACT_APP_BACKEND_URL+ "/user/search/location/"+name
-        try {
-            let res = await axios.get(url);
-            const locationList = res.data;
-            console.log(locationList)
-            if(locationList.constructor === Array){
-                this.setState({
-                    locationList: locationList
-                })
-            }
-            else{
-                this.setState({
-                    locationList: []
-                })
-            }
-            
-
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-
-    setNewUserLocation = async (name, country, lat, lon) => {
-        console.log('App POST set new user location');
-        const url = process.env.REACT_APP_BACKEND_URL + "/user/set/location";
-        try {
-            await axios.post(url, {}, {params:{
-                name: name,
-                country: country,
-                lat: lat,
-                lon: lon
-            }});
-            this.setState({
-                locationName: name,
-                locationCountry: country,
-                locationLat: lat,
-                locationLon: lon
-            })
-
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-
     //GET BY ID
-    getAntecedentById = async (antecedentId) => {
-        console.log('App GET antecedent By Id');
-        const url = process.env.REACT_APP_BACKEND_URL + "/device/antecedent/id/" + antecedentId;
+    getDeviceById = async (deviceId) => {
+        console.log('App GET consequent By Id');
+        const url = process.env.REACT_APP_BACKEND_URL + "/device/get/" + deviceId;
         try {
             let res = await axios.get(url);
-            this.setState({ antecedent: res.data });
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-    getConsequentById = async (consequentId) => {
-        console.log('App GET consequent By Id');
-        const url = process.env.REACT_APP_BACKEND_URL + "/device/consequent/id/" + consequentId;
-        try {
-            let res = await axios.get(url);        
-            this.setState({ consequent: res.data });
+            this.setState({ device: res.data });
         } catch (err) {
             console.warn(err)
         }
@@ -260,12 +181,12 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/rule/id/" + ruleId;
         try {
             let res = await axios.get(url);
-            this.setState({ rule: res.data});
+            this.setState({ rule: res.data });
         } catch (err) {
             console.warn(err)
         }
     }
-   
+
     //ADD and UPDATE ELEMENTS
     createRuleRequest = async (rule_name) => {
         console.log('App POST create rule');
@@ -334,35 +255,12 @@ export default class MainRouter extends React.Component {
             console.warn(err)
         }
     }
-    updateDeviceRequest = async (type) => {
+    updateDeviceRequest = async (deviceId) => {
         console.log("App POST update device");
-        var deviceId = "";
-        var device_name = "";
-        var setting = 0;
-        var error = 0;
-        if (type === "antecedent") {
-            const index = this.state.antecedentIdx;
-            deviceId = this.state.antecedentId;
-            device_name = this.state.antecedentName;
-            setting = this.state.antecedents[index].setting;
-            error = this.state.antecedents[index].error;
-        }
-        else {
-            deviceId = this.state.consequentId;
-            device_name = this.state.consequentName;
-            setting = "";
-            error = "";
-        }
-        const url = process.env.REACT_APP_BACKEND_URL + "/device/update";
+        const url = process.env.REACT_APP_BACKEND_URL + "/device/update/" + deviceId;
         try {
-            await axios.post(url, {}, {
-                params: {
-                    device_id: deviceId,
-                    device_name: device_name,
-                    setting: setting,
-                    error: error
-                }
-            });
+            const device = JSON.stringify(this.state.device)
+            await axios.post(url, device);
         } catch (err) {
             console.warn(err)
         }
@@ -844,7 +742,67 @@ export default class MainRouter extends React.Component {
         this.setState({ settingsPage: page })
     }
 
-
+    // GEOGRAPHIC LOCATION
+    getLocationByUserId = async () => {
+        console.log('App GET user location');
+        const url = process.env.REACT_APP_BACKEND_URL + "/user/location";
+        try {
+            let res = await axios.get(url);
+            const location = res.data;
+            console.log(location)
+            this.setState({
+                locationName: location.name,
+                locationCountry: location.country,
+                locationLat: location.lat,
+                locationLon: location.lon
+            })
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+    getCurrentLocation = async (name) => {
+        console.log('App GET current location');
+        const url = process.env.REACT_APP_BACKEND_URL + "/user/search/location/" + name
+        try {
+            let res = await axios.get(url);
+            const locationList = res.data;
+            console.log(locationList)
+            if (locationList.constructor === Array) {
+                this.setState({
+                    locationList: locationList
+                })
+            }
+            else {
+                this.setState({
+                    locationList: []
+                })
+            }
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+    setNewUserLocation = async (name, country, lat, lon) => {
+        console.log('App POST set new user location');
+        const url = process.env.REACT_APP_BACKEND_URL + "/user/set/location";
+        try {
+            await axios.post(url, {}, {
+                params: {
+                    name: name,
+                    country: country,
+                    lat: lat,
+                    lon: lon
+                }
+            });
+            this.setState({
+                locationName: name,
+                locationCountry: country,
+                locationLat: lat,
+                locationLon: lon
+            })
+        } catch (err) {
+            console.warn(err)
+        }
+    }
 
     render() {
         return (
@@ -856,19 +814,21 @@ export default class MainRouter extends React.Component {
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
                             handleLogOut={this.handleLogOut}
+
+                            element={this.state.antecedent}
                             elements={this.state.antecedents}
-                            setNewElement={this.setNewAntecedent}
-                            getElements={this.getAntecedents}
-                            getElementById={this.getAntecedentById}
                             elementId={this.state.antecedentId}
                             elementIdx={this.state.antecedentIdx}
                             elementName={this.state.antecedentName}
+                            elementType={"antecedent"}
+
+                            setNewElement={this.setNewAntecedent}
+                            getElements={this.getAntecedents}
+                            getElementById={this.getDeviceById}
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
                             modifyElementName={this.modifyAntecedentName}
-                            elementType={"antecedent"}
                             modify={this.state.modifyDevice}
-
                             setNewRule={this.setNewRule}
                             handleModifyDevice={this.handleModifyDevice}
                             deleteDeviceRequest={this.deleteDeviceRequest}
@@ -878,7 +838,7 @@ export default class MainRouter extends React.Component {
                             modifyAntecedentSettingError={this.modifyAntecedentSettingError}
                             getDeviceMeasureRequest={this.getDeviceMeasureRequest}
                             modifyAntecedentName={this.modifyAntecedentName}
-                            getAntecedentById={this.getAntecedentById}
+                            getAntecedentById={this.getDeviceById}
                             getRuleById={this.getRuleById}
                             registerDeviceRequest={this.registerDeviceRequest}
                             handleRegisterElementError={this.handleRegisterElementError}
@@ -895,19 +855,21 @@ export default class MainRouter extends React.Component {
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
                             handleLogOut={this.handleLogOut}
+
+                            element={this.state.consequent}
                             elements={this.state.consequents}
-                            setNewElement={this.setNewConsequent}
-                            getElements={this.getConsequents}
-                            getElementById={this.getConsequentById}
                             elementId={this.state.consequentId}
                             elementIdx={this.state.consequentIdx}
                             elementName={this.state.consequentName}
+                            elementType={"consequent"}
+
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
                             modifyElementName={this.modifyConsequentName}
-                            elementType={"consequent"}
                             modify={this.state.modifyDevice}
-
+                            setNewElement={this.setNewConsequent}
+                            getElements={this.getConsequents}
+                            getElementById={this.getDeviceById}
                             setNewConsequent={this.setNewConsequent}
                             handleModifyDevice={this.handleModifyDevice}
                             updateDeviceRequest={this.updateDeviceRequest}
@@ -919,7 +881,7 @@ export default class MainRouter extends React.Component {
                             setConsequentManualMeasureRequest={this.setConsequentManualMeasureRequest}
                             removeAlertEmailRequest={this.removeAlertEmailRequest}
                             handleModifyAlertEmail={this.handleModifyAlertEmail}
-                            getConsequentById={this.getConsequentById}
+                            getConsequentById={this.getDeviceById}
                             getRuleById={this.getRuleById}
                             addEmailLocal={this.addEmailLocal}
                             addNewAlertEmailRequest={this.addNewAlertEmailRequest}
@@ -940,18 +902,19 @@ export default class MainRouter extends React.Component {
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
                             handleLogOut={this.handleLogOut}
+
                             elements={this.state.rules}
-                            setNewElement={this.setNewRule}
-                            getElements={this.getRules}
-                            getElementById={this.getRuleById}
                             elementId={this.state.newRuleId}
                             elementIdx={this.state.newRuleIdx}
                             elementName={this.state.newRuleName}
+
                             addNewElement={this.state.AddRulePopUp}
                             handleRegisterDevicePopUp={this.handleAddRulePopUp}
                             modifyElementName={this.modifyRuleName}
                             modify={this.state.modify}
-
+                            setNewElement={this.setNewRule}
+                            getElements={this.getRules}
+                            getElementById={this.getRuleById}
                             deleteRuleConsequentRequest={this.deleteRuleConsequentRequest}
                             deleteRuleAntecedentRequest={this.deleteRuleAntecedentRequest}
                             handleModify={this.handleModify}

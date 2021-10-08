@@ -64,10 +64,10 @@ class SingUp extends React.Component {
         this.setState({ errorMessage: "Error: email non valid" });
       }
       else if (this.state.password === this.state.repeatPassword) {
-        this.setState({ errorMessage: "Error: the repeated password must be identical to the previous password" });
+        this.setState({ errorMessage: "Error: the repeated password is not equal to previous one" });
       }
       else {
-        this.setState({ errorMessage: "Error: you must register your name and surname" });
+        this.setState({ errorMessage: "Generic Error" });
       }
     }
   }

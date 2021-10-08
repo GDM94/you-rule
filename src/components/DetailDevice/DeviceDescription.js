@@ -2,27 +2,27 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 
 export default function DeviceDescription(props) {
-    const [checkDeviceName, handleCheckDeviceName] = useState(false);
+    const [duplicatedDeviceName, handleDuplicatedDeviceName] = useState(false);
 
 
-    const checkDeviceNameFunction = (newName) => {
-        var checkDeviceName = false;
+    const duplicatedDeviceNameFunction = (newName) => {
+        var check = false;
         const devices = props.elements;
         if (devices.some(device => device.name === newName)) {
-            checkDeviceName = true;
+            check = true;
         }
-        handleCheckDeviceName(checkDeviceName)
+        handleDuplicatedDeviceName(check)
     }
 
     return (
         <ElementDescription>
             <ul>
-                <li style={{ color: "red", display: checkDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</li>
+                <li style={{ color: "red", display: duplicatedDeviceName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</li>
                 <li>Name: {props.modify ?
                     <ModifyNameForm
                         {...props}
-                        checkDeviceNameFunction={checkDeviceNameFunction}
-                        checkDeviceName={checkDeviceName}
+                        duplicatedDeviceNameFunction={duplicatedDeviceNameFunction}
+                        duplicatedDeviceName={duplicatedDeviceName}
                     />
                     : props.elementName}
                 </li>
@@ -36,7 +36,7 @@ export default function DeviceDescription(props) {
 
 function ModifyNameForm(props) {
     const submitFunction = (event) => {
-        props.updateDeviceRequest(props.elementType);
+        props.updateDeviceRequest(props.device_id);
         props.handleModifyDevice();
         event.preventDefault();
     }
@@ -46,10 +46,9 @@ function ModifyNameForm(props) {
             <input type="text" id="name" name="name"
                 defaultValue={props.elementName}
                 onChange={(e) => {
-                    const NewName = e.target.value;
-                    props.checkDeviceNameFunction(NewName);
-                    if (!props.checkDeviceName) {
-                        props.modifyElementName(NewName)
+                    props.duplicatedDeviceNameFunction(e.target.value);
+                    if (!props.duplicatedDeviceName) {
+                        props.modifyElementName(e.target.value)
                     }
                 }}
             />

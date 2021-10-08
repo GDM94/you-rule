@@ -2,14 +2,10 @@ import React from 'react';
 import styled from "styled-components";
 import DetailAlert from './DetailAlert';
 import SwitchTitle from './SwitchTitle';
-import DetailSwitch from './DetailSwitch';
 
 export default function ConsequentDevices(props) {
     var deviceDetails = null;
-    if (props.elementId.includes("SWITCH")) {
-        deviceDetails = DetailSwitch(props)
-    }
-    else if (props.elementId.includes("alert")) {
+    if (props.elementId.includes("alert")) {
         deviceDetails = DetailAlert(props)
     }
     return (

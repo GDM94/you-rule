@@ -21,13 +21,12 @@ class Login extends React.Component {
   }
 
   loginSubmit = (event) => {
-    this.props.UserLoginRequest(this.state.userName, this.state.password);
+    if (this.state.userName.length > 0 && this.state.password.length > 0) {
+      this.props.UserLoginRequest(this.state.userName, this.state.password);
+    }
     event.preventDefault();
 
   }
-
-
-
 
   render() {
     return (
@@ -70,7 +69,9 @@ class Login extends React.Component {
               <FormBottom>
                 <div>
                   <button onClick={() => {
-                    this.props.UserLoginRequest(this.state.userName, this.state.password);
+                    if (this.state.userName.length > 0 && this.state.password.length > 0) {
+                      this.props.UserLoginRequest(this.state.userName, this.state.password);
+                    }
                   }}>
                     LOGIN
                   </button>
