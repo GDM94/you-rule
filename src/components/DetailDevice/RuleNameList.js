@@ -16,9 +16,8 @@ function RuleNameList(props) {
         handleOpenRule(!openRule);
     };
 
-    const rules = props.rules;
-
-    if (rules.length > 0) {
+    if (props.element.rules && props.element.rules.length > 0) {
+        const rules = props.element.rules;
         const rulesIdList = rules.map(rule => { return rule.id });
         const rulesNameList = rules.map(rule => {
             const ruleId = rule.id;

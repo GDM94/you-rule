@@ -9,10 +9,9 @@ import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 export default function SwitchTitle(props) {
-
     return (
         <ElementTitle>
-            <h1> <FiberManualRecordIcon style={{ color: props.color }}/> {props.name} </h1>
+            <h1> <FiberManualRecordIcon style={{ color: props.color }}/> {props.elementName} </h1>
             <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                 <Button style={{ display: props.modifyDevice }}
                     onClick={() => {
@@ -24,14 +23,14 @@ export default function SwitchTitle(props) {
                 </Button >
                 <Button
                     onClick={() => {
-                        props.getElementById(props.device_id);
+                        props.getElementById(props.elementId);
                     }}>
                     <RefreshIcon fontSize="large" style={{ color: "black" }} />
                 </Button >
                 <Button
                     onClick={() => {
                         if (props.modifyDevice) {
-                            props.updateDeviceRequest(props.device_id);
+                            props.updateDeviceRequest(props.elementId);
                             props.handleModifyDevice();
                         }
                         else {

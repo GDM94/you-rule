@@ -13,7 +13,8 @@ export default class Timer extends React.Component {
             measure_day: "-",
             rules: [],
             status: "connected",
-            color: "green"
+            color: "green",
+            description: "antecedent - timer"
         }
     }
 

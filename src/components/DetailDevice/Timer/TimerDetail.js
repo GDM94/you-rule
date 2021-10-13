@@ -9,7 +9,6 @@ export default function TimerDetail(props) {
         <ElementContent>
             <DeviceDescription
                 {...props}
-                description={"antecedent - timer"}
             />
             <ElementMeasure>
                 <h1>{weekDayMapper(props.element.measure_day)}, {props.element.measure_time}</h1>
