@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import styled from "styled-components";
 import RegisterDeviceProcess from './RegisterDeviceProcess'
 import Switch from './Switch/Switch';
+import Timer from './Timer/Timer'
 
 function Devices(props) {
     if (props.elementId !== "" && props.elements.length > 0 && props.addNewElement === false) {
@@ -18,7 +19,7 @@ function Devices(props) {
         }
         else if (props.elementId.includes("timer")){
             return (
-                <ContentContainer> </ContentContainer>
+                <Timer {...props}/>
             )
         }
         else if (props.elementId.includes("WATERLEVEL")){

@@ -15,8 +15,8 @@ function LateralButtonViewElement(props) {
                     <div key={element.id+"lateral"}>
                         <MyListItem key={element.id+"lateralItem"} style={{ color: "black" }} selected={props.elementId === element.id}
                             onClick={() => {
-                                props.getElementById(element.id);
                                 props.setNewElement(element.id, element.name, index);
+                                props.getElementById(element.id);
                                 props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
                                 if (props.addNewElement === true) {
                                     props.handleRegisterDevicePopUp();

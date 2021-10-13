@@ -7,7 +7,7 @@ import TopBar from '../components/TopBar/TopBar';
 import TopBar2 from '../components/TopBar2/TopBar2';
 import LateralMenu from '../components/LateralMenu/LateralMenu';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
-import DetailDevice from '../components/DetailDevice/DetailDevice';
+import Devices from '../components/DetailDevice/Devices';
 
 var jwt = require('jwt-simple');
 
@@ -15,17 +15,15 @@ class DevicesPage extends React.Component {
     constructor(props) {
         super(props);
         const decoded = jwt.decode(this.props.location.state.token, process.env.REACT_APP_JWT_SECRET);
-        const idToken = jwt.encode({ uid: decoded.uid }, process.env.REACT_APP_JWT_SECRET);
-        axios.defaults.headers.common['Authorization'] = idToken;
+        const idToken = jwt.encode({ "user_id": decoded.user_id }, process.env.REACT_APP_JWT_SECRET);
+        axios.defaults.headers.common['token'] = idToken;
         axios.defaults.timeout.toFixed(0);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     componentDidMount() {
+        this.props.setRouteUrl(this.props.location.state.path);
         this.props.getElements();
-        this.props.setRouteUrl(this.props.location.state.path)
     }
 
 
@@ -43,7 +41,7 @@ class DevicesPage extends React.Component {
                         {...this.props}
                     />
                     <ContentContainer>
-                        <DetailDevice
+                        <Devices
                             {...this.props}
                         />
                     </ContentContainer>
@@ -58,14 +56,6 @@ class DevicesPage extends React.Component {
 }
 
 export default withRouter(DevicesPage)
-
-
-
-const AppDiv = styled.div`
-display: flex;
-flex-direction: column;
-background-color: #e6e6e6;
-`;
 
 const GreatBody = styled.div`
 width: 100%;

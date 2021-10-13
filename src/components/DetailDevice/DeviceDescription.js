@@ -6,6 +6,7 @@ export default function DeviceDescription(props) {
 
 
     const duplicatedDeviceNameFunction = (newName) => {
+        console.log(props.elements)
         var check = false;
         const devices = props.elements;
         if (devices.some(device => device.name === newName)) {
@@ -36,7 +37,8 @@ export default function DeviceDescription(props) {
 
 function ModifyNameForm(props) {
     const submitFunction = (event) => {
-        props.updateDeviceRequest(props.device_id);
+        console.log(props.elementId)
+        props.updateDeviceRequest(props.elementId);
         props.handleModifyDevice();
         event.preventDefault();
     }

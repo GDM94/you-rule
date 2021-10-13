@@ -15,8 +15,8 @@ class RulesPage extends React.Component {
     constructor(props) {
         super(props);
         const decoded = jwt.decode(this.props.location.state.token, process.env.REACT_APP_JWT_SECRET);
-        const idToken = jwt.encode({ uid: decoded.uid }, process.env.REACT_APP_JWT_SECRET);
-        axios.defaults.headers.common['Authorization'] = idToken;
+        const idToken = jwt.encode({ "user_id": decoded.user_id }, process.env.REACT_APP_JWT_SECRET);
+        axios.defaults.headers.common['token'] = idToken;
         axios.defaults.timeout.toFixed(0);
         this.state = {
 
