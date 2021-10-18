@@ -4,7 +4,6 @@ import styled from "styled-components";
 import AddIcon from '@material-ui/icons/Add';
 
 export default function RuleBodyButton(props) {
-    //var antecedents = props.ruleBody === process.env.REACT_APP_RULE_BODY_ANTECEDENTS || props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_ANTECEDENTS
     const consequents = props.ruleBody === process.env.REACT_APP_RULE_BODY_CONSEQUENTS || props.ruleBody === process.env.REACT_APP_RULE_BODY_ADD_CONSEQUENTS
     var antecedentButtonClass = "ClickedRuleBodyButton";
     var addAntecedentButtonDisplay = "";

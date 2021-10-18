@@ -4,7 +4,6 @@ import RuleNameList from '../RuleNameList'
 import DeviceDescription from '../DeviceDescription';
 
 export default function TimerDetail(props) {
-    console.log(props.element)
     return (
         <ElementContent>
             <DeviceDescription

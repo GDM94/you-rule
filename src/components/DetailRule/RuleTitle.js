@@ -31,7 +31,7 @@ export default function RuleTitle(props) {
                     onClick={() => {
                         if (props.modify) {
                             const ruleIdx = props.newRuleIdx;
-                            props.setRuleRequest(ruleIdx);
+                            //props.setRuleRequest(ruleIdx);
                             props.handleModify(false);
                         }
                         else {

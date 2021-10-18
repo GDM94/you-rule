@@ -11,7 +11,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 export default function SwitchTitle(props) {
     return (
         <ElementTitle>
-            <h1> <FiberManualRecordIcon style={{ color: props.color }}/> {props.elementName} </h1>
+            <h2> <FiberManualRecordIcon style={{ color: props.color }}/> {props.elementName} </h2>
             <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                 <Button style={{ display: props.modifyDevice }}
                     onClick={() => {

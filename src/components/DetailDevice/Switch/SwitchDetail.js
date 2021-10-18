@@ -9,21 +9,18 @@ export default function SwitchDetail(props) {
         <ElementContent>
             <DeviceDescription
                 {...props}
-                description={"consequent - switch"}
             />
             <ElementMeasure>
                 <h1>{props.measure}</h1>
-                <p>last on ({props.last_date_on} - {props.last_time_on})</p>
-                <p>last off ({props.last_date_off} - {props.last_time_off})</p>
+                <p>last on ({props.element.last_date_on} - {props.element.last_time_on})</p>
+                <p>last off ({props.element.last_date_off} - {props.element.last_time_off})</p>
                 <ElementSettings>
                     <SetAutomaticButton {...props} />
                     <SetManualMeasureButton {...props} />
                 </ElementSettings>
             </ElementMeasure>
             <br></br>
-            <RuleNameList
-                {...props}
-            />
+            <RuleNameList {...props} />
         </ElementContent>
     )
 
@@ -32,7 +29,7 @@ export default function SwitchDetail(props) {
 
 function SetAutomaticButton(props) {
     var automatic = false;
-    if (props.automatic === "true") {
+    if (props.element.automatic === "true") {
         automatic = true;
     }
     return (
@@ -56,11 +53,11 @@ function SetManualMeasureButton(props) {
         <FormControlLabel
             control={
                 <Switch
-                    checked={props.manual_measure === "on"}
+                    checked={props.element.manual_measure === "on"}
                     onChange={(e) => { props.setConsequentManualMeasureRequest(e.target.value) }}
-                    value={props.manual_measure}
+                    value={props.element.manual_measure}
                     color="primary"
-                    disabled={props.automatic === "true"}
+                    disabled={props.element.automatic === "true"}
                 />
             }
             label="on"

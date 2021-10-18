@@ -18,31 +18,15 @@ export default class Switch extends React.Component {
             last_time_on: "-",
             last_time_off: "-",
             status: "disconnected",
-            color: "red"
+            color: "red",
+            description: "consequent - switch"
         }
-    }
-
-    static getDerivedStateFromProps(props) {
-        return {
-            device_id: props.element.device_id,
-            name: props.element.name,
-            measure: props.element.measure,
-            rules: props.element.rules,
-            automatic: props.element.automatic,
-            manual_measure: props.element.manual_measure,
-            last_date_on: props.element.last_date_on,
-            last_date_off: props.element.last_date_off,
-            last_time_on: props.element.last_time_on,
-            last_time_off: props.element.last_time_off,
-            status: props.element.status,
-            color: props.element.color
-        };
     }
 
     render() {
         return (
             <ContentContainer>
-                <SwitchTitle {...this.props} {...this.state} />
+                <SwitchTitle {...this.props} {...this.state}/>
                 <SwitchDetail {...this.props} {...this.state}/>
             </ContentContainer>
         )

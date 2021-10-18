@@ -1,20 +1,19 @@
 import React from 'react';
 import styled from "styled-components";
-import TimerDetail from './TimerDetail';
-import TimerTitle from './TimerTitle';
+import AlertTitle from './AlertTitle';
+import AlertDesctiption from './AlertDescription';
 
-export default class Timer extends React.Component {
+export default class Alert extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             device_id: "",
-            name: "timer",
-            measure_time: "-",
-            measure_day: "-",
+            name: "alert",
+            email_list: [],
             rules: [],
             status: "connected",
             color: "green",
-            description: "antecedent - timer"
+            description: "consequent - alert email sender"
         }
     }
 
@@ -23,8 +22,8 @@ export default class Timer extends React.Component {
     render() {
         return (
             <ContentContainer>
-                <TimerTitle {...this.props} {...this.state} />
-                <TimerDetail {...this.props} {...this.state} />
+                <AlertTitle {...this.props} {...this.state} />
+                <AlertDesctiption {...this.props} {...this.state}/>
             </ContentContainer>
         )
     }

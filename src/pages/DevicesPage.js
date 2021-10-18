@@ -22,8 +22,10 @@ class DevicesPage extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.addNewElement === true) {
+            this.props.handleRegisterDevicePopUp();
+        }
         this.props.setRouteUrl(this.props.location.state.path);
-        this.props.getElements();
     }
 
 

@@ -4,30 +4,31 @@ import styled from "styled-components";
 import RegisterDeviceProcess from './RegisterDeviceProcess'
 import Switch from './Switch/Switch';
 import Timer from './Timer/Timer'
+import Alert from './Alert/Alert';
 
 function Devices(props) {
     if (props.elementId !== "" && props.elements.length > 0 && props.addNewElement === false) {
         if (props.elementId.includes("SWITCH")) {
             return (
-                <Switch {...props}/>
+                <Switch {...props} />
             )
         }
-        else if (props.elementId.includes("alert")){
+        else if (props.elementId.includes("alert")) {
+            return (
+                <Alert {...props} />
+            )
+        }
+        else if (props.elementId.includes("timer")) {
+            return (
+                <Timer {...props} />
+            )
+        }
+        else if (props.elementId.includes("WATERLEVEL")) {
             return (
                 <ContentContainer> </ContentContainer>
             )
         }
-        else if (props.elementId.includes("timer")){
-            return (
-                <Timer {...props}/>
-            )
-        }
-        else if (props.elementId.includes("WATERLEVEL")){
-            return (
-                <ContentContainer> </ContentContainer>
-            )
-        }
-        else if (props.elementId.includes("BUTTON")){
+        else if (props.elementId.includes("BUTTON")) {
             return (
                 <ContentContainer> </ContentContainer>
             )

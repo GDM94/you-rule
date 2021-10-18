@@ -3,73 +3,43 @@ import styled from "styled-components";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import RuleNameList from './RuleNameList'
+import RuleNameList from '../RuleNameList'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import DeviceDescription from './DeviceDescription';
-import SwitchTitle from './SwitchTitle';
+import DeviceDescription from '../DeviceDescription';
 
-export default function DetailAlert(props) {
-    const [openRule, handleOpenRule] = useState(false);
-    const handleClick = () => {
-        handleOpenRule(!openRule);
-    };
+export default function AlertDesctiption(props) {
     return (
-        <ContentContainer>
-            <SwitchTitle
+        <ElementContent>
+            <DeviceDescription
                 {...props}
             />
-            <ElementContent>
-                <DeviceDescription
-                    {...props}
-                    description={"consequent - alert email sender"}
-                />
-                <ElementMeasure>
-                    <EmailTitle>
-                        <h3> emails </h3>
-                        <Button onClick={() => {
-                            props.addNewAlertEmailRequest()
-                        }}>
-                            <AddIcon fontSize="small" style={{ color: "black" }} />
-                        </Button >
-                    </EmailTitle>
-                    <Divider />
-                    <table align="center">
-                        <tbody>
-                            <EmailDetail {...props} />
-                        </tbody>
-                    </table>
-                </ElementMeasure>
-                <br></br>
-                <ul>
-                    <li key={"rules"}>
-                        <Button onClick={() => { handleClick(); }}>
-                            RULES  {openRule ? <ExpandLess /> : <ExpandMore />}
-                        </Button>
-                    </li>
-                    <Collapse in={openRule} timeout="auto" unmountOnExit>
-                        <RuleNameList
-                            {...props}
-                            rulesDevice={props.consequents[props.consequentIdx].rules}
-                        />
-                    </Collapse>
-                </ul>
-
-            </ElementContent>
-        </ContentContainer>
+            <ElementMeasure>
+                <EmailTitle>
+                    <h3> emails </h3>
+                    <Button onClick={() => {
+                        props.addNewAlertEmailRequest()
+                    }}>
+                        <AddIcon fontSize="small" style={{ color: "black" }} />
+                    </Button >
+                </EmailTitle>
+                <Divider />
+                <EmailDetail {...props} />
+            </ElementMeasure>
+            <br></br>
+            <RuleNameList
+                {...props}
+            />
+        </ElementContent>
     )
 }
 
 function EmailDetail(props) {
-    const consequent_idx = props.consequentIdx;
-    const email_list = props.consequents[consequent_idx].email_list;
-    var idx = -1;
-    if (email_list.length > 0) {
+    if (props.element.email_list && props.element.email_list.length > 0) {
+        const email_list = props.element.email_list;
+        var idx = -1;
         var email_element = email_list.map(email => {
             idx++;
             const key = idx.toString()
@@ -82,10 +52,20 @@ function EmailDetail(props) {
                 />
             )
         })
-        return (email_element)
+        return (
+            <table align="center">
+                <tbody>
+                    {email_element}
+                </tbody>
+            </table>
+        )
     }
     else {
-        return (<></>)
+        return (
+            <table align="center">
+                <tbody>
+                </tbody>
+            </table>)
     }
 
 }
@@ -163,17 +143,6 @@ function EmailButtonGroup(props) {
 }
 
 
-const ContentContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  float:left;
-  text-align: center;
-  max-height:100%;
-  overflow-y: auto;
-  background-color: #d9d9d9;
-`;
 
 const ElementContent = styled.div`
 border: solid #d9d9d9 1px;

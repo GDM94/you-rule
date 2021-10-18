@@ -11,9 +11,6 @@ function TopBar2Button(props) {
                 props.location.state.path = props.path;
                 props.setRouteUrl(props.path);
                 props.history.push({ pathname: props.path, state: props.location.state })
-                if (props.addNewElement === true) {
-                    props.handleRegisterDevicePopUp();
-                }
             }}>
             {props.page}
         </Button>

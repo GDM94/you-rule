@@ -10,7 +10,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 export default function TimerTitle(props) {
     return (
         <ElementTitle>
-            <h1> <FiberManualRecordIcon style={{ color: props.element.color }} /> {props.element.name} </h1>
+            <h2> <FiberManualRecordIcon style={{ color: props.element.color }} /> {props.element.name} </h2>
             <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                 <Button
                     onClick={() => {
