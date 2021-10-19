@@ -18,16 +18,14 @@ function RuleNameList(props) {
 
     if (props.element.rules && props.element.rules.length > 0) {
         const rules = props.element.rules;
-        const rulesIdList = rules.map(rule => { return rule.id });
         const rulesNameList = rules.map(rule => {
             const ruleId = rule.id;
             const ruleName = rule.name;
-            const ruleIdx = rulesIdList.indexOf(ruleId);
             return (
                 <div key={ruleId}>
                     <ListItem key={ruleId} button onClick={() => {
                         props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
-                        props.setNewRule(ruleId, ruleName, ruleIdx);
+                        props.setNewRule(ruleId);
                         props.location.state.page = process.env.REACT_APP_PAGE_RULES
                         props.history.push({ pathname: process.env.REACT_APP_RULES_URL, state: props.location.state })
                     }}>

@@ -26,7 +26,6 @@ export default class TimerAntecedent extends React.Component {
 
 
     render() {
-        console.log(this.props.ruleElement)
         return (
             <ContentContainer>
                 <RuleElementTitle {...this.props}/>

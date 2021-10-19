@@ -7,35 +7,40 @@ export default class RegisterDeviceProcess extends React.Component {
         super(props);
         this.state = {
             registerDeviceError: false,
-            newDeviceId: ""
+            newDeviceId: "",
+            deviceType: "",
         }
     }
 
     CheckRegisterDeviceRecognition() {
         const deviceId = this.state.newDeviceId;
         var deviceRecognition = false;
-
+        var deviceType = ""
         if (deviceId.includes("SWITCH")) {
             deviceRecognition = true;
+            deviceType = "switch";
         }
         else if (deviceId.includes("PHOTOCELL")) {
-            deviceRecognition = true
+            deviceRecognition = true;
+            deviceType = "sensor";
         }
         else if (deviceId.includes("WATERLEVEL")) {
-            deviceRecognition = true
+            deviceRecognition = true;
+            deviceType = "sensor";
         }
         else if (deviceId.includes("SOILMOISTURE")) {
-            deviceRecognition = true
+            deviceRecognition = true;
+            deviceType = "sensor";
         }
         else if (deviceId.includes("AMMETER")) {
-            deviceRecognition = true
+            deviceRecognition = true;
+            deviceType = "sensor";
         }
         else if (deviceId.includes("BUTTON")) {
-            deviceRecognition = true
+            deviceRecognition = true;
+            deviceType = "sensor";
         }
-
-
-        this.setState({ registerDeviceError: !deviceRecognition })
+        this.setState({ registerDeviceError: !deviceRecognition, deviceType: deviceType})
         return deviceRecognition
     }
 
@@ -48,7 +53,7 @@ export default class RegisterDeviceProcess extends React.Component {
     createDevice = (event) => {
         const checkRecognition = this.CheckRegisterDeviceRecognition();
         if (checkRecognition) {
-            deviceInitialization(this.props, this.state.newDeviceId);
+            this.props.registerDeviceRequest(this.state.newDeviceId, this.state.deviceType);
         }
         event.preventDefault();
     }
@@ -76,7 +81,7 @@ export default class RegisterDeviceProcess extends React.Component {
                         <MyButton onClick={() => {
                             const checkRecognition = this.CheckRegisterDeviceRecognition();
                             if (checkRecognition) {
-                                deviceInitialization(this.props, this.state.newDeviceId);
+                                this.props.registerDeviceRequest(this.state.newDeviceId, this.state.deviceType);
                             }
                         }}>
                             NEXT
@@ -89,35 +94,6 @@ export default class RegisterDeviceProcess extends React.Component {
     }
 }
 
-
-
-function deviceInitialization(props, deviceId) {
-    var newDevice = null;
-    var type = ""
-    if (deviceId.includes("SWITCH")) {
-        type = "consequent"
-        newDevice = { id: deviceId, name: "switch-" + props.consequents.length.toString(), measure: "off", rules: [], automatic: "true", manual_measure: "off" };
-    }
-    else {
-        type = "antecedent"
-        if (deviceId.includes("PHOTOCELL")) {
-            newDevice = { id: deviceId, name: "photocell-" + props.antecedents.length.toString(), setting: "1024", measure: "init", absolute_measure: "init", error: "0", rules: [] };
-        }
-        else if (deviceId.includes("WATERLEVEL")) {
-            newDevice = { id: deviceId, name: "waterlevel-" + props.antecedents.length.toString(), setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
-        }
-        else if (deviceId.includes("SOILMOISTURE")) {
-            newDevice = { id: deviceId, name: "soilmoisture-" + props.antecedents.length.toString(), setting: "1024", measure: "init", absolute_measure: "init", error: "0", rules: [] };
-        }
-        else if (deviceId.includes("AMMETER")) {
-            newDevice = { id: deviceId, name: "ammeter-" + props.antecedents.length.toString(), setting: "100", measure: "init", absolute_measure: "init", error: "0", rules: [] };
-        }
-        else if (deviceId.includes("BUTTON")) {
-            newDevice = { id: deviceId, name: "button-" + props.antecedents.length.toString(), setting: "", measure: "init", absolute_measure: "init", error: "", rules: [] };
-        }
-    }
-    props.registerDeviceRequest(type, newDevice);
-}
 
 const ContentContainer = styled.div`
   display: flex;

@@ -10,13 +10,13 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 export default function RuleTitle(props) {
     return (
         <RuleTitleComponent>
-            <h1> <FiberManualRecordIcon style={{ color: props.elements[props.elementIdx].evaluation === "true" ? "green" : "red" }} /> {props.newRuleName} </h1>
+            <h1> <FiberManualRecordIcon style={{ color: props.element.evaluation === "true" ? "green" : "red" }} /> {props.element.name} </h1>
             <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                 <Button style={{ display: props.modify ? "" : "none" }}
                     onClick={() => {
                         props.handleModify(false);
                         props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
-                        props.deleteRuleRequest(props.newRuleId, props.newRuleIdx);
+                        props.deleteElementRequest(props.newRuleId);
 
                     }}>
                     <DeleteIcon fontSize="large" style={{ color: "red" }} />
@@ -30,7 +30,7 @@ export default function RuleTitle(props) {
                 <Button
                     onClick={() => {
                         if (props.modify) {
-                            const ruleIdx = props.newRuleIdx;
+                            //const ruleIdx = props.newRuleIdx;
                             //props.setRuleRequest(ruleIdx);
                             props.handleModify(false);
                         }

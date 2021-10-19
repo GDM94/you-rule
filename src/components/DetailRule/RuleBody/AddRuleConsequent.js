@@ -4,13 +4,14 @@ import Button from '@material-ui/core/Button';
 
 export default function AddRuleConsequent(props) {
     var consequentsId = props.element.device_consequents;
+    var idx = -1;
     return (
         props.consequents.map(item => {
+            idx++;
             if (!consequentsId.some(c => c === item.id)) {
                 return (
-                    <MyButton onClick={() => {
-                        //props.setConsequentRuleLocal(props.newRuleIdx, newConsequent);
-                        props.setRuleElement(item.id, item.name, props.element.device_consequents.length);
+                    <MyButton key={idx} onClick={() => {
+                        props.setRuleElement(item.id);
                         props.addNewRuleAConsequentRequest(item.id);
                         props.handleSetRuleConsequent(true);
                     }}>
@@ -19,7 +20,7 @@ export default function AddRuleConsequent(props) {
                 )
             }
             else {
-                return <></>;
+                return null;
             }
         })
     )

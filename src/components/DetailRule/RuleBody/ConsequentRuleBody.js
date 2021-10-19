@@ -7,9 +7,9 @@ export default function ConsequentRuleBody(props) {
         props.element.rule_consequents.map(item => {
             idx++;
             return (
-                <MyButton onClick={() => {
+                <MyButton key={idx} onClick={() => {
                     props.handleSetRuleConsequent(true);
-                    props.setRuleElement(item.device_id, item.device_name, idx);
+                    props.setRuleElement(item.device_id);
                     props.getRuleConsequentById(item.id);
                 }}>
                     {item.device_name}

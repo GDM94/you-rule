@@ -7,15 +7,13 @@ import MuiListItem from "@material-ui/core/ListItem";
 
 function LateralButtonViewElement(props) {
     if (props.elements.length > 0) {
-        const deviceIdList = props.elements.map(element => { return element.id });
         return (
             props.elements.map(element => {
-                var index = deviceIdList.indexOf(element.id)
                 return (
                     <div key={element.id+"lateral"}>
                         <MyListItem key={element.id+"lateralItem"} style={{ color: "black" }} selected={props.elementId === element.id}
                             onClick={() => {
-                                props.setNewElement(element.id, element.name, index);
+                                props.setNewElement(element.id);
                                 props.getElementById(element.id);
                                 props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
                                 if (props.addNewElement === true) {

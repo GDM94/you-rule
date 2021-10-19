@@ -11,16 +11,16 @@ export default function RuleElementTitle(props) {
             <h2> {props.setRuleAntecedent ? "antecedent" : "consequent"}| {props.ruleElementName} </h2>
             <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                 <Button onClick={() => {
-                    //props.deleteDeviceRequest("antecedent");
-                    props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
-                }}>
-                    <DeleteIcon fontSize="large" style={{ color: "red" }} />
-                </Button>
-                <Button onClick={() => {
-                    //props.updateDeviceRequest("antecedent");
+                    props.updateRuleElementRequest(props.newRuleId, props.ruleElementId);
                     props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
                 }}>
                     <DoneIcon fontSize="large" style={{ color: "black" }} />
+                </Button>
+                <Button onClick={() => {
+                    props.deleteRuleElementRequest(props.newRuleId, props.ruleElementId)
+                    props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
+                }}>
+                    <DeleteIcon fontSize="large" style={{ color: "red" }} />
                 </Button>
             </ButtonGroup>
         </ElementTitle>

@@ -8,9 +8,9 @@ export default function AntecedentRuleBody(props) {
         props.element.rule_antecedents.map(item => {
             idx++;
             return (
-                <MyButton onClick={() => {
+                <MyButton key={idx} onClick={() => {
                     props.handleSetRuleAntecedent(true);
-                    props.setRuleElement(item.device_id, item.device_name, idx);
+                    props.setRuleElement(item.device_id);
                     props.getRuleAntecedentById(item.device_id);
                 }}>
                     {item.device_name}

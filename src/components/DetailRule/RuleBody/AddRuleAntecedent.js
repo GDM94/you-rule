@@ -5,19 +5,20 @@ export default function AddRuleAntecedent(props) {
     return (
         <>
             <AddRuleAntecedentsDevice {...props} />
-            <AddRuleAntecedentSwitchLastTimeOn {...props} />
         </>
     )
 }
 
 function AddRuleAntecedentsDevice(props) {
     var antecedentsId = props.element.device_antecedents;
+    var idx = 500;
     return (
         props.antecedents.map(item => {
+            idx++;
             if (!antecedentsId.some(c => c === item.id)) {
                 return (
-                    <MyButton onClick={() => {
-                        props.setRuleElement(item.id, item.name, props.element.device_antecedents.length);
+                    <MyButton key={idx} onClick={() => {
+                        props.setRuleElement(item.id);
                         props.addNewRuleAntecedentRequest(item.id);
                         props.handleSetRuleAntecedent(true);
                     }}>
@@ -26,7 +27,7 @@ function AddRuleAntecedentsDevice(props) {
                 )
             }
             else {
-                return <></>;
+                return null;
             }
         })
     )
@@ -35,14 +36,16 @@ function AddRuleAntecedentsDevice(props) {
 function AddRuleAntecedentSwitchLastTimeOn(props) {
     var antecedentsId = props.element.device_antecedents;
     var consequents = props.element.rule_consequents;
+    var idx = 10000;
     if (consequents.length > 0) {
+        idx++;
         return (
             consequents.map(item => {
                 if (!item.device_id.includes("alert")) {
                     if (!antecedentsId.some(c => c === item.device_id)) {
                         return (
-                            <MyButton onClick={() => {
-                                props.setRuleElement(item.id, item.name, props.element.device_antecedents.length);
+                            <MyButton key={idx} onClick={() => {
+                                props.setRuleElement(item.id);
                                 props.addNewRuleAntecedentRequest(item.id);
                                 props.handleSetRuleAntecedent(true);
                             }}>
@@ -51,17 +54,17 @@ function AddRuleAntecedentSwitchLastTimeOn(props) {
                         )
                     }
                     else {
-                        return <></>
+                        return null
                     }
                 } else {
-                    return <></>
+                    return null
                 }
 
             })
         )
     }
     else {
-        return <></>
+        return null
     }
 }
 

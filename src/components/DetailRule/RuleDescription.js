@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export default function RuleDescription(props) {
     const [checkRuleName, handleCheckRuleName] = useState(false);
-    const rule = props.elements[props.elementIdx];
+    const rule = props.element;
 
     const checkRuleNameFunction = (ruleName) => {
         const rules = props.elements;
@@ -18,7 +18,7 @@ export default function RuleDescription(props) {
     return (
         <ElementDescription>
             <ul>
-                <li style={{ color: "red", display: checkRuleName ? 'block' : 'none' }}> Error: device name already exist! Choose another name.</li>
+                <li style={{ color: "red", display: checkRuleName ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</li>
                 <li>Name: {props.modify ?
                     <ModifyNameForm
                         {...props}

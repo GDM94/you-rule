@@ -7,7 +7,6 @@ import Login from './pages/Login'
 import SingUp from './pages/SingUp'
 import axios from 'axios';
 import history from "./history";
-import DeviceAntecedents from './DeviceAntecedents'
 import DevicesPage from "./pages/DevicesPage";
 import RulesPage from "./pages/RulesPage";
 import SettingPage from "./pages/SettingPage";
@@ -30,23 +29,15 @@ export default class MainRouter extends React.Component {
             modifyAlertEmail: false,
 
             newRuleId: "",
-            newRuleIdx: 0,
-            newRuleName: "",
             modify: false,
             addRulePopUp: false,
             setRuleAntecedent: false,
             setRuleConsequent: false,
             ruleBody: process.env.REACT_APP_RULE_BODY_ANTECEDENTS,
             ruleElementId: "",
-            ruleElementName: "",
-            ruleElementIdx: 0,
 
             antecedentId: "",
-            antecedentName: "",
-            antecedentIdx: 0,
             consequentId: "",
-            consequentName: "",
-            consequentIdx: 0,
             modifyDevice: false,
             registerDevicePopUp: false,
 
@@ -205,7 +196,7 @@ export default class MainRouter extends React.Component {
             console.warn(err)
         }
     }
-    
+
     getRuleById = async (ruleId) => {
         console.log('App GET Rule By ID');
         const url = process.env.REACT_APP_BACKEND_URL + "/rule/id/" + ruleId;
@@ -219,7 +210,7 @@ export default class MainRouter extends React.Component {
 
     getRuleAntecedentById = async (ruleElementId) => {
         console.log('App GET Rule Antecedent');
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/get/antecedent/"+this.state.newRuleId+"/"+ruleElementId;
+        const url = process.env.REACT_APP_BACKEND_URL + "/rule/get/antecedent/" + this.state.newRuleId + "/" + ruleElementId;
         try {
             let res = await axios.get(url);
             this.setState({ ruleElement: res.data });
@@ -229,7 +220,7 @@ export default class MainRouter extends React.Component {
     }
     getRuleConsequentById = async (ruleElementId) => {
         console.log('App GET Rule Consequent');
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/get/consequent/"+this.state.newRuleId+"/"+ruleElementId;
+        const url = process.env.REACT_APP_BACKEND_URL + "/rule/get/consequent/" + this.state.newRuleId + "/" + ruleElementId;
         try {
             let res = await axios.get(url);
             this.setState({ ruleElement: res.data });
@@ -248,11 +239,9 @@ export default class MainRouter extends React.Component {
             let res = await axios.post(url);
             const newRule = res.data;
             const ruleId = newRule.id;
-            console.log("response rule id: ", ruleId)
-            console.log(newRule)
             var rules = this.state.rules;
             var idx = rules.length;
-            const newRulesList = rules.concat([newRule])
+            const newRulesList = rules.concat(newRule)
             this.setState({
                 rules: newRulesList,
                 newRuleIdx: idx,
@@ -278,8 +267,7 @@ export default class MainRouter extends React.Component {
                 }
             });
             const rule = res.data;
-            console.log(rule)
-            this.setState({rule: rule}, ()=>{this.getRuleAntecedentById(ruleElementId)})
+            this.setState({ rule: rule }, () => { this.getRuleAntecedentById(ruleElementId) })
         } catch (err) {
             console.warn(err)
         }
@@ -295,51 +283,25 @@ export default class MainRouter extends React.Component {
                 }
             });
             const rule = res.data;
-            console.log(rule)
-            this.setState({rule: rule}, ()=>{this.getRuleConsequentById(ruleElementId)})
+            this.setState({ rule: rule }, () => { this.getRuleConsequentById(ruleElementId) })
         } catch (err) {
             console.warn(err)
         }
     }
-    setRuleRequest = async (ruleIdx) => {
-        console.log("App POST set new rule");
-        const rule = this.state.rules[ruleIdx]
-        const rule_json = JSON.stringify(rule);
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/set";
-        try {
-            await axios.post(url, { rule_json });
-        } catch (err) {
-            console.warn(err)
+    updateRuleElementRequest = async (ruleId, ruleElementId) => {
+        var url = "";
+        if (this.state.setRuleAntecedent) {
+            console.log("App POST update rule antecedent");
+            url = process.env.REACT_APP_BACKEND_URL + "/rule/update/antecedent/" + ruleId + "/" + ruleElementId;
         }
-    }
-    setRuleAntecedentRequest = async (newAntecedent) => {
-        console.log("App POST new rule antecedent");
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/antecedent";
-        try {
-            await axios.post(url, {}, {
-                params: {
-                    rule_id: this.state.newRuleId,
-                    device_id: newAntecedent.device_id,
-                    start_value: newAntecedent.start_value,
-                    stop_value: newAntecedent.stop_value,
-                    condition: newAntecedent.condition,
-                    measure: newAntecedent.measure
-                }
-            });
-        } catch (err) {
-            console.warn(err)
+        else {
+            console.log("App POST update rule consequent");
+            url = process.env.REACT_APP_BACKEND_URL + "/rule/update/consequent/" + ruleId + "/" + ruleElementId;
         }
-    }
-    setRuleConsequentRequest = async (newConsequent) => {
-        console.log("App POST new rule consequent");
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/consequent";
         try {
-            await axios.post(url, {}, {
-                params: {
-                    rule_id: this.state.newRuleId,
-                    device_id: newConsequent.device_id,
-                }
-            });
+            const ruleElement = this.state.ruleElement;
+            const ruleElementJson = JSON.stringify(ruleElement);
+            await axios.post(url, { "ruleElement": ruleElementJson });
         } catch (err) {
             console.warn(err)
         }
@@ -356,66 +318,29 @@ export default class MainRouter extends React.Component {
             else if (this.state.routeUrl === process.env.REACT_APP_SWITCHES_URL) {
                 device = JSON.stringify(this.state.consequent)
             }
-            await axios.post(url, { data: device });
+            axios.post(url, { data: device })
+                .then(this.getElements());
         } catch (err) {
             console.warn(err)
         }
     }
-    registerDeviceRequest = async (type, newDevice) => {
+    registerDeviceRequest = async (newDeviceId, deviceType) => {
         console.log("App POST register device");
-        const url = process.env.REACT_APP_BACKEND_URL + "/device/register";
+        const url = process.env.REACT_APP_BACKEND_URL + "/device/register/" + newDeviceId;
         try {
-            let res = await axios.post(url, {}, {
-                params: {
-                    device_id: newDevice.id,
-                    device_name: newDevice.name,
-                }
-            });
+            let res = await axios.post(url);
             const result = res.data;
-            if (result === true) {
-                this.registerNewDeviceLocal(type, newDevice);
+            if (result !== false) {
+                if (deviceType === "sensor") {
+                    this.setState({ antecedentId: newDeviceId, antecedent: result }, () => { this.getElements() })
+                }
+                else {
+                    this.setState({ consequentId: newDeviceId, consequent: result }, () => { this.getElements() })
+                }
                 this.handleRegisterDevicePopUp();
             } else {
                 this.handleRegisterElementError(true);
             }
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-    registerNewDeviceLocal = (type, newDevice) => {
-        if (type === "antecedent") {
-            var newAntecedents = this.state.antecedents;
-            const newIndex = newAntecedents.length;
-            this.setState({
-                antecedents: newAntecedents.concat([newDevice]),
-                antecedentId: newDevice.id,
-                antecedentName: newDevice.name,
-                antecedentIdx: newIndex,
-                modifyDevice: true,
-            })
-        }
-        else {
-            var newConsequents = this.state.consequents;
-            const newIndex = newConsequents.length;
-            this.setState({
-                consequents: newConsequents.concat([newDevice]),
-                consequentId: newDevice.id,
-                consequentName: newDevice.name,
-                consequentIdx: newIndex,
-                modifyDevice: true,
-            })
-        }
-    }
-    updateRuleName = async () => {
-        console.log("App POST update rule name")
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/name";
-        try {
-            await axios.post(url, {}, {
-                params: {
-                    rule_id: this.state.newRuleId,
-                    rule_name: this.state.newRuleName
-                }
-            });
         } catch (err) {
             console.warn(err)
         }
@@ -430,11 +355,7 @@ export default class MainRouter extends React.Component {
                     automatic: automatic
                 }
             });
-            const consequent = res.data;
-            const consequents = this.state.consequents;
-            const idx = this.state.consequentIdx;
-            consequents[idx] = consequent;
-            this.setState({ consequents: consequents })
+            this.setState({ consequent: res.data })
         } catch (err) {
             console.warn(err)
         }
@@ -443,16 +364,13 @@ export default class MainRouter extends React.Component {
         console.log("App POST consequent manual measure");
         const url = process.env.REACT_APP_BACKEND_URL + "/device/consequent/manual";
         try {
-            await axios.post(url, {}, {
+            let res = await axios.post(url, {}, {
                 params: {
                     device_id: this.state.consequentId,
                     manual_measure: manual_measure
                 }
             });
-            const consequent = this.state.consequent;
-            consequent.manual_measure = manual_measure;
-            consequent.measure = manual_measure;
-            this.setState({ consequent: consequent })
+            this.setState({ consequent: res.data })
         } catch (err) {
             console.warn(err)
         }
@@ -471,7 +389,6 @@ export default class MainRouter extends React.Component {
             console.warn(err)
         }
     }
-
     addNewAlertEmailRequest = async () => {
         console.log("App ADD email alert");
         const url = process.env.REACT_APP_BACKEND_URL + "/device/alert/add/";
@@ -484,91 +401,55 @@ export default class MainRouter extends React.Component {
     }
 
     // REMOVE ELEMENT FROM ARRAYS
-    deleteRuleRequest = async (ruleId, ruleIdx) => {
-        console.log("App DELETE rule")
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/" + ruleId;
-        try {
-            await axios.delete(url);
-            var NewRules = this.state.rules;
-            NewRules.splice(ruleIdx, 1)
-            this.setState({ rules: NewRules, newRuleIdx: 0, newRuleName: "", newRuleId: "" })
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-    deleteRuleConsequentRequest = async (ruleId, deviceId) => {
-        console.log("App DELETE rule consequent")
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/consequent/" + ruleId + "/" + deviceId;
-        try {
-            await axios.delete(url);
-            this.deleteRuleConsequentLocal(deviceId)
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-    deleteRuleConsequentLocal = (deviceId) => {
-        var rules = this.state.rules;
-        const idx_rule = this.state.newRuleIdx
-        var rule_consequent = rules[idx_rule].consequent
-        const consequentIdList = rule_consequent.map(consequent => { return consequent.device_id });
-        const idx_consequent = consequentIdList.indexOf(deviceId)
-        var idx = 0;
-        var newRuleConsequents = rule_consequent.map(consequent => {
-            if (idx > idx_consequent) {
-                consequent.order = (parseInt(consequent.order) - 1).toString();
-            }
-            idx++;
-            return consequent
-        })
-        newRuleConsequents.splice(idx_consequent, 1);
-        console.log(newRuleConsequents)
-        rules[idx_rule].consequent = newRuleConsequents;
-        this.setState({ rules: rules });
-    }
-    deleteRuleAntecedentRequest = async (ruleId, deviceId) => {
-        console.log("App DELETE rule antecedent")
-        const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/antecedent/" + ruleId + "/" + deviceId;
-        try {
-            await axios.delete(url);
-            this.deleteRuleAntecedentLocal(deviceId)
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-    deleteRuleAntecedentLocal = (deviceId) => {
-        var rules = this.state.rules;
-        const idx_rule = this.state.newRuleIdx
-        var rule_antecedent = rules[idx_rule].antecedent
-        const antecedentIdList = rule_antecedent.map(antecedent => { return antecedent.device_id });
-        const idx_antecedent = antecedentIdList.indexOf(deviceId)
-        rules[idx_rule].antecedent.splice(idx_antecedent, 1);
-        this.setState({ rules: rules });
-    }
-    deleteDeviceRequest = async (type) => {
-        console.log("App DELETE device")
-        if (type === "antecedent") {
-            const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + this.state.antecedentId;
-            var antecedents = this.state.antecedents;
-            const index = this.state.antecedentIdx;
-            antecedents.splice(index, 1);
-            this.setState({ antecedents: antecedents, antecedentIdx: 0, antecedentId: "", antecedentName: "" })
-            try {
-                await axios.delete(url);
-            } catch (err) {
-                console.warn(err)
-            }
+    deleteRuleElementRequest = async (ruleId, deviceId) => {
+        var url = "";
+        if (this.state.setRuleAntecedent === true) {
+            console.log("App DELETE rule antecedent")
+            url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/antecedent/" + ruleId + "/" + deviceId;
         }
         else {
-            const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + this.state.consequentId;
-            const index = this.state.consequentIdx;
-            var consequents = this.state.consequents;
-            consequents.splice(index, 1);
-            this.setState({ consequents: consequents, consequentIdx: 0, consequentId: "", consequentName: "" })
-            try {
-                await axios.delete(url);
-            } catch (err) {
-                console.warn(err)
+            console.log("App DELETE rule consequent")
+            url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/consequent/" + ruleId + "/" + deviceId;
+        }
+        try {
+            let res = await axios.delete(url);
+            this.setState({ rule: res.data, ruleElement: {} })
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    deleteElementRequest = async (elementId) => {
+        try {
+            if (this.state.routeUrl === process.env.REACT_APP_RULES_URL) {
+                const url = process.env.REACT_APP_BACKEND_URL + "/rule/delete/" + elementId;
+                let res = await axios.delete(url);
+                if (res.data === true) {
+                    this.setState({ newRuleId: "", rule: {} }, () => {
+                        this.getElements()
+                    })
+                }
             }
+            else if (this.state.routeUrl === process.env.REACT_APP_SENSORS_URL) {
+                const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + elementId;
+                let res = await axios.delete(url);
+                if (res.data === true) {
+                    this.setState({ antecedentId: "", antecedent: {} }, () => {
+                        this.getElements()
+                    })
+                }
+            }
+            else if (this.state.routeUrl === process.env.REACT_APP_SWITCHES_URL) {
+                const url = process.env.REACT_APP_BACKEND_URL + "/device/delete/" + elementId;
+                let res = await axios.delete(url);
+                if (res.data === true) {
+                    this.setState({ consequentId: "", consequent: {} }, () => {
+                        this.getElements()
+                    })
+                }
+            }
+        } catch (err) {
+            console.warn(err)
         }
     }
     removeAlertEmailRequest = async (index) => {
@@ -588,66 +469,11 @@ export default class MainRouter extends React.Component {
 
     //MODIFY AND SET RULE LOCAL
     modifyRuleName = (newRuleName) => {
-        var rules = this.state.rules;
-        const index = this.state.newRuleIdx;
-        rules[index].name = newRuleName;
+        var rule = this.state.rule
+        rule.name = newRuleName
         this.setState({
-            rules: rules,
-            newRuleName: newRuleName
-        }, () => { this.render() })
-    }
-    setConsequentRuleLocal = (newRuleIdx, newConsequent) => {
-        var rulesList = this.state.rules;
-        rulesList[newRuleIdx].consequent.push(newConsequent);
-        this.setState({ rules: rulesList }, () => {
-            this.handleRuleBody(process.env.REACT_APP_RULE_BODY_CONSEQUENTS);
-        });
-    }
-    setAntecedentRuleLocal = (newRuleIdx, newAntecedent) => {
-        var rulesList = this.state.rules;
-        rulesList[newRuleIdx].antecedent.push(newAntecedent);
-        this.setState({ rules: rulesList }, () => {
-            this.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
-        });
-    }
-    setNewRuleCondition = (ruleIdx, index, newCondition) => {
-        var rules = this.state.rules;
-        rules[ruleIdx].antecedent[index].condition = newCondition;
-        if (newCondition === "between" || newCondition === "isteresi") {
-            rules[ruleIdx].antecedent[index].stop_value = rules[ruleIdx].antecedent[index].start_value;
-        }
-        else {
-            rules[ruleIdx].antecedent[index].stop_value = "//";
-        }
-        this.setState({ rules: rules });
-    }
-    setNewStartValue = (ruleIdx, index, newStart) => {
-        var rules = this.state.rules;
-        rules[ruleIdx].antecedent[index].start_value = newStart;
-        this.setState({ rules: rules });
-    }
-    setNewStopValue = (ruleIdx, index, newStop) => {
-        var rules = this.state.rules;
-        rules[ruleIdx].antecedent[index].stop_value = newStop;
-        this.setState({ rules: rules });
-    }
-    setNewRuleMeasure = (ruleIdx, index, newMeasure) => {
-        var rules = this.state.rules;
-        rules[ruleIdx].antecedent[index].measure = newMeasure;
-        if (newMeasure === "now") {
-            rules[ruleIdx].antecedent[index].condition = "between";
-            rules[ruleIdx].antecedent[index].stop_value = rules[ruleIdx].antecedent[index].start_value;
-        }
-        else {
-            rules[ruleIdx].antecedent[index].condition = "delta";
-            rules[ruleIdx].antecedent[index].stop_value = "//";
-        }
-        this.setState({ rules: rules });
-    }
-    setRuleConsequentDelay = (ruleIdx, index, delay) => {
-        var rules = this.state.rules;
-        rules[ruleIdx].consequent[index].delay = delay;
-        this.setState({ rules: rules });
+            rule: rule
+       })
     }
     onDragEnd = (result) => {
         const { destination, source } = result;
@@ -683,49 +509,15 @@ export default class MainRouter extends React.Component {
     }
 
     //MODIFY DEVICES LOCAL
-    modifyAntecedentSetting = (newSetting) => {
-        var antecendents = this.state.antecedents;
-        const index = this.state.antecedentIdx;
-        antecendents[index].setting = newSetting;
-        this.setState({ antecendents: antecendents }, () => {
-            var antecedents = this.state.antecedents;
-            const idx = this.state.antecedentIdx;
-            const deviceDetail = DeviceAntecedents("relative_measure", this.state.antecedents, this.state.antecedentIdx);
-            antecedents[idx].measure = deviceDetail.measure;
-            this.setState({
-                antecedents: antecedents
-            })
-        })
-    }
-    modifyAntecedentSettingError = (error) => {
-        var antecendents = this.state.antecedents;
-        const index = this.state.antecedentIdx;
-        antecendents[index].error = error;
-        this.setState({ antecendents: antecendents }, () => {
-            var antecedents = this.state.antecedents;
-            const idx = this.state.antecedentIdx;
-            const deviceDetail = DeviceAntecedents("relative_measure", this.state.antecedents, this.state.antecedentIdx);
-            antecedents[idx].measure = deviceDetail.measure;
-            this.setState({
-                antecedents: antecedents
-            })
-        })
-    }
     modifyAntecedentName = (newName) => {
-        var antecendents = this.state.antecedents;
-        const index = this.state.antecedentIdx;
-        antecendents[index].name = newName;
-        var antecedent = this.state.antecedent;
-        antecedent.name = newName;
-        this.setState({ antecendents: antecendents, antecedentName: newName, antecedent: antecedent })
+        var antecendent = this.state.antecedent;
+        antecendent.name = newName;
+        this.setState({ antecedent: antecendent })
     }
     modifyConsequentName = (newName) => {
-        var consequents = this.state.consequents;
-        const index = this.state.consequentIdx;
-        consequents[index].name = newName;
         var consequent = this.state.consequent;
         consequent.name = newName;
-        this.setState({ consequents: consequents, consequentName: newName, consequent: consequent })
+        this.setState({ consequent: consequent })
     }
     addEmailLocal = () => {
         var consequent = this.state.consequent;
@@ -745,35 +537,31 @@ export default class MainRouter extends React.Component {
     }
 
     // CURRENT SELECTED ITEM VARIABLES
-    setNewRule = (ruleId, ruleName, ruleIdx) => {
+    setNewRule = (ruleId) => {
         this.setState({
-            newRuleIdx: ruleIdx,
             newRuleId: ruleId,
-            newRuleName: ruleName
+            routeUrl: process.env.REACT_APP_RULES_URL
         })
     }
-    setNewAntecedent = (antecedentId, antecedentName, antecedentIdx) => {
+    setNewAntecedent = (antecedentId) => {
         this.setState({
-            antecedentId: antecedentId,
-            antecedentName: antecedentName,
-            antecedentIdx: antecedentIdx
+            antecedentId: antecedentId
         })
     }
-    setNewConsequent = (consequentId, consequentName, consequentIdx) => {
+    setNewConsequent = (consequentId) => {
         this.setState({
-            consequentId: consequentId,
-            consequentName: consequentName,
-            consequentIdx: consequentIdx
+            consequentId: consequentId
         })
     }
     setRouteUrl = (url) => {
         this.setState({ routeUrl: url }, () => { this.getElements() })
     }
     setRuleElementObject = (ruleElement) => {
+        console.log(ruleElement)
         this.setState({ ruleElement: ruleElement })
     }
-    setRuleElement = (id, name, idx) => {
-        this.setState({ ruleElementId: id, ruleElementName: name, ruleElementIdx: idx })
+    setRuleElement = (id) => {
+        this.setState({ ruleElementId: id })
     }
 
     handleMenuPopUp = (event) => {
@@ -934,9 +722,8 @@ export default class MainRouter extends React.Component {
                             modify={this.state.modifyDevice}
                             setNewRule={this.setNewRule}
                             handleModifyDevice={this.handleModifyDevice}
-                            deleteDeviceRequest={this.deleteDeviceRequest}
+                            deleteElementRequest={this.deleteElementRequest}
                             updateDeviceRequest={this.updateDeviceRequest}
-                            setNewAntecedent={this.setNewAntecedent}
                             modifyAntecedentSetting={this.modifyAntecedentSetting}
                             modifyAntecedentSettingError={this.modifyAntecedentSettingError}
                             getDeviceMeasureRequest={this.getDeviceMeasureRequest}
@@ -976,7 +763,7 @@ export default class MainRouter extends React.Component {
                             setNewConsequent={this.setNewConsequent}
                             handleModifyDevice={this.handleModifyDevice}
                             updateDeviceRequest={this.updateDeviceRequest}
-                            deleteDeviceRequest={this.deleteDeviceRequest}
+                            deleteElementRequest={this.deleteElementRequest}
                             getDeviceMeasureRequest={this.getDeviceMeasureRequest}
                             modifyConsequentName={this.modifyConsequentName}
                             setNewRule={this.setNewRule}
@@ -1019,18 +806,15 @@ export default class MainRouter extends React.Component {
                             setNewElement={this.setNewRule}
                             getElements={this.getElements}
                             getElementById={this.getRuleById}
-                            deleteRuleConsequentRequest={this.deleteRuleConsequentRequest}
-                            deleteRuleAntecedentRequest={this.deleteRuleAntecedentRequest}
+                            deleteRuleElementRequest={this.deleteRuleElementRequest}
                             handleModify={this.handleModify}
                             setNewRuleCondition={this.setNewRuleCondition}
                             setNewStartValue={this.setNewStartValue}
                             setNewStopValue={this.setNewStopValue}
                             handleAddRuleConsequentPopUp={this.handleAddRuleConsequentPopUp}
-                            setRuleAntecedentRequest={this.setRuleAntecedentRequest}
-                            setRuleConsequentRequest={this.setRuleConsequentRequest}
-                            deleteRuleRequest={this.deleteRuleRequest}
+                            updateRuleElementRequest={this.updateRuleElementRequest}
+                            deleteElementRequest={this.deleteElementRequest}
                             modifyRuleName={this.modifyRuleName}
-                            updateRuleName={this.updateRuleName}
                             setNewRuleMeasure={this.setNewRuleMeasure}
                             setRuleRequest={this.setRuleRequest}
                             getRuleById={this.getRuleById}
@@ -1052,8 +836,6 @@ export default class MainRouter extends React.Component {
                             base_url={process.env.REACT_APP_BACKEND_URL}
                             handleAddRulePopUp={this.handleAddRulePopUp}
                             createRuleRequest={this.createRuleRequest}
-                            setConsequentRuleLocal={this.setConsequentRuleLocal}
-                            setAntecedentRuleLocal={this.setAntecedentRuleLocal}
                             AntecedentRulePopUpBody={this.AntecedentRulePopUpBody}
                             ConsequentRulePopUpBody={this.ConsequentRulePopUpBody}
                             handleSettings={this.handleSettings}
