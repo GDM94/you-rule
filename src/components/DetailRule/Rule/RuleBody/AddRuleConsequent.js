@@ -1,8 +1,6 @@
-import MuiListItem from "@material-ui/core/ListItem";
-import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
 import styled from "styled-components";
-import List from '@material-ui/core/List';
+import AddIcon from '@material-ui/icons/Add';
+
 
 
 export default function AddRuleConsequent(props) {
@@ -14,17 +12,14 @@ export default function AddRuleConsequent(props) {
                 idx++;
                 if (!consequentsId.some(c => c === item.id)) {
                     return (
-                        <RuleElementDiv key={idx}>
-                            <MuiListItem key={item.id + "antecedentRuleElement"}
-                                onClick={() => {
-                                    props.setRuleElement(item.id);
-                                    props.addNewRuleAConsequentRequest(item.id);
-                                    props.handleSetRuleConsequent(true);
-                                }}>
-                                <ListItemText primary={item.name} />
-                            </MuiListItem>
-                            <Divider />
-                        </RuleElementDiv>
+                        <RuleElement key={idx} onClick={() => {
+                            props.setRuleElement(item.id);
+                            props.addNewRuleAConsequentRequest(item.id);
+                            props.handleSetRuleConsequent(true);
+                        }}>
+                            <span> {item.name} </span>
+                            <AddIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
+                        </RuleElement>
                     )
                 }
                 else {
@@ -35,7 +30,22 @@ export default function AddRuleConsequent(props) {
     )
 }
 
-const RuleElementDiv = styled.div`
+const List = styled.ul`
+list-style: none;
+padding-left: 0%;
+padding-top: 5px;
+`;
+
+
+const RuleElement = styled.li`
+color: balck;
+background-color: #cccccc;
+border-radius: 25px;
+margin: 2%;
+margin-top: 0%;
+padding: 1%;
+padding-left: 5%;
+text-align: left;
 &:hover {
     background: #d5d8d8;
 }

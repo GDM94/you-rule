@@ -1,12 +1,12 @@
 import EditIcon from '@material-ui/icons/Edit';
+import styled from "styled-components";
 
 export default function ConsequentRuleBody(props) {
     return (
-        <ul style={{listStyle: "none", paddingLeft: "0%", paddingTop: "5px"}}>
+        <List>
             {props.element.rule_consequents.map(item => {
                 return (
-                    <li key={item.device_id + "antecedentRuleElement"}
-                        style={{ color: "black", backgroundColor: "#cccccc", borderRadius: "25px", margin: "2%", marginTop: "0%", padding: "1%", paddingLeft: "5%", textAlign: "left"} }
+                    <RuleElement key={item.device_id}
                         onClick={() => {
                             props.handleSetRuleConsequent(true);
                             props.setRuleElement(item.device_id);
@@ -14,10 +14,32 @@ export default function ConsequentRuleBody(props) {
                         }}>
                         <span> {item.device_name} </span>
                         <EditIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
-                    </li>
+                    </RuleElement>
                 )
             })}
-        </ul>
+        </List>
     )
 }
+
+const List = styled.ul`
+list-style: none;
+padding-left: 0%;
+padding-top: 5px;
+`;
+
+
+const RuleElement = styled.li`
+color: balck;
+background-color: #cccccc;
+border-radius: 25px;
+margin: 2%;
+margin-top: 0%;
+padding: 1%;
+padding-left: 5%;
+text-align: left;
+&:hover {
+    background: #d5d8d8;
+}
+`;
+
 
