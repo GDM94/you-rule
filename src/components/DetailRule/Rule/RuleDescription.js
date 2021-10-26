@@ -12,9 +12,7 @@ export default function RuleDescription(props) {
             checkRuleName = true;
         }
         handleCheckRuleName(checkRuleName)
-
     }
-
     return (
         <ElementDescription>
             <ul>
@@ -25,10 +23,10 @@ export default function RuleDescription(props) {
                         checkRuleNameFunction={checkRuleNameFunction}
                         checkRuleName={checkRuleName}
                     />
-                    : props.elementName}
+                    : props.element.name}
                 </li>
-                <li key={"last_true"}>Last time true: {rule.last_true}</li>
-                <li key={"last_false"}>Last time false:  {rule.last_false}</li>
+                <li key={"last on"}>Last on: {rule.last_date_on} {rule.last_time_on}</li>
+                <li key={"last_off"}>Last off: {rule.last_date_off} {rule.last_time_off}</li>
             </ul>
         </ElementDescription>
     )
@@ -45,7 +43,7 @@ function ModifyNameForm(props) {
     return (
         <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
             <input type="text" id="name" name="name"
-                defaultValue={props.elementName}
+                defaultValue={props.element.name}
                 onChange={(e) => {
                     const NewName = e.target.value;
                     props.checkRuleNameFunction(NewName);

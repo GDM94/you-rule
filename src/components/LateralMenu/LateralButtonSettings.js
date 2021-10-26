@@ -3,21 +3,16 @@ import styled from "styled-components";
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
-import Divider from '@material-ui/core/Divider';
 
 function LateralButtonAddElement(props) {
     return (
-        <div>
-            <Divider />
-            <RouteTitle>
-                <SettingsButton style={{ color: 'white' }}onClick={() => { 
-                    props.setSettingsPage(process.env.REACT_APP_PAGE_SETTINGS)
-                    }}>
-                    <SettingsIcon/>  {process.env.REACT_APP_PAGE_SETTINGS} 
-                </SettingsButton>
-            </RouteTitle>
-        </div>
-
+        <RouteTitle>
+            <SettingsButton style={{ color: 'white' }} onClick={() => {
+                props.setSettingsPage(process.env.REACT_APP_PAGE_SETTINGS)
+            }}>
+                <SettingsIcon/> {process.env.REACT_APP_PAGE_SETTINGS}
+            </SettingsButton>
+        </RouteTitle>
     );
 }
 

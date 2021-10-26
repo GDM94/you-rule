@@ -30,8 +30,7 @@ export default function RuleTitle(props) {
                 <Button
                     onClick={() => {
                         if (props.modify) {
-                            //const ruleIdx = props.newRuleIdx;
-                            //props.setRuleRequest(ruleIdx);
+                            props.updateRuleNameRequest(props.element);
                             props.handleModify(false);
                         }
                         else {

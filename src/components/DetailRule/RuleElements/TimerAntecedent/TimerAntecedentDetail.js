@@ -6,7 +6,7 @@ export default function TimerAntecedentDetail(props) {
         <ElementContent>
             <WeekDaySetting {...props} />
             <br></br>
-            <TimeSetting {...props}/>
+            <TimeSetting {...props} />
         </ElementContent>
     )
 
@@ -22,40 +22,40 @@ function TimeSetting(props) {
         ruleElement.time_stop_value = stopTime
         props.setRuleElementObject(ruleElement);
     }
-    const defaultStartTimeValue = () =>{
+    const defaultStartTimeValue = () => {
         if (ruleElement.time_start_value !== "") {
             return ruleElement.time_start_value
         }
-        else{
+        else {
             return "00:00:00"
         }
     }
-    const defaultStopTimeValue = () =>{
+    const defaultStopTimeValue = () => {
         if (ruleElement.time_stop_value !== "") {
             return ruleElement.time_stop_value
         }
-        else{
+        else {
             return "00:00:00"
         }
     }
     return (
         <>
-        <h5>- TIMER SETTING</h5>
-        <ElementMeasure>
-            <div>
-                Start Time
-                <input type="time" id="start" 
-                defaultValue={defaultStartTimeValue()}
-                onChange={e => { manageStartTime(e.target.value) }} />
-            </div>
-            <br />
-            <div>
-                Stop Time
-                <input type="time" id="stop" 
-                defaultValue={defaultStopTimeValue()}
-                onChange={e => { manageStopTime(e.target.value) }} />
-            </div>
-        </ElementMeasure>
+            <h5>- TIMER SETTING</h5>
+            <ElementMeasure>
+                <div>
+                    Start Time
+                    <input type="time" id="start"
+                        defaultValue={defaultStartTimeValue()}
+                        onChange={e => { manageStartTime(e.target.value) }} />
+                </div>
+                <br />
+                <div>
+                    Stop Time
+                    <input type="time" id="stop"
+                        defaultValue={defaultStopTimeValue()}
+                        onChange={e => { manageStopTime(e.target.value) }} />
+                </div>
+            </ElementMeasure>
         </>
     )
 
@@ -83,68 +83,32 @@ function WeekDaySetting(props) {
             return false
         }
     }
+
+    const daySelection = (dayName, dayNumberInt) => {
+        const dayNumber = dayNumberInt.toString();
+        return (
+            <DaySelection>
+                <input style={{ marginRight: "5px" }} type='checkbox'
+                    name={dayNumber} id={dayNumber} value={dayNumber}
+                    checked={checkedWeekDays(dayNumber)}
+                    onChange={e => { manageWeekDays(dayNumber, e.target.checked) }}
+                />
+                {dayName}
+            </DaySelection>
+        )
+    }
     return (
         <>
-        <h5>- DAYS SETTING</h5>
-        <ElementMeasure>
-            
-            <label>
-                <input type='checkbox'
-                    name="0" id="0" value="0"
-                    checked={checkedWeekDays("0")}
-                    onChange={e => { manageWeekDays("0", e.target.checked) }}
-                />
-                Lunedi
-            </label>
-            <label>
-                <input type='checkbox'
-                    name="1" id="1" value="1"
-                    checked={checkedWeekDays("1")}
-                    onChange={e => { manageWeekDays("1", e.target.checked) }}
-                />
-                Martedi
-            </label>
-            <label>
-                <input type='checkbox'
-                    name="2" id="2" value="2"
-                    checked={checkedWeekDays("2")}
-                    onChange={e => { manageWeekDays("2", e.target.checked) }}
-                />
-                Mercoledi
-            </label>
-            <label>
-                <input type='checkbox'
-                    name="3" id="3" value="3"
-                    checked={checkedWeekDays("3")}
-                    onChange={e => { manageWeekDays("3", e.target.checked) }}
-                />
-                Giovedi
-            </label>
-            <label>
-                <input type='checkbox'
-                    name="4" id="4" value="4"
-                    checked={checkedWeekDays("4")}
-                    onChange={e => { manageWeekDays("4", e.target.checked) }}
-                />
-                Venerdi
-            </label>
-            <label>
-                <input type='checkbox'
-                    name="5" id="5" value="5"
-                    checked={checkedWeekDays("5")}
-                    onChange={e => { manageWeekDays("5", e.target.checked) }}
-                />
-                Sabato
-            </label>
-            <label>
-                <input type='checkbox'
-                    name="6" id="6" value="6"
-                    checked={checkedWeekDays("6")}
-                    onChange={e => { manageWeekDays("6", e.target.checked) }}
-                />
-                Domenica
-            </label>
-        </ElementMeasure>
+            <h5>- DAYS SETTING</h5>
+            <ElementMeasure>
+                {daySelection("Lunedì", 0)}
+                {daySelection("Martedì", 1)}
+                {daySelection("Mercoledì", 2)}
+                {daySelection("Giovedì", 3)}
+                {daySelection("Venerdì", 4)}
+                {daySelection("Sabato", 5)}
+                {daySelection("Domenica", 6)}
+            </ElementMeasure>
         </>
     )
 }
@@ -174,5 +138,13 @@ text-align: left;
 justify-content: left;
 background-color: #e6e6e6;
 `;
+
+const DaySelection = styled.label`
+width: fit-content; 
+cursor: default;
+`;
+
+
+
 
 

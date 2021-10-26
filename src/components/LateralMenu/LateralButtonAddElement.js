@@ -6,18 +6,15 @@ import AddIcon from '@material-ui/icons/Add';
 
 function LateralButtonAddElement(props) {
     return (
-        <div>
-            <RouteTitle>
-                <AddButton style={{ color: props.addNewElement? '#eead4c' : 'white' }}  onClick={() => { 
-                    props.handleRegisterDevicePopUp(); 
-                    props.setNewElement("");
-                    props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
-                    }}>
-                    ADD NEW {props.location.state.page} <AddIcon />
-                </AddButton>
-            </RouteTitle>
-        </div>
-
+        <RouteTitle>
+            <AddButton style={{ color: props.addNewElement ? '#eead4c' : 'white' }} onClick={() => {
+                props.handleRegisterDevicePopUp();
+                props.setNewElement("");
+                props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
+            }}>
+                ADD NEW {props.location.state.page} <AddIcon />
+            </AddButton>
+        </RouteTitle>
     );
 }
 
@@ -31,8 +28,6 @@ flex-flow: row;
 width: 100%;
 background-color: #737373;
 `;
-
-
 
 const AddButton = styled(Button)`
 text-align: center;

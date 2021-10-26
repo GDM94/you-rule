@@ -24,7 +24,6 @@ class RulesPage extends React.Component {
     }
 
     componentDidMount() {
-        console.log("Mount Rule Page")
         this.props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
         if (this.props.addNewElement === true) {
             this.props.handleRegisterDevicePopUp();

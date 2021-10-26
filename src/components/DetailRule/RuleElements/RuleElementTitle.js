@@ -8,17 +8,19 @@ import styled from "styled-components";
 export default function RuleElementTitle(props) {
     return (
         <ElementTitle>
-            <h2> {props.setRuleAntecedent ? "antecedent" : "consequent"}| {props.ruleElementName} </h2>
+            <h2> {props.setRuleAntecedent ? "antecedent" : "consequent"}| {props.ruleElement.device_name} </h2>
             <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                 <Button onClick={() => {
                     props.updateRuleElementRequest(props.newRuleId, props.ruleElementId);
-                    props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
+                    props.setRuleAntecedent ? props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS) 
+                    : props.handleRuleBody(process.env.REACT_APP_RULE_BODY_CONSEQUENTS);
                 }}>
                     <DoneIcon fontSize="large" style={{ color: "black" }} />
                 </Button>
                 <Button onClick={() => {
                     props.deleteRuleElementRequest(props.newRuleId, props.ruleElementId)
-                    props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
+                    props.setRuleAntecedent ? props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS) 
+                    : props.handleRuleBody(process.env.REACT_APP_RULE_BODY_CONSEQUENTS);
                 }}>
                     <DeleteIcon fontSize="large" style={{ color: "red" }} />
                 </Button>

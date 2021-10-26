@@ -20,6 +20,7 @@ export default class Rule extends React.Component {
             evaluation: "false"
         }
     }
+    
 
     render() {
         return (
@@ -36,9 +37,6 @@ export default class Rule extends React.Component {
         )
     }
 }
-
-
-
 
 const ContentContainer = styled.div`
 display: flex;

@@ -1,6 +1,5 @@
 import React from "react";
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import { ListItemIcon } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import MuiListItem from "@material-ui/core/ListItem";
@@ -8,26 +7,20 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 function LateralButtonSettingLocation(props) {
   return (
-    <>
-      <MyListItem style={{ color: "black" }} selected={props.settingsPage === process.env.REACT_APP_PAGE_SETTINGS_LOCATION}
-        onClick={() => {
-          props.getLocationByUserId()
-          props.setSettingsPage(process.env.REACT_APP_PAGE_SETTINGS_LOCATION)
-        }}>
-        <ListItemIcon>
-          <LocationOnIcon />
-        </ListItemIcon>
-
-        <ListItemText primary={process.env.REACT_APP_PAGE_SETTINGS_LOCATION} />
-      </MyListItem>
-      <Divider />
-    </>
+    <MyListItem style={{ color: "black" }} selected={props.settingsPage === process.env.REACT_APP_PAGE_SETTINGS_LOCATION}
+      onClick={() => {
+        props.getLocationByUserId()
+        props.setSettingsPage(process.env.REACT_APP_PAGE_SETTINGS_LOCATION)
+      }}>
+      <ListItemIcon>
+        <LocationOnIcon />
+      </ListItemIcon>
+      <ListItemText primary={process.env.REACT_APP_PAGE_SETTINGS_LOCATION} />
+    </MyListItem>
   )
-
 }
 
 export default LateralButtonSettingLocation;
-
 
 
 const MyListItem = withStyles({

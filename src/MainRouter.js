@@ -121,6 +121,7 @@ export default class MainRouter extends React.Component {
     getElements = async () => {
         try {
             if (this.state.routeUrl === process.env.REACT_APP_RULES_URL) {
+                console.log('App GET Rules');
                 const url = process.env.REACT_APP_BACKEND_URL + "/rule/user";
                 let res = await axios.get(url);
                 this.setState({ rules: res.data }, () => {
@@ -130,6 +131,7 @@ export default class MainRouter extends React.Component {
                 });
             }
             else if (this.state.routeUrl === process.env.REACT_APP_SENSORS_URL) {
+                console.log('App GET Antecedents');
                 const url = process.env.REACT_APP_BACKEND_URL + "/device/get/antecedents";
                 let res = await axios.get(url);
                 this.setState({ antecedents: res.data }, () => {
@@ -139,6 +141,7 @@ export default class MainRouter extends React.Component {
                 });
             }
             else if (this.state.routeUrl === process.env.REACT_APP_SWITCHES_URL) {
+                console.log('App GET Consequents');
                 const url = process.env.REACT_APP_BACKEND_URL + "/device/get/consequents";
                 let res = await axios.get(url);
                 this.setState({ consequents: res.data }, () => {
@@ -153,6 +156,7 @@ export default class MainRouter extends React.Component {
     }
 
     getConsequents = async () => {
+        console.log('App GET Consequents');
         try {
             const url = process.env.REACT_APP_BACKEND_URL + "/device/get/consequents";
             let res = await axios.get(url);
@@ -167,6 +171,7 @@ export default class MainRouter extends React.Component {
     }
 
     getAntecedents = async () => {
+        console.log('App GET Antecedents');
         try {
             const url = process.env.REACT_APP_BACKEND_URL + "/device/get/antecedents";
             let res = await axios.get(url);
@@ -302,6 +307,18 @@ export default class MainRouter extends React.Component {
             const ruleElement = this.state.ruleElement;
             const ruleElementJson = JSON.stringify(ruleElement);
             await axios.post(url, { "ruleElement": ruleElementJson });
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+    updateRuleNameRequest = async (rule) => {
+        console.log("App POST update rule name");
+        const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/name";
+        try {
+            axios.post(url, {}, {params: {
+                rule_id: rule.id,
+                rule_name: rule.name
+            }}).then(this.getElements())
         } catch (err) {
             console.warn(err)
         }
@@ -573,10 +590,10 @@ export default class MainRouter extends React.Component {
         this.setState({ addRulePopUp: !this.state.addRulePopUp });
     }
     handleSetRuleAntecedent = (handle) => {
-        this.setState({ setRuleAntecedent: handle });
+        this.setState({ setRuleAntecedent: handle, setRuleConsequent: false });
     }
     handleSetRuleConsequent = (handle) => {
-        this.setState({ setRuleConsequent: handle });
+        this.setState({ setRuleConsequent: handle, setRuleAntecedent: false });
     }
     handleModify = (state) => {
         this.setState({ modify: state });
@@ -830,6 +847,7 @@ export default class MainRouter extends React.Component {
                             addNewRuleAConsequentRequest={this.addNewRuleAConsequentRequest}
                             getRuleAntecedentById={this.getRuleAntecedentById}
                             getRuleConsequentById={this.getRuleConsequentById}
+                            updateRuleNameRequest = {this.updateRuleNameRequest}
 
 
 

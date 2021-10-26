@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { withRouter } from 'react-router-dom';
 import LateralButtonAddElement from "./LateralButtonAddElement";
 import List from '@material-ui/core/List';
@@ -11,16 +10,10 @@ function LateralMenu(props) {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <LateralButtonAddElement
-                {...props}
-            />
-            <MyList>
-                <List component="div" aria-label="main mailbox folders">
-                    <LateralButtonViewElement
-                        {...props}
-                    />
-                </List>
-            </MyList>
+            <LateralButtonAddElement {...props} />
+            <List>
+                <LateralButtonViewElement {...props} />
+            </List>
         </div>
 
     );
@@ -33,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: "flex",
         flexDirection: "column",
-        float:"left",
+        float: "left",
         textAlign: "center",
         color: "#0f540d",
         borderRight: "#bfbfbf solid 1px !important",
@@ -41,14 +34,8 @@ const useStyles = makeStyles(theme => ({
         width: "30%",
         minWidth: "30%"
     }
-  }));
+}));
 
 
-const MyList = styled.div`
- color: white;
-  margin: 5px;
-  padding-left: 5px;
-  padding-right: 0px;
-  text-align: center;
-`;
+
 

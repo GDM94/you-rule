@@ -34,7 +34,7 @@ export default function RuleBodyButton(props) {
                 }}>
                 {process.env.REACT_APP_RULE_BODY_ANTECEDENTS}
             </Button>
-            <Button className={addElementButtonClass} style={{ display: addAntecedentButtonDisplay }} id="ruleAntecedentButton"
+            <Button className={addElementButtonClass} style={{ display: addAntecedentButtonDisplay }} id="addRuleAntecedentButton"
                 onClick={() => {
                     props.getAntecedents();
                     props.getConsequents();
@@ -49,7 +49,7 @@ export default function RuleBodyButton(props) {
                 }}>
                 {process.env.REACT_APP_RULE_BODY_CONSEQUENTS}
             </Button>
-            <Button className={addElementButtonClass} style={{ display: addConsequentButtonDisplay }} id="ruleConsequentButton"
+            <Button className={addElementButtonClass} style={{ display: addConsequentButtonDisplay }} id="addRuleConsequentButton"
                 onClick={() => {
                     props.getConsequents();
                     props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ADD_CONSEQUENTS);
