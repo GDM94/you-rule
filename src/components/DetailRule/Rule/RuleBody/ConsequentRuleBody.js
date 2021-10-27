@@ -1,30 +1,59 @@
+import React, { Component } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
 import styled from "styled-components";
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import {arrayMoveImmutable} from 'array-move';
 
-export default function ConsequentRuleBody(props) {
-    console.log(props.element.rule_consequents)
+export default class ConsequentRuleBody extends Component {
+    onSortEnd = ({ oldIndex, newIndex }) => {
+        const items = arrayMoveImmutable(this.props.element.rule_consequents, oldIndex, newIndex)
+        const orderedItems = items.map((element, index) => {
+            element.order = index.toString()
+            element.delay = "0"
+            return element
+        })
+        const orderedElementsId = items.map(element => {
+            return element.device_id
+        })
+        this.props.updateRuleConsequentOrderLocal(orderedItems);
+        this.props.updateRuleConsequentOrderRequest(orderedElementsId)
+    };
+
+    render() {
+        return <ConsequentRuleBodyList
+            {...this.props}
+            items={this.props.element.rule_consequents}
+            onSortEnd={this.onSortEnd}
+            lockAxis='y'
+            lockToContainerEdges={true}
+            lockOffset='0%'
+            distance={1} />
+    }
+}
+
+const ConsequentRuleBodyList = SortableContainer((props) => {
     return (
         <List>
-            {props.element.rule_consequents.map(item => {
-                return (ConsequentRuleElement(props, item));
+            {props.items.map((item, index) => {
+                return <ConsequentRuleElement {...props} item={item} key={index} index={index} />;
             })}
         </List>
     )
-}
+})
 
-function ConsequentRuleElement(props, item) {
+const ConsequentRuleElement = SortableElement((props) => {
     return (
-        <RuleElement key={item.device_id}
+        <RuleElement
             onClick={() => {
                 props.handleSetRuleConsequent(true);
-                props.setRuleElement(item.device_id);
-                props.getRuleConsequentById(item.device_id);
+                props.setRuleElement(props.item.device_id);
+                props.getRuleConsequentById(props.item.device_id);
             }}>
-            <span> {item.order} (delay: {item.delay} s) {item.device_name} </span>
+            <span> {props.item.order} (delay: {props.item.delay} s) {props.item.device_name} </span>
             <EditIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
         </RuleElement>
     )
-}
+})
 
 const List = styled.ul`
 list-style: none;

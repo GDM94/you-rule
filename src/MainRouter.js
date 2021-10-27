@@ -307,7 +307,7 @@ export default class MainRouter extends React.Component {
             const ruleElement = this.state.ruleElement;
             const ruleElementJson = JSON.stringify(ruleElement);
             let res = await axios.post(url, { "ruleElement": ruleElementJson });
-            this.setState({ rule: res.data})
+            this.setState({ rule: res.data })
         } catch (err) {
             console.warn(err)
         }
@@ -316,10 +316,12 @@ export default class MainRouter extends React.Component {
         console.log("App POST update rule name");
         const url = process.env.REACT_APP_BACKEND_URL + "/rule/set/name";
         try {
-            axios.post(url, {}, {params: {
-                rule_id: rule.id,
-                rule_name: rule.name
-            }}).then(this.getElements())
+            axios.post(url, {}, {
+                params: {
+                    rule_id: rule.id,
+                    rule_name: rule.name
+                }
+            }).then(this.getElements())
         } catch (err) {
             console.warn(err)
         }
@@ -341,6 +343,26 @@ export default class MainRouter extends React.Component {
         } catch (err) {
             console.warn(err)
         }
+    }
+    updateRuleConsequentOrderRequest = async (orderedElementsId) => {
+        console.log("App POST update consequent order");
+        const url = process.env.REACT_APP_BACKEND_URL + "/rule/update/consequents/order";
+        try {
+            const orderedElementsIdJson = JSON.stringify(orderedElementsId);
+            let res = await axios.post(url, { "data": orderedElementsIdJson }, {
+                params: {
+                    rule_id: this.state.rule.id,
+                }
+            })
+            this.setState({ rule: res.data })
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+    updateRuleConsequentOrderLocal = (items) => {
+        var rule = this.state.rule;
+        rule.rule_consequents = items;
+        this.setState({ rule: rule })
     }
     registerDeviceRequest = async (newDeviceId, deviceType) => {
         console.log("App POST register device");
@@ -491,40 +513,9 @@ export default class MainRouter extends React.Component {
         rule.name = newRuleName
         this.setState({
             rule: rule
-       })
-    }
-    onDragEnd = (result) => {
-        const { destination, source } = result;
-        if (
-            destination.droppableId === source.droppableId &&
-            destination.index === source.index
-        ) {
-            return;
-        }
-        const ruleIdx = this.state.newRuleIdx;
-        var rules = this.state.rules
-        var consequents = rules[ruleIdx].consequent;
-        var consequent = consequents[source.index];
-        var newConsequents = consequents.map(c => {
-            var Corder = parseInt(c.order);
-            if (Corder >= source.index && Corder < destination.index) {
-                Corder = Corder - 1;
-                c.order = Corder.toString();
-            }
-            else if (Corder >= destination.index) {
-                Corder = Corder + 1;
-                c.order = Corder.toString();
-            }
-            return c;
-        })
-        newConsequents.splice(source.index, 1);
-        consequent.order = destination.index.toString();
-        newConsequents.splice(destination.index, 0, consequent);
-        rules[ruleIdx].consequent = newConsequents;
-        this.setState({
-            rules: rules
         })
     }
+
 
     //MODIFY DEVICES LOCAL
     modifyAntecedentName = (newName) => {
@@ -848,7 +839,9 @@ export default class MainRouter extends React.Component {
                             addNewRuleAConsequentRequest={this.addNewRuleAConsequentRequest}
                             getRuleAntecedentById={this.getRuleAntecedentById}
                             getRuleConsequentById={this.getRuleConsequentById}
-                            updateRuleNameRequest = {this.updateRuleNameRequest}
+                            updateRuleNameRequest={this.updateRuleNameRequest}
+                            updateRuleConsequentOrderRequest={this.updateRuleConsequentOrderRequest}
+                            updateRuleConsequentOrderLocal={this.updateRuleConsequentOrderLocal}
 
 
 

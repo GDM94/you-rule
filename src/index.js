@@ -6,10 +6,7 @@ import MainRouter from './MainRouter'
 
 
 ReactDOM.render(
-  <React.StrictMode>
-    <MainRouter />
-  </React.StrictMode>,
-
+  <MainRouter />,
   document.getElementById('root')
 );
 
