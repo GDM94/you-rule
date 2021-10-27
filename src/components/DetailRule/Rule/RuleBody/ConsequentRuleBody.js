@@ -2,22 +2,27 @@ import EditIcon from '@material-ui/icons/Edit';
 import styled from "styled-components";
 
 export default function ConsequentRuleBody(props) {
+    console.log(props.element.rule_consequents)
     return (
         <List>
             {props.element.rule_consequents.map(item => {
-                return (
-                    <RuleElement key={item.device_id}
-                        onClick={() => {
-                            props.handleSetRuleConsequent(true);
-                            props.setRuleElement(item.device_id);
-                            props.getRuleConsequentById(item.device_id);
-                        }}>
-                        <span> {item.device_name} </span>
-                        <EditIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
-                    </RuleElement>
-                )
+                return (ConsequentRuleElement(props, item));
             })}
         </List>
+    )
+}
+
+function ConsequentRuleElement(props, item) {
+    return (
+        <RuleElement key={item.device_id}
+            onClick={() => {
+                props.handleSetRuleConsequent(true);
+                props.setRuleElement(item.device_id);
+                props.getRuleConsequentById(item.device_id);
+            }}>
+            <span> {item.order} (delay: {item.delay} s) {item.device_name} </span>
+            <EditIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
+        </RuleElement>
     )
 }
 

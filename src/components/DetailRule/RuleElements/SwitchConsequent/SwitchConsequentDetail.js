@@ -2,7 +2,6 @@ import React from 'react';
 import styled from "styled-components";
 
 export default function SwitchConsequentDetail(props) {
-    console.log(props.ruleElement)
     return (
         <ElementContent>
             <br></br>

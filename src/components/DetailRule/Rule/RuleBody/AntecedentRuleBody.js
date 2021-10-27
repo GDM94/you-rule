@@ -6,19 +6,23 @@ export default function AntecedentRuleBody(props) {
     return (
         <List>
             {props.element.rule_antecedents.map(item => {
-                return (
-                    <RuleElement key={item.device_id}
-                        onClick={() => {
-                            props.handleSetRuleAntecedent(true);
-                            props.setRuleElement(item.device_id);
-                            props.getRuleAntecedentById(item.device_id);
-                        }}>
-                        <span> {item.device_name} </span>
-                        <EditIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
-                    </RuleElement>
-                )
+                return (AntecedentRuleElement(props, item))
             })}
         </List>
+    )
+}
+
+function AntecedentRuleElement(props, item) {
+    return (
+        <RuleElement key={item.device_id}
+            onClick={() => {
+                props.handleSetRuleAntecedent(true);
+                props.setRuleElement(item.device_id);
+                props.getRuleAntecedentById(item.device_id);
+            }}>
+            <span> {item.device_name} </span>
+            <EditIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
+        </RuleElement>
     )
 }
 
@@ -27,11 +31,6 @@ list-style: none;
 padding-left: 0%;
 padding-top: 5px;
 `;
-
-
-
-
-
 
 const RuleElement = styled.li`
 color: balck;

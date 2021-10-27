@@ -306,7 +306,8 @@ export default class MainRouter extends React.Component {
         try {
             const ruleElement = this.state.ruleElement;
             const ruleElementJson = JSON.stringify(ruleElement);
-            await axios.post(url, { "ruleElement": ruleElementJson });
+            let res = await axios.post(url, { "ruleElement": ruleElementJson });
+            this.setState({ rule: res.data})
         } catch (err) {
             console.warn(err)
         }
