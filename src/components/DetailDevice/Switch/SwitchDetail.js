@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControlLabel, Switch } from '@material-ui/core';
 import styled from "styled-components";
-import RuleNameList from '../RuleNameList'
+import RuleNameList from '../DeviceUtils/RuleNameList'
 import DeviceDescription from '../DeviceUtils/DeviceDescription';
 
 export default function SwitchDetail(props) {
