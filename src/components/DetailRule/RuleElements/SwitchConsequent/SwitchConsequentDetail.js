@@ -4,14 +4,6 @@ import styled from "styled-components";
 export default function SwitchConsequentDetail(props) {
     return (
         <ElementContent>
-            <br></br>
-            <h5>- ORDER</h5>
-            <ElementMeasure>
-                <div>
-                    {props.ruleElement.order}
-                </div>
-            </ElementMeasure>
-            <br></br>
             <DelaySetting {...props} />
         </ElementContent>
     )

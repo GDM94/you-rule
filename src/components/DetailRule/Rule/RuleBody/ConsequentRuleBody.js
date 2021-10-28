@@ -49,7 +49,7 @@ const ConsequentRuleElement = SortableElement((props) => {
                 props.setRuleElement(props.item.device_id);
                 props.getRuleConsequentById(props.item.device_id);
             }}>
-            <span> {props.item.order} (delay: {props.item.delay} s) {props.item.device_name} </span>
+            <span> {props.item.order} - (delay {props.item.delay} s) {props.item.device_name} </span>
             <EditIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
         </RuleElement>
     )

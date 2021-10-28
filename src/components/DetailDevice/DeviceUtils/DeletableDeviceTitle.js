@@ -8,10 +8,10 @@ import DoneIcon from '@material-ui/icons/Done';
 import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
-export default function SwitchTitle(props) {
+export default function DeletableDeviceTitle(props) {
     return (
         <ElementTitle>
-            <h2> <FiberManualRecordIcon style={{ color: props.color }}/> {props.element.name} </h2>
+            <h2> <FiberManualRecordIcon style={{ color: props.element.color }}/> {props.element.name} </h2>
             <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                 <Button style={{ display: props.modifyDevice ? "" : "none" }}
                     onClick={() => {

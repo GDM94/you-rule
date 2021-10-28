@@ -26,7 +26,9 @@ function RuleNameList(props) {
                     <ListItem key={ruleId} button onClick={() => {
                         props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
                         props.setNewRule(ruleId);
+                        props.setRouteUrl(process.env.REACT_APP_RULES_URL);
                         props.location.state.page = process.env.REACT_APP_PAGE_RULES
+                        props.location.state.path = process.env.REACT_APP_RULES_URL;
                         props.history.push({ pathname: process.env.REACT_APP_RULES_URL, state: props.location.state })
                     }}>
                         <ListItemText primary={ruleName} />

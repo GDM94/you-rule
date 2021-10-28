@@ -8,7 +8,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import DeviceDescription from '../DeviceDescription';
+import DeviceDescription from '../DeviceUtils/DeviceDescription';
 
 export default function AlertDesctiption(props) {
     return (

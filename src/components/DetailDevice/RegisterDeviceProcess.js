@@ -41,19 +41,20 @@ export default class RegisterDeviceProcess extends React.Component {
             deviceType = "sensor";
         }
         this.setState({ registerDeviceError: !deviceRecognition, deviceType: deviceType})
-        return deviceRecognition
+        return deviceType
     }
 
     NewDeviceIdRegistration(newDeviceId) {
         this.setState({
-            newDeviceId: newDeviceId
+            newDeviceId: newDeviceId, 
+            registerDeviceError: false
         })
     }
 
     createDevice = (event) => {
-        const checkRecognition = this.CheckRegisterDeviceRecognition();
-        if (checkRecognition) {
-            this.props.registerDeviceRequest(this.state.newDeviceId, this.state.deviceType);
+        const deviceType = this.CheckRegisterDeviceRecognition();
+        if (deviceType !== "") {
+            this.props.registerDeviceRequest(this.state.newDeviceId, deviceType);
         }
         event.preventDefault();
     }
@@ -65,7 +66,7 @@ export default class RegisterDeviceProcess extends React.Component {
                     <h2>ADD DEVICE:</h2>
                 </ElementTitle>
                 <ElementContent>
-                    <p style={{ color: "red", display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device Id is not correct!</p>
+                    <p style={{ color: "red", display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device ID is not recognized as valid device ID!</p>
                     <p style={{ color: "red", display: this.props.registerElementError ? 'block' : 'none' }} > Error: device Id is not correct because already registered!</p>
                     <ElementSettings>
                         <form style={{ marginRight: "10px" }} onSubmit={this.createDevice}>
@@ -79,9 +80,9 @@ export default class RegisterDeviceProcess extends React.Component {
                             />
                         </form>
                         <MyButton onClick={() => {
-                            const checkRecognition = this.CheckRegisterDeviceRecognition();
-                            if (checkRecognition) {
-                                this.props.registerDeviceRequest(this.state.newDeviceId, this.state.deviceType);
+                            const deviceType = this.CheckRegisterDeviceRecognition();
+                            if (deviceType !== "") {
+                                this.props.registerDeviceRequest(this.state.newDeviceId, deviceType);
                             }
                         }}>
                             NEXT

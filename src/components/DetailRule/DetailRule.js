@@ -3,6 +3,7 @@ import Rule from './Rule/Rule';
 import TimerAntecedent from "./RuleElements/TimerAntecedent/TimerAntecedent"
 import AlertConsequent from "./RuleElements/AlertConsequent/AlertConsequent"
 import SwitchConsequent from "./RuleElements/SwitchConsequent/SwitchConsequent"
+import ButtonAntecedent from './RuleElements/ButtonAntecedent/ButtonAntecedent';
 
 
 export default function DetailRule(props) {
@@ -20,7 +21,7 @@ export default function DetailRule(props) {
                 return (<p> set rule antecedent for WATERLEVEL</p>)
             }
             else if (props.ruleElementId.includes("BUTTON")) {
-                return (<p> set rule antecedent for BUTTON</p>)
+                return <ButtonAntecedent {...props}/>
             }
             else if (props.ruleElementId.includes("SWITCH")) {
                 return <SwitchConsequent {...props}/>

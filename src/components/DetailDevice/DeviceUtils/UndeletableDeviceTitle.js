@@ -7,7 +7,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
-export default function TimerTitle(props) {
+export default function UndeletableDeviceTitle(props) {
     return (
         <ElementTitle>
             <h2> <FiberManualRecordIcon style={{ color: props.element.color }} /> {props.element.name} </h2>

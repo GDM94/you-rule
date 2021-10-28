@@ -6,13 +6,6 @@ export default function AlertConsequentDetail(props) {
         <ElementContent>
             <MessageSetting {...props} />
             <br></br>
-            <h5>- ORDER</h5>
-            <ElementMeasure>
-                <div>
-                    {props.ruleElement.order}
-                </div>
-            </ElementMeasure>
-            <br></br>
             <DelaySetting {...props} />
         </ElementContent>
     )

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
-import AlertTitle from './AlertTitle';
 import AlertDesctiption from './AlertDescription';
+import UndeletableDeviceTitle from '../DeviceUtils/UndeletableDeviceTitle';
 
 export default class Alert extends React.Component {
     constructor(props) {
@@ -22,7 +22,7 @@ export default class Alert extends React.Component {
     render() {
         return (
             <ContentContainer>
-                <AlertTitle {...this.props} {...this.state} />
+                <UndeletableDeviceTitle {...this.props} {...this.state} />
                 <AlertDesctiption {...this.props} {...this.state}/>
             </ContentContainer>
         )

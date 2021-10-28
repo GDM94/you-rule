@@ -370,14 +370,14 @@ export default class MainRouter extends React.Component {
         try {
             let res = await axios.post(url);
             const result = res.data;
+            console.log(deviceType)
             if (result !== false) {
                 if (deviceType === "sensor") {
-                    this.setState({ antecedentId: newDeviceId, antecedent: result }, () => { this.getElements() })
+                    this.setState({ antecedentId: newDeviceId, antecedent: result }, () => { this.handleRegisterDevicePopUp(); this.getElements() })
                 }
                 else {
-                    this.setState({ consequentId: newDeviceId, consequent: result }, () => { this.getElements() })
+                    this.setState({ consequentId: newDeviceId, consequent: result }, () => { this.handleRegisterDevicePopUp(); this.getElements() })
                 }
-                this.handleRegisterDevicePopUp();
             } else {
                 this.handleRegisterElementError(true);
             }
@@ -566,8 +566,10 @@ export default class MainRouter extends React.Component {
         this.setState({ routeUrl: url }, () => { this.getElements() })
     }
     setRuleElementObject = (ruleElement) => {
-        console.log(ruleElement)
         this.setState({ ruleElement: ruleElement })
+    }
+    setDeviceAntecedentObject = (antecedent) => {
+        this.setState({ antecedent: antecedent })
     }
     setRuleElement = (id) => {
         this.setState({ ruleElementId: id })
@@ -745,6 +747,7 @@ export default class MainRouter extends React.Component {
                             handleSettings={this.handleSettings}
                             handleRuleBody={this.handleRuleBody}
                             setRouteUrl={this.setRouteUrl}
+                            setDeviceAntecedentObject = {this.setDeviceAntecedentObject}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_SWITCHES_URL}

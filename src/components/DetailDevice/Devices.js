@@ -5,6 +5,8 @@ import RegisterDeviceProcess from './RegisterDeviceProcess'
 import Switch from './Switch/Switch';
 import Timer from './Timer/Timer'
 import Alert from './Alert/Alert';
+import Button from './Button/Button';
+import WaterLevel from './WaterLevel/WaterLevel';
 
 function Devices(props) {
     if (props.elementId !== "" && props.elements.length > 0 && props.addNewElement === false) {
@@ -25,12 +27,12 @@ function Devices(props) {
         }
         else if (props.elementId.includes("WATERLEVEL")) {
             return (
-                <ContentContainer> </ContentContainer>
+                <WaterLevel {...props} />
             )
         }
         else if (props.elementId.includes("BUTTON")) {
             return (
-                <ContentContainer> </ContentContainer>
+                <Button {...props} />
             )
         }
     }

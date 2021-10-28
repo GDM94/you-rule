@@ -1,24 +1,29 @@
 import React from 'react';
 import styled from "styled-components";
-import SwitchDetail from './SwitchDetail';
-import DeletableDeviceTitle from '../DeviceUtils/UndeletableDeviceTitle';
+import WaterLevelDetail from './WaterLevelDetail';
+import DeletableDeviceTitle from '../DeviceUtils/DeletableDeviceTitle';
 
-export default class Switch extends React.Component {
+export default class WaterLevel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            device_id: "",
-            name: "switch",
+            id: "",
+            name: "WATERLEVEL",
             measure: "-",
+            absolute_measure: "",
+            setting_error: "0",
+            setting_max: "100",
+            setting_unit_measure: "cm",
             rules: [],
-            automatic: "true",
-            manual_measure: "false",
-            last_date_on: "-",
-            last_date_off: "-",
-            last_time_on: "-",
-            last_time_off: "-",
             status: "disconnected",
             color: "red",
+            unit_measure: "%",
+            max_measure: "-",
+            max_measure_time: "-",
+            max_measure_date: "-",
+            min_measure: "-",
+            min_measure_time: "-",
+            min_measure_date: "-",
             description: "consequent - switch"
         }
     }
@@ -27,7 +32,7 @@ export default class Switch extends React.Component {
         return (
             <ContentContainer>
                 <DeletableDeviceTitle {...this.props} {...this.state}/>
-                <SwitchDetail {...this.props} {...this.state}/>
+                <WaterLevelDetail {...this.props} {...this.state}/>
             </ContentContainer>
         )
     }
