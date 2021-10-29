@@ -34,94 +34,8 @@ const LowerRangeSlider = (props) => {
 	let startX = null;
 	let barValue = 0;
 	let bar = null;
-	const onBarLeftClick = (e) => {
-		let _minValue = minValue - step;
-		if (_minValue < min) {
-			_minValue = min;
-		}
-		set_minValue(_minValue);
-		let _barMin = ((_minValue - min) / (max - min)) * 100;
-		set_barMin(_barMin);
-		triggerInput(_minValue, maxValue);
-	};
-	const onInputMinChange = (e) => {
-		let _minValue = parseFloat(e.target.value);
-		if (_minValue > maxValue - step) {
-			_minValue = maxValue - step;
-		}
-		set_minValue(_minValue);
-		let _barMin = ((_minValue - min) / (max - min)) * 100;
-		set_barMin(_barMin);
-		triggerInput(_minValue, maxValue);
-	};
-	const onLeftThumbMousedown = (e) => {
-		startX = e.clientX;
-		if (e.type === 'touchstart') {
-			if (e.touches.length === 1) {
-				startX = e.touches[0].clientX;
-			} else {
-				return;
-			}
-		}
 
-		barValue = minValue;
-		bar = e.target.parentNode;
-		barBox = bar.getBoundingClientRect();
-		document.addEventListener('mousemove', onLeftThumbMousemove);
-		document.addEventListener('mouseup', onLeftThumbMouseup);
-		document.addEventListener('touchmove', onLeftThumbMousemove);
-		document.addEventListener('touchend', onLeftThumbMouseup);
-		bar.classList.add('active');
-	};
-	const onLeftThumbMousemove = (e) => {
-		let clientX = e.clientX;
-		if (e.type === 'touchmove') {
-			clientX = e.touches[0].clientX;
-		}
-		let dx = clientX - startX;
-		let per = dx / barBox.width;
-		let val = barValue + (max - min) * per;
-		let strSetp = '' + step;
-		let fixed = 0;
-		strSetp.indexOf('.') >= 0 && (fixed = 2);
-		val = parseFloat(val.toFixed(fixed));
-		if (val < min) {
-			val = min;
-		} else if (val > maxValue - step) {
-			val = maxValue - step;
-		}
-		set_minValue(val);
-		let _barMin = ((val - min) / (max - min)) * 100;
-		set_barMin(_barMin);
-		triggerInput(val, maxValue);
-	};
-	const onLeftThumbMouseup = (e) => {
-		document.removeEventListener('mousemove', onLeftThumbMousemove);
-		document.removeEventListener('mouseup', onLeftThumbMouseup);
-		document.removeEventListener('touchmove', onLeftThumbMousemove);
-		document.removeEventListener('touchend', onLeftThumbMouseup);
-		bar.classList.remove('active');
-	};
-	const onInnerBarLeftClick = (e) => {
-		let _minValue = minValue + step;
-		if (_minValue > maxValue - step) {
-			_minValue = maxValue - step;
-		}
-		set_minValue(_minValue);
-		let _barMin = ((_minValue - min) / (max - min)) * 100;
-		set_barMin(_barMin);
-		triggerInput(_minValue, maxValue);
-	};
-	const onInnerBarRightClick = (e) => {
-		let _maxValue = maxValue - step;
-		if (_maxValue < minValue + step) {
-			_maxValue = minValue + step;
-		}
-		set_maxValue(_maxValue);
-		let _barMax = ((max - _maxValue) / (max - min)) * 100;
-		set_barMax(_barMax);
-		triggerInput(minValue, _maxValue);
-	};
+	
 	const onInputMaxChange = (e) => {
 		let _maxValue = parseFloat(e.target.value);
 		if (_maxValue < minValue + step) {
@@ -179,16 +93,6 @@ const LowerRangeSlider = (props) => {
 		document.removeEventListener('touchmove', onRightThumbMousemove);
 		document.removeEventListener('touchend', onRightThumbMouseup);
 		bar.classList.remove('active');
-	};
-	const onBarRightClick = (e) => {
-		let _maxValue = maxValue + step;
-		if (_maxValue > max) {
-			_maxValue = max;
-		}
-		set_maxValue(_maxValue);
-		let _barMax = ((max - _maxValue) / (max - min)) * 100;
-		set_barMax(_barMax);
-		triggerInput(minValue, _maxValue);
 	};
 	const onMouseWheel = (e) => {
 		if (preventWheel === true) {

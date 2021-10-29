@@ -59,7 +59,7 @@ function LowerRangeSliderSetting(props) {
     return (
         <ElementMeasure>
             <h5>- VALUE SETTING</h5>
-            <p>Start Value: {start_value}</p>
+            <p>Start Value: {start_value} %</p>
             <LowerRangeSlider
                 min={0}
                 max={100}
@@ -112,8 +112,8 @@ function BeetweenRangeSliderSetting(props) {
     return (
         <ElementMeasure>
             <h5>- VALUE SETTING</h5>
-            <p>Start Value: {start_value}</p>
-            <p>Stop Value: {stop_value}</p>
+            <p>Start Value: {start_value} %</p>
+            <p>Stop Value: {stop_value} %</p>
             <BetweenRangeSlider
                 min={0}
                 max={100}
@@ -140,8 +140,8 @@ function IsteresiRangeSliderSetting(props) {
     return (
         <ElementMeasure>
             <h5>- VALUE SETTING</h5>
-            <p>Start Value: {start_value}</p>
-            <p>Stop Value: {stop_value}</p>
+            <p>Start Value: {start_value} %</p>
+            <p>Stop Value: {stop_value} %</p>
             <IsteresiRangeSlider
                 min={0}
                 max={100}
