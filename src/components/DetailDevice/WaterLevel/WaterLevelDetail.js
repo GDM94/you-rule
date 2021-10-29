@@ -4,7 +4,6 @@ import RuleNameList from '../DeviceUtils/RuleNameList'
 import DeviceDescription from '../DeviceUtils/DeviceDescription';
 
 export default function WaterLevelDetail(props) {
-    console.log(props.element)
     return (
         <ElementContent>
             <DeviceDescription

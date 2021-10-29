@@ -18,7 +18,6 @@ function RuleNameList(props) {
 
     if (props.element.rules && props.element.rules.length > 0) {
         const rules = props.element.rules;
-        console.log(rules)
         const rulesNameList = rules.map(rule => {
             if (rule.name === null){
                 return null;
