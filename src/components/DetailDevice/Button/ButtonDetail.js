@@ -10,7 +10,7 @@ export default function ButtonDetail(props) {
                 {...props}
             />
             <ElementMeasure>
-                <h1>{props.measure}</h1>
+                <h1>{props.element.measure}</h1>
                 <p>last on ({props.element.last_date_on} - {props.element.last_time_on})</p>
                 <p>last off ({props.element.last_date_off} - {props.element.last_time_off})</p>
             </ElementMeasure>
@@ -44,14 +44,4 @@ background-color: #a7b4a8;
 text-align: center;
 justify-content: center;
 background-color: #e6e6e6;
-`;
-
-const ElementSettings = styled.div`
-margin-left: 2%;
-margin-right: 2%;
-justify-content: center;
-padding: 1%;
-display: flex;
-flex-flow: column;
-align-items: center;
 `;

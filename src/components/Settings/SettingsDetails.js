@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import Location from './Location';
 import Profile from './Profile';
+import Location from './Location';
 
 class SettingsDetails extends React.Component {
     constructor(props) {

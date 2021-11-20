@@ -10,7 +10,7 @@ export default function WaterLevelDetail(props) {
                 {...props}
             />
             <ElementMeasure>
-                <h1>{props.measure}</h1>
+                <h1>{props.element.measure} %</h1>
                 <p>max measure: {props.element.max_measure} {props.element.unit_measure}  ({props.element.max_measure_date} - {props.element.max_measure_time})</p>
                 <p>min measure: {props.element.min_measure} {props.element.unit_measure} ({props.element.min_measure_date} - {props.element.min_measure_time})</p>
                 <ElementSettings>

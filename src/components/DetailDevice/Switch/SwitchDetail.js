@@ -11,7 +11,7 @@ export default function SwitchDetail(props) {
                 {...props}
             />
             <ElementMeasure>
-                <h1>{props.measure}</h1>
+                <h1>{props.element.measure}</h1>
                 <p>last on ({props.element.last_date_on} - {props.element.last_time_on})</p>
                 <p>last off ({props.element.last_date_off} - {props.element.last_time_off})</p>
                 <ElementSettings>
@@ -54,10 +54,17 @@ function SetManualMeasureButton(props) {
             control={
                 <Switch
                     checked={props.element.manual_measure === "on"}
-                    onChange={(e) => { props.setConsequentManualMeasureRequest(e.target.value) }}
+                    onChange={(e) => { 
+                        var newValue = "on";
+                        if (e.target.value === "on"){
+                            newValue = "off";
+                        }
+                        props.setConsequentManualMeasureRequest(newValue) 
+                    }}
                     value={props.element.manual_measure}
                     color="primary"
                     disabled={props.element.automatic === "true"}
+                    defaultValue={props.element.measure}
                 />
             }
             label="on"

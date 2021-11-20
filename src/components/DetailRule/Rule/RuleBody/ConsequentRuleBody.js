@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
 import styled from "styled-components";
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import {arrayMoveImmutable} from 'array-move';
+import { arrayMoveImmutable } from 'array-move';
 
 export default class ConsequentRuleBody extends Component {
     onSortEnd = ({ oldIndex, newIndex }) => {
@@ -42,6 +42,14 @@ const ConsequentRuleBodyList = SortableContainer((props) => {
 })
 
 const ConsequentRuleElement = SortableElement((props) => {
+    var itemInfo = ""
+    if (props.item.device_id.includes("alert")) {
+        itemInfo = props.item.order + " - " + props.item.device_name
+    }
+    else {
+        itemInfo = props.item.order + " - " + props.item.device_name + " (delay " + props.item.delay + " s) "
+    }
+
     return (
         <RuleElement
             onClick={() => {
@@ -49,7 +57,8 @@ const ConsequentRuleElement = SortableElement((props) => {
                 props.setRuleElement(props.item.device_id);
                 props.getRuleConsequentById(props.item.device_id);
             }}>
-            <span> {props.item.order} - (delay {props.item.delay} s) {props.item.device_name} </span>
+
+            <span> {itemInfo} </span>
             <EditIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
         </RuleElement>
     )

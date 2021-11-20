@@ -5,6 +5,8 @@ import AlertConsequent from "./RuleElements/AlertConsequent/AlertConsequent"
 import SwitchConsequent from "./RuleElements/SwitchConsequent/SwitchConsequent"
 import ButtonAntecedent from './RuleElements/ButtonAntecedent/ButtonAntecedent';
 import WaterLevelAntecedent from './RuleElements/WaterLevelAntecedent/WaterLevelAntecedent';
+import SwitchAntecedent from './RuleElements/SwitchAntecedent/SwitchAntecedent';
+import WeatherAntecedent from './RuleElements/WeatherAntecedent/WeatherAntecedent';
 
 export default function DetailRule(props) {
     if (props.element.id && props.elementId !== "" && props.elements.length > 0 && props.addNewElement === false && props.setRuleAntecedent === false && props.setRuleConsequent === false) {
@@ -12,25 +14,32 @@ export default function DetailRule(props) {
     } else if (props.elementId === "" && props.addNewElement === true && props.setRuleAntecedent === false && props.setRuleConsequent === false) {
         return <CreateRuleProcess {...props} />
     }
-    else if (props.elementId !== "" && props.addNewElement === false  && props.ruleElementId !== "" && props.ruleElement.device_id) {
-        if (props.setRuleAntecedent === true || props.setRuleConsequent === true){
+    else if (props.elementId !== "" && props.addNewElement === false && props.ruleElementId !== "" && props.ruleElement.device_id) {
+        console.log(props.ruleElement)
+        if (props.setRuleAntecedent === true || props.setRuleConsequent === true) {
             if (props.ruleElement.device_id.includes("timer")) {
-                return <TimerAntecedent {...props}/>
+                return <TimerAntecedent {...props} />
             }
             else if (props.ruleElement.device_id.includes("WATERLEVEL")) {
-                return <WaterLevelAntecedent {...props}/>
+                return <WaterLevelAntecedent {...props} />
             }
             else if (props.ruleElement.device_id.includes("BUTTON")) {
-                return <ButtonAntecedent {...props}/>
+                return <ButtonAntecedent {...props} />
             }
-            else if (props.ruleElement.device_id.includes("SWITCH")) {
-                return <SwitchConsequent {...props}/>
+            else if (props.ruleElement.device_id.includes("SWITCH") && props.setRuleConsequent === true) {
+                return <SwitchConsequent {...props} />
+            }
+            else if (props.ruleElement.device_id.includes("SWITCH") && props.setRuleAntecedent === true) {
+                return <SwitchAntecedent {...props} />
             }
             else if (props.ruleElement.device_id.includes("alert")) {
-                return <AlertConsequent {...props}/>
+                return <AlertConsequent {...props} />
             }
-            else{
-                return(<></>)
+            else if (props.ruleElement.device_id.includes("WEATHER")) {
+                return <WeatherAntecedent {...props} />
+            }
+            else {
+                return (<></>)
             }
         }
     }

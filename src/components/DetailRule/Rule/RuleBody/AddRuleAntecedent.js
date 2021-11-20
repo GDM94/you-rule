@@ -6,6 +6,7 @@ export default function AddRuleAntecedent(props) {
     return (
         <List>
             <AddRuleAntecedentsDevice {...props} />
+            <AddRuleAntecedentSwitchLastTimeOn {...props}/>
         </List>
     )
 }
@@ -38,6 +39,7 @@ function AddRuleAntecedentsDevice(props) {
 function AddRuleAntecedentSwitchLastTimeOn(props) {
     var antecedentsId = props.element.device_antecedents;
     var consequents = props.element.rule_consequents;
+    console.log(consequents)
     var idx = 10000;
     if (consequents.length > 0) {
         idx++;
@@ -47,11 +49,11 @@ function AddRuleAntecedentSwitchLastTimeOn(props) {
                     if (!antecedentsId.some(c => c === item.device_id)) {
                         return (
                             <RuleElement key={idx} onClick={() => {
-                                props.setRuleElement(item.id);
-                                props.addNewRuleAntecedentRequest(item.id);
+                                props.setRuleElement(item.device_id);
+                                props.addNewRuleAntecedentRequest(item.device_id);
                                 props.handleSetRuleAntecedent(true);
                             }}>
-                                <span> {item.name} </span>
+                                <span> {item.device_name} </span>
                                 <AddIcon fontSize="small" style={{ color: "black", float: "right", marginRight: "10px" }} />
                             </RuleElement>
                         )

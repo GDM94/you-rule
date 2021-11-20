@@ -191,6 +191,7 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/device/get/" + deviceId;
         try {
             let res = await axios.get(url);
+            console.log(res.data);
             if (this.state.routeUrl === process.env.REACT_APP_SENSORS_URL) {
                 this.setState({ antecedent: res.data });
             }
@@ -328,7 +329,6 @@ export default class MainRouter extends React.Component {
     }
     updateDeviceRequest = async (deviceId) => {
         console.log("App POST update device");
-        console.log(deviceId)
         const url = process.env.REACT_APP_BACKEND_URL + "/device/update/" + deviceId;
         try {
             var device = ""
@@ -373,10 +373,10 @@ export default class MainRouter extends React.Component {
             console.log(deviceType)
             if (result !== false) {
                 if (deviceType === "sensor") {
-                    this.setState({ antecedentId: newDeviceId, antecedent: result }, () => { this.handleRegisterDevicePopUp(); this.getElements() })
+                    this.setState({ antecedentId: newDeviceId, antecedent: result, modifyDevice: true }, () => { this.handleRegisterDevicePopUp(); this.getElements() })
                 }
                 else {
-                    this.setState({ consequentId: newDeviceId, consequent: result }, () => { this.handleRegisterDevicePopUp(); this.getElements() })
+                    this.setState({ consequentId: newDeviceId, consequent: result, modifyDevice: true }, () => { this.handleRegisterDevicePopUp(); this.getElements() })
                 }
             } else {
                 this.handleRegisterElementError(true);
@@ -385,17 +385,23 @@ export default class MainRouter extends React.Component {
             console.warn(err)
         }
     }
-    setConsequentAutomaticRequest = async (automatic) => {
+    setConsequentAutomaticRequest = async (checked) => {
         console.log("App POST consequent automatic");
         const url = process.env.REACT_APP_BACKEND_URL + "/device/consequent/automatic";
+        var automatic = "false";
+        if (checked === true){
+            automatic = "true";
+        }
         try {
-            let res = await axios.post(url, {}, {
+            await axios.post(url, {}, {
                 params: {
                     device_id: this.state.consequentId,
                     automatic: automatic
                 }
             });
-            this.setState({ consequent: res.data })
+            var consequent = this.state.consequent;
+            consequent.automatic = automatic
+            this.setState({ consequent: consequent })
         } catch (err) {
             console.warn(err)
         }
@@ -518,15 +524,11 @@ export default class MainRouter extends React.Component {
 
 
     //MODIFY DEVICES LOCAL
-    modifyAntecedentName = (newName) => {
-        var antecendent = this.state.antecedent;
-        antecendent.name = newName;
-        this.setState({ antecedent: antecendent })
+    setDeviceAntecedent = (device) => {
+        this.setState({ antecedent: device })
     }
-    modifyConsequentName = (newName) => {
-        var consequent = this.state.consequent;
-        consequent.name = newName;
-        this.setState({ consequent: consequent })
+    setDeviceConsequent = (device) => {
+        this.setState({ consequent: device })
     }
     addEmailLocal = () => {
         var consequent = this.state.consequent;
@@ -651,7 +653,6 @@ export default class MainRouter extends React.Component {
         try {
             let res = await axios.get(url);
             const location = res.data;
-            console.log(location)
             this.setState({
                 locationName: location.name,
                 locationCountry: location.country,
@@ -705,6 +706,16 @@ export default class MainRouter extends React.Component {
             console.warn(err)
         }
     }
+    getWeather = async() => {
+        console.log('App GET weather');
+        const url = process.env.REACT_APP_BACKEND_URL + "/user/get/weather";
+        try {
+            let res = await axios.get(url);
+            console.log(res.data)
+        } catch (err) {
+            console.warn(err)
+        }
+    }
 
     render() {
         return (
@@ -729,16 +740,12 @@ export default class MainRouter extends React.Component {
                             getElementById={this.getDeviceById}
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
-                            modifyElementName={this.modifyAntecedentName}
                             modify={this.state.modifyDevice}
                             setNewRule={this.setNewRule}
+                            setDeviceElement={this.setDeviceAntecedent}
                             handleModifyDevice={this.handleModifyDevice}
                             deleteElementRequest={this.deleteElementRequest}
                             updateDeviceRequest={this.updateDeviceRequest}
-                            modifyAntecedentSetting={this.modifyAntecedentSetting}
-                            modifyAntecedentSettingError={this.modifyAntecedentSettingError}
-                            getDeviceMeasureRequest={this.getDeviceMeasureRequest}
-                            modifyAntecedentName={this.modifyAntecedentName}
                             getAntecedentById={this.getDeviceById}
                             getRuleById={this.getRuleById}
                             registerDeviceRequest={this.registerDeviceRequest}
@@ -747,7 +754,8 @@ export default class MainRouter extends React.Component {
                             handleSettings={this.handleSettings}
                             handleRuleBody={this.handleRuleBody}
                             setRouteUrl={this.setRouteUrl}
-                            setDeviceAntecedentObject = {this.setDeviceAntecedentObject}
+                            setDeviceAntecedentObject={this.setDeviceAntecedentObject}
+                            getWeather={this.getWeather}
                         />}
                 />
                 <Route exact path={process.env.REACT_APP_SWITCHES_URL}
@@ -767,7 +775,7 @@ export default class MainRouter extends React.Component {
 
                             addNewElement={this.state.registerDevicePopUp}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
-                            modifyElementName={this.modifyConsequentName}
+                            setDeviceElement={this.setDeviceConsequent}
                             modify={this.state.modifyDevice}
                             setNewElement={this.setNewConsequent}
                             getElements={this.getElements}
@@ -776,8 +784,6 @@ export default class MainRouter extends React.Component {
                             handleModifyDevice={this.handleModifyDevice}
                             updateDeviceRequest={this.updateDeviceRequest}
                             deleteElementRequest={this.deleteElementRequest}
-                            getDeviceMeasureRequest={this.getDeviceMeasureRequest}
-                            modifyConsequentName={this.modifyConsequentName}
                             setNewRule={this.setNewRule}
                             setConsequentAutomaticRequest={this.setConsequentAutomaticRequest}
                             setConsequentManualMeasureRequest={this.setConsequentManualMeasureRequest}
@@ -820,20 +826,12 @@ export default class MainRouter extends React.Component {
                             getElementById={this.getRuleById}
                             deleteRuleElementRequest={this.deleteRuleElementRequest}
                             handleModify={this.handleModify}
-                            setNewRuleCondition={this.setNewRuleCondition}
-                            setNewStartValue={this.setNewStartValue}
-                            setNewStopValue={this.setNewStopValue}
-                            handleAddRuleConsequentPopUp={this.handleAddRuleConsequentPopUp}
                             updateRuleElementRequest={this.updateRuleElementRequest}
                             deleteElementRequest={this.deleteElementRequest}
                             modifyRuleName={this.modifyRuleName}
-                            setNewRuleMeasure={this.setNewRuleMeasure}
-                            setRuleRequest={this.setRuleRequest}
                             getRuleById={this.getRuleById}
                             getAntecedents={this.getAntecedents}
                             getConsequents={this.getConsequents}
-                            setRuleConsequentDelay={this.setRuleConsequentDelay}
-                            onDragEnd={this.onDragEnd}
                             handleSetRuleAntecedent={this.handleSetRuleAntecedent}
                             handleSetRuleConsequent={this.handleSetRuleConsequent}
                             setRuleElement={this.setRuleElement}

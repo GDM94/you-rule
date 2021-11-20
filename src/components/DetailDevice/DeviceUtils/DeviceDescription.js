@@ -28,28 +28,50 @@ export default function DeviceDescription(props) {
                 </li>
                 <li>{props.description}</li>
                 <li>Id: {props.elementId}</li>
+                <li>Expiration (s): {SetExpiration(props)}</li>
             </ul>
         </ElementDescription>
     )
 
 }
 
+function SetExpiration(props) {
+    var device = props.element
+    if (device.expiration === "no") {
+        return "not settable for this device"
+    }
+    if (props.modify) {
+        return (
+            <input type="number" id="expiration" name="expiration"
+                defaultValue={parseInt(device.expiration)}
+                onChange={(e) => {
+                    device.expiration = e.target.value
+                    props.setDeviceElement(device) 
+                }}
+            />
+        )
+    } else {
+        return (device.expiration)
+    }
+}
+
 function ModifyNameForm(props) {
     const submitFunction = (event) => {
-        console.log(props.elementId)
         props.updateDeviceRequest(props.elementId);
         props.handleModifyDevice();
         event.preventDefault();
     }
+    var device = props.element
 
     return (
         <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
             <input type="text" id="name" name="name"
-                defaultValue={props.element.name}
+                defaultValue={device.name}
                 onChange={(e) => {
                     props.duplicatedDeviceNameFunction(e.target.value);
                     if (!props.duplicatedDeviceName) {
-                        props.modifyElementName(e.target.value)
+                        device.name = e.target.value
+                        props.setDeviceElement(device)
                     }
                 }}
             />

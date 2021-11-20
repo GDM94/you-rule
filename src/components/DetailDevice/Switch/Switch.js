@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import SwitchDetail from './SwitchDetail';
-import DeletableDeviceTitle from '../DeviceUtils/UndeletableDeviceTitle';
+import DeletableDeviceTitle from '../DeviceUtils/DeletableDeviceTitle';
 
 export default class Switch extends React.Component {
     constructor(props) {
@@ -19,7 +19,8 @@ export default class Switch extends React.Component {
             last_time_off: "-",
             status: "disconnected",
             color: "red",
-            description: "consequent - switch"
+            expiration: "10",
+            description: "device - switch"
         }
     }
 

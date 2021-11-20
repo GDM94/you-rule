@@ -24,7 +24,8 @@ export default class WaterLevel extends React.Component {
             min_measure: "-",
             min_measure_time: "-",
             min_measure_date: "-",
-            description: "consequent - switch"
+            expiration: "10",
+            description: "sensor - water level"
         }
     }
 

@@ -4,12 +4,37 @@ import styled from "styled-components";
 export default function TimerAntecedentDetail(props) {
     return (
         <ElementContent>
+            <DeviceElementMeasure>
+                <h1>{weekDayMapper(props.ruleElement.measure_day)}, {props.ruleElement.measure_time}</h1>
+            </DeviceElementMeasure>
+            <br></br>
             <WeekDaySetting {...props} />
             <br></br>
             <TimeSetting {...props} />
         </ElementContent>
     )
 
+}
+
+function weekDayMapper(numberDay) {
+    switch (numberDay) {
+        case '0':
+            return 'Lunedi';
+        case '1':
+            return 'Martedi';
+        case '2':
+            return 'Mercoledi';
+        case '3':
+            return 'Giovedi';
+        case '4':
+            return 'Venerdi';
+        case '5':
+            return 'Sabato';
+        case '6':
+            return 'Domenica';
+        default:
+            return '-';
+    }
 }
 
 function TimeSetting(props) {
@@ -39,9 +64,23 @@ function TimeSetting(props) {
         }
     }
     return (
-        <>
-            <h5>- TIMER SETTING</h5>
-            <ElementMeasure>
+
+        <ElementMeasure>
+            <h5>
+                <input type="radio"
+                    checked={ruleElement.check_time === "true"}
+                    value={ruleElement.check_time === "true" ? "true" : "false"}
+                    onClick={e => {
+                        ruleElement.check_time = e.target.value === "true" ? "false" : "true"
+                        props.setRuleElementObject(ruleElement);
+                    }}
+                    onChange={e => {
+                        console.log(e.target.value)
+                    }}
+                />
+                TIMER SETTING
+            </h5>
+            <div style={{ display: ruleElement.check_time === "true" ? "" : "none" }}>
                 <div>
                     Start Time
                     <input type="time" id="start"
@@ -55,8 +94,8 @@ function TimeSetting(props) {
                         defaultValue={defaultStopTimeValue()}
                         onChange={e => { manageStopTime(e.target.value) }} />
                 </div>
-            </ElementMeasure>
-        </>
+            </div>
+        </ElementMeasure>
     )
 
 }
@@ -98,9 +137,22 @@ function WeekDaySetting(props) {
         )
     }
     return (
-        <>
-            <h5>- DAYS SETTING</h5>
-            <ElementMeasure>
+        <ElementMeasure>
+            <h5>
+                <input type="radio"
+                    checked={ruleElement.check_date === "true"}
+                    value={ruleElement.check_date === "true" ? "true" : "false"}
+                    onClick={e => {
+                        ruleElement.check_date = e.target.value === "true" ? "false" : "true"
+                        props.setRuleElementObject(ruleElement);
+                    }}
+                    onChange={e => {
+                        console.log(e.target.value)
+                    }}
+                />
+                DAYS SETTING
+            </h5>
+            <div style={{ display: ruleElement.check_date === "true" ? "flex" : "none", flexFlow: "column" }}>
                 {daySelection("Lunedì", 0)}
                 {daySelection("Martedì", 1)}
                 {daySelection("Mercoledì", 2)}
@@ -108,8 +160,9 @@ function WeekDaySetting(props) {
                 {daySelection("Venerdì", 4)}
                 {daySelection("Sabato", 5)}
                 {daySelection("Domenica", 6)}
-            </ElementMeasure>
-        </>
+            </div>
+        </ElementMeasure>
+
     )
 }
 
@@ -142,6 +195,18 @@ background-color: #e6e6e6;
 const DaySelection = styled.label`
 width: fit-content; 
 cursor: default;
+`;
+
+const DeviceElementMeasure = styled.div`
+border: solid black 2px;
+border-radius: 25px;
+margin-left: 2%;
+margin-right: 2%;
+padding: 2%;
+background-color: #a7b4a8;
+text-align: center;
+justify-content: center;
+background-color: #e6e6e6;
 `;
 
 

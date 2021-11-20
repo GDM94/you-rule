@@ -25,6 +25,10 @@ export default function WaterLevelAntecedentDetail(props) {
     }
     return (
         <ElementContent>
+            <DeviceElementMeasure>
+                <h1>{props.ruleElement.measure} %</h1>
+            </DeviceElementMeasure>
+            <br></br>
             <EvaluateConditionSetting {...props} />
             <br></br>
             {slider(props.ruleElement.condition_measure)}
@@ -44,7 +48,6 @@ function EvaluateConditionSetting(props) {
                 options={props.options}
                 defaultValue={{ label: ruleElement.condition_measure, value: ruleElement.condition_measure }}
                 onChange={e => {
-                    console.log(e)
                     ruleElement.condition_measure = e.value
                     props.setRuleElementObject(ruleElement);
                 }}
@@ -117,12 +120,12 @@ function BeetweenRangeSliderSetting(props) {
             <BetweenRangeSlider
                 min={0}
                 max={100}
-                step={5}
+                step={1}
                 ruler={false}
                 label={true}
                 preventWheel={false}
                 minValue={ruleElement.start_value === "//" ? "0" : ruleElement.start_value}
-                maxValue={ruleElement.start_value === "//" ? "100" : ruleElement.stop_value}
+                maxValue={ruleElement.stop_value === "//" ? "100" : ruleElement.stop_value}
                 onInput={(e) => {
                     ruleElement.start_value = e.minValue.toString()
                     ruleElement.stop_value = e.maxValue.toString()
@@ -145,7 +148,7 @@ function IsteresiRangeSliderSetting(props) {
             <IsteresiRangeSlider
                 min={0}
                 max={100}
-                step={5}
+                step={1}
                 ruler={false}
                 label={true}
                 preventWheel={false}
@@ -189,6 +192,19 @@ text-align: left;
 justify-content: left;
 background-color: #e6e6e6;
 `;
+
+const DeviceElementMeasure = styled.div`
+border: solid black 2px;
+border-radius: 25px;
+margin-left: 2%;
+margin-right: 2%;
+padding: 2%;
+background-color: #a7b4a8;
+text-align: center;
+justify-content: center;
+background-color: #e6e6e6;
+`;
+
 
 
 

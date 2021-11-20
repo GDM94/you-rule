@@ -5,8 +5,6 @@ export default function AlertConsequentDetail(props) {
     return (
         <ElementContent>
             <MessageSetting {...props} />
-            <br></br>
-            <DelaySetting {...props} />
         </ElementContent>
     )
 }
@@ -14,45 +12,18 @@ export default function AlertConsequentDetail(props) {
 function MessageSetting(props) {
     var ruleElement = props.ruleElement;
     return (
-        <>
+        <ElementMeasure>
             <h5>- MESSAGE</h5>
-            <ElementMeasure>
-                <div>
-                    <input type="text" id="name" name="name"
-                        defaultValue={props.ruleElement.message}
-                        onChange={(e) => {
-                            ruleElement.message = e.target.value;
-                            props.setRuleElementObject(ruleElement);
-                        }} />
-                </div>
-            </ElementMeasure>
-        </>
+            <div>
+                <input type="text" id="name" name="name"
+                    defaultValue={props.ruleElement.message}
+                    onChange={(e) => {
+                        ruleElement.message = e.target.value;
+                        props.setRuleElementObject(ruleElement);
+                    }} />
+            </div>
+        </ElementMeasure>
     )
-}
-
-function DelaySetting(props) {
-    var ruleElement = props.ruleElement;
-    if (ruleElement.delay) {
-        return (
-            <>
-                <h5>- DELAY (sec)</h5>
-                <ElementMeasure>
-                    <div>
-                        <input type="number" id="delay" name="delay" min="0"
-                            defaultValue={parseInt(props.ruleElement.delay)}
-                            onChange={(e) => {
-                                ruleElement.delay = e.target.value.toString();
-                                props.setRuleElementObject(ruleElement);
-                            }} />
-                    </div>
-                </ElementMeasure>
-            </>
-        )
-    }
-    else{
-        return(<></>)
-    }
-
 }
 
 

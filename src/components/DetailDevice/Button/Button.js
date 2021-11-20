@@ -17,7 +17,8 @@ export default class Button extends React.Component {
             last_time_off: "-",
             status: "disconnected",
             color: "red",
-            description: "antecedent - button"
+            expiration: "10",
+            description: "sensor - button"
         }
     }
 

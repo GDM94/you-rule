@@ -14,7 +14,7 @@ export default class Timer extends React.Component {
             rules: [],
             status: "connected",
             color: "green",
-            description: "antecedent - timer"
+            description: "sensor - timer"
         }
     }
 
