@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 function ButtonLogout(props) {
     return (
         <ListItem button onClick={() => {
-            props.handleLogOut();
+            props.userLogoutRequest();
         }}>
             <ListItemIcon>
                 <ExitToAppIcon fontSize="small" style={{ color: 'white' }} />

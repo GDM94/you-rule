@@ -1,61 +1,24 @@
 import React from 'react';
 import styled from "styled-components";
 import Button from '@material-ui/core/Button';
+import Loader from "react-loader-spinner";
 
 export default class RegisterDeviceProcess extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            registerDeviceError: false,
-            newDeviceId: "",
-            deviceType: "",
+            newDeviceId: ""
         }
-    }
-
-    CheckRegisterDeviceRecognition() {
-        const deviceId = this.state.newDeviceId;
-        var deviceRecognition = false;
-        var deviceType = ""
-        if (deviceId.includes("SWITCH")) {
-            deviceRecognition = true;
-            deviceType = "switch";
-        }
-        else if (deviceId.includes("PHOTOCELL")) {
-            deviceRecognition = true;
-            deviceType = "sensor";
-        }
-        else if (deviceId.includes("WATERLEVEL")) {
-            deviceRecognition = true;
-            deviceType = "sensor";
-        }
-        else if (deviceId.includes("SOILMOISTURE")) {
-            deviceRecognition = true;
-            deviceType = "sensor";
-        }
-        else if (deviceId.includes("AMMETER")) {
-            deviceRecognition = true;
-            deviceType = "sensor";
-        }
-        else if (deviceId.includes("BUTTON")) {
-            deviceRecognition = true;
-            deviceType = "sensor";
-        }
-        this.setState({ registerDeviceError: !deviceRecognition, deviceType: deviceType})
-        return deviceType
     }
 
     NewDeviceIdRegistration(newDeviceId) {
         this.setState({
-            newDeviceId: newDeviceId, 
-            registerDeviceError: false
+            newDeviceId: newDeviceId,
         })
     }
 
     createDevice = (event) => {
-        const deviceType = this.CheckRegisterDeviceRecognition();
-        if (deviceType !== "") {
-            this.props.registerDeviceRequest(this.state.newDeviceId, deviceType);
-        }
+        this.props.registerDeviceRequest(this.state.newDeviceId);
         event.preventDefault();
     }
 
@@ -66,7 +29,6 @@ export default class RegisterDeviceProcess extends React.Component {
                     <h2>ADD DEVICE:</h2>
                 </ElementTitle>
                 <ElementContent>
-                    <p style={{ color: "red", display: this.state.registerDeviceError ? 'block' : 'none' }} > Error: device ID is not recognized as valid device ID!</p>
                     <p style={{ color: "red", display: this.props.registerElementError ? 'block' : 'none' }} > Error: device Id is not correct because already registered!</p>
                     <ElementSettings>
                         <form style={{ marginRight: "10px" }} onSubmit={this.createDevice}>
@@ -80,16 +42,22 @@ export default class RegisterDeviceProcess extends React.Component {
                             />
                         </form>
                         <MyButton onClick={() => {
-                            const deviceType = this.CheckRegisterDeviceRecognition();
-                            if (deviceType !== "") {
-                                this.props.registerDeviceRequest(this.state.newDeviceId, deviceType);
-                            }
+                            this.props.registerDeviceRequest(this.state.newDeviceId);
                         }}>
                             NEXT
                         </MyButton>
                     </ElementSettings>
-
                 </ElementContent>
+                <h3 style={{ display: this.props.loading === true ? 'block' : 'none' }}> 
+                Please wait 10s for initialization
+                <Loader
+                    type="Puff"
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                />
+                </h3>
+                
             </ContentContainer>
         )
     }

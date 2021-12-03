@@ -54,7 +54,8 @@ export default class MainRouter extends React.Component {
             locationCountry: "",
             locationLat: "",
             locationLon: "",
-            locationList: []
+            locationList: [],
+            loading: false
         }
     }
 
@@ -92,6 +93,17 @@ export default class MainRouter extends React.Component {
                 this.handleUserLoginError(true);
             }
         } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    userLogoutRequest = async () => {
+        console.log("UserAccess POST logout")
+        try {
+            const url = process.env.REACT_APP_BACKEND_URL + "/user/logout";
+            axios.post(url).then(this.handleLogOut());
+        }
+        catch (err) {
             console.warn(err)
         }
     }
@@ -364,20 +376,20 @@ export default class MainRouter extends React.Component {
         rule.rule_consequents = items;
         this.setState({ rule: rule })
     }
-    registerDeviceRequest = async (newDeviceId, deviceType) => {
+    registerDeviceRequest = async (newDeviceId) => {
         console.log("App POST register device");
         const url = process.env.REACT_APP_BACKEND_URL + "/device/register/" + newDeviceId;
+        setTimeout(() => {
+            this.setState({ loading: false });
+            this.handleRegisterDevicePopUp();
+            this.getElements();
+        }, 11000);
         try {
             let res = await axios.post(url);
             const result = res.data;
-            console.log(deviceType)
             if (result !== false) {
-                if (deviceType === "sensor") {
-                    this.setState({ antecedentId: newDeviceId, antecedent: result, modifyDevice: true }, () => { this.handleRegisterDevicePopUp(); this.getElements() })
-                }
-                else {
-                    this.setState({ consequentId: newDeviceId, consequent: result, modifyDevice: true }, () => { this.handleRegisterDevicePopUp(); this.getElements() })
-                }
+                this.setState({ loading: true })
+                setTimeout();
             } else {
                 this.handleRegisterElementError(true);
             }
@@ -389,7 +401,7 @@ export default class MainRouter extends React.Component {
         console.log("App POST consequent automatic");
         const url = process.env.REACT_APP_BACKEND_URL + "/device/consequent/automatic";
         var automatic = "false";
-        if (checked === true){
+        if (checked === true) {
             automatic = "true";
         }
         try {
@@ -706,7 +718,7 @@ export default class MainRouter extends React.Component {
             console.warn(err)
         }
     }
-    getWeather = async() => {
+    getWeather = async () => {
         console.log('App GET weather');
         const url = process.env.REACT_APP_BACKEND_URL + "/user/get/weather";
         try {
@@ -727,6 +739,7 @@ export default class MainRouter extends React.Component {
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
                             handleLogOut={this.handleLogOut}
+                            userLogoutRequest={this.userLogoutRequest}
 
                             element={this.state.antecedent}
                             elements={this.state.antecedents}
@@ -765,6 +778,7 @@ export default class MainRouter extends React.Component {
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
                             handleLogOut={this.handleLogOut}
+                            userLogoutRequest={this.userLogoutRequest}
 
                             element={this.state.consequent}
                             elements={this.state.consequents}
@@ -810,6 +824,7 @@ export default class MainRouter extends React.Component {
                             {...this.state}
                             handleMenuPopUp={this.handleMenuPopUp}
                             handleLogOut={this.handleLogOut}
+                            userLogoutRequest={this.userLogoutRequest}
 
                             element={this.state.rule}
                             elements={this.state.rules}
@@ -885,6 +900,7 @@ export default class MainRouter extends React.Component {
                             UserRegistrationRequest={this.UserRegistrationRequest}
                             handleSettings={this.handleSettings}
                             handleLogOut={this.handleLogOut}
+                            userLogoutRequest={this.userLogoutRequest}
                             addNewElement={false}
                             handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
                             setSettingsPage={this.setSettingsPage}

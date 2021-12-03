@@ -46,9 +46,7 @@ function Devices(props) {
     else if (props.elementId === "" && props.addNewElement === true) {
         return (
             <ContentContainer>
-                <RegisterDeviceProcess
-                    {...props}
-                />
+                <RegisterDeviceProcess {...props} />
             </ContentContainer>
         )
     }
