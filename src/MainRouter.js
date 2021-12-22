@@ -203,7 +203,6 @@ export default class MainRouter extends React.Component {
         const url = process.env.REACT_APP_BACKEND_URL + "/device/get/" + deviceId;
         try {
             let res = await axios.get(url);
-            console.log(res.data);
             if (this.state.routeUrl === process.env.REACT_APP_SENSORS_URL) {
                 this.setState({ antecedent: res.data });
             }

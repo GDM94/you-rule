@@ -8,6 +8,7 @@ import Alert from './Alert/Alert';
 import Button from './Button/Button';
 import WaterLevel from './WaterLevel/WaterLevel';
 import Weather from './Weather/Weather';
+import Photocell from './Photocell/Photocell';
 
 function Devices(props) {
     if (props.elementId && props.elementId !== "" && props.elements.length > 0 && props.addNewElement === false) {
@@ -41,6 +42,12 @@ function Devices(props) {
                 <Weather {...props}/>
             )
         }
+        else if (props.elementId.includes("PHOTOCELL")) {
+            return (
+                <Photocell {...props}/>
+            )
+        }
+
 
     }
     else if (props.elementId === "" && props.addNewElement === true) {

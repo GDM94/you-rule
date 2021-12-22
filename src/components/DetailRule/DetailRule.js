@@ -7,6 +7,7 @@ import ButtonAntecedent from './RuleElements/ButtonAntecedent/ButtonAntecedent';
 import WaterLevelAntecedent from './RuleElements/WaterLevelAntecedent/WaterLevelAntecedent';
 import SwitchAntecedent from './RuleElements/SwitchAntecedent/SwitchAntecedent';
 import WeatherAntecedent from './RuleElements/WeatherAntecedent/WeatherAntecedent';
+import PhotocellAntecedent from './RuleElements/PhotocellAntecedent/PhotocellAntecedent';
 
 export default function DetailRule(props) {
     if (props.element.id && props.elementId !== "" && props.elements.length > 0 && props.addNewElement === false && props.setRuleAntecedent === false && props.setRuleConsequent === false) {
@@ -15,7 +16,6 @@ export default function DetailRule(props) {
         return <CreateRuleProcess {...props} />
     }
     else if (props.elementId !== "" && props.addNewElement === false && props.ruleElementId !== "" && props.ruleElement.device_id) {
-        console.log(props.ruleElement)
         if (props.setRuleAntecedent === true || props.setRuleConsequent === true) {
             if (props.ruleElement.device_id.includes("timer")) {
                 return <TimerAntecedent {...props} />
@@ -37,6 +37,9 @@ export default function DetailRule(props) {
             }
             else if (props.ruleElement.device_id.includes("WEATHER")) {
                 return <WeatherAntecedent {...props} />
+            }
+            else if (props.ruleElement.device_id.includes("PHOTOCELL")) {
+                return <PhotocellAntecedent {...props} />
             }
             else {
                 return (<></>)

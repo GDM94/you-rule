@@ -2,17 +2,14 @@ import React from 'react';
 import styled from "styled-components";
 import Select from 'react-select';
 import BetweenRangeSlider from '../../../Sliders/BetweenRangeSlider';
-import IsteresiRangeSlider from '../../../Sliders/IsteresiRangeSlider';
 import GreatSingleRangeSlider from '../../../Sliders/GreatSingleRangeSlider';
 import LowerRangeSlider from '../../../Sliders/LowerRangeSlider';
 
-export default function WaterLevelAntecedentDetail(props) {
+export default function PhotocellAntecedentDetail(props){
     const slider = (condition) => {
         switch (condition) {
             case "between":
                 return <BeetweenRangeSliderSetting {...props} />
-            case "isteresi":
-                return <IsteresiRangeSliderSetting {...props} />
             case ">":
                 return <GreaterRangeSliderSetting {...props} />
             case "<":
@@ -21,7 +18,7 @@ export default function WaterLevelAntecedentDetail(props) {
                 return <BeetweenRangeSliderSetting {...props} />
         }
     }
-    
+
     return (
         <ElementContent>
             <DeviceElementMeasure>
@@ -33,7 +30,6 @@ export default function WaterLevelAntecedentDetail(props) {
             {slider(props.ruleElement.condition_measure)}
         </ElementContent>
     )
-
 }
 
 function EvaluateConditionSetting(props) {
@@ -135,33 +131,7 @@ function BeetweenRangeSliderSetting(props) {
     )
 }
 
-function IsteresiRangeSliderSetting(props) {
-    var ruleElement = props.ruleElement;
-    var start_value = ruleElement.start_value === "//" ? "0" : ruleElement.start_value
-    var stop_value = ruleElement.start_value === "//" ? "100" : ruleElement.stop_value
-    return (
-        <ElementMeasure>
-            <h5>- VALUE SETTING</h5>
-            <p>Start Value: {start_value} %</p>
-            <p>Stop Value: {stop_value} %</p>
-            <IsteresiRangeSlider
-                min={0}
-                max={100}
-                step={1}
-                ruler={false}
-                label={true}
-                preventWheel={false}
-                minValue={ruleElement.start_value === "//" ? "0" : ruleElement.start_value}
-                maxValue={ruleElement.start_value === "//" ? "100" : ruleElement.stop_value}
-                onInput={(e) => {
-                    ruleElement.start_value = e.minValue.toString()
-                    ruleElement.stop_value = e.maxValue.toString()
-                    props.setRuleElementObject(ruleElement);
-                }}
-            />
-        </ElementMeasure>
-    )
-}
+
 
 
 
@@ -203,10 +173,3 @@ text-align: center;
 justify-content: center;
 background-color: #e6e6e6;
 `;
-
-
-
-
-
-
-
