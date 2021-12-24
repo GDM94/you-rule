@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 
-export default function SwitchConsequentDetail(props) {
+export default function ServoConsequentDetail(props) {
     return (
         <ElementContent>
             <DeviceElementMeasure>

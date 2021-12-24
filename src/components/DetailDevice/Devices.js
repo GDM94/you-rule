@@ -9,6 +9,7 @@ import Button from './Button/Button';
 import WaterLevel from './WaterLevel/WaterLevel';
 import Weather from './Weather/Weather';
 import Photocell from './Photocell/Photocell';
+import Servo from './Servo/Servo';
 
 function Devices(props) {
     if (props.elementId && props.elementId !== "" && props.elements.length > 0 && props.addNewElement === false) {
@@ -47,7 +48,11 @@ function Devices(props) {
                 <Photocell {...props}/>
             )
         }
-
+        else if (props.elementId.includes("SERVO")) {
+            return (
+                <Servo {...props}/>
+            )
+        }
 
     }
     else if (props.elementId === "" && props.addNewElement === true) {

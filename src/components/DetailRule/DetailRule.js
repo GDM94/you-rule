@@ -8,6 +8,7 @@ import WaterLevelAntecedent from './RuleElements/WaterLevelAntecedent/WaterLevel
 import SwitchAntecedent from './RuleElements/SwitchAntecedent/SwitchAntecedent';
 import WeatherAntecedent from './RuleElements/WeatherAntecedent/WeatherAntecedent';
 import PhotocellAntecedent from './RuleElements/PhotocellAntecedent/PhotocellAntecedent';
+import ServoConsequent from './RuleElements/ServoConsequent/ServoConsequent';
 
 export default function DetailRule(props) {
     if (props.element.id && props.elementId !== "" && props.elements.length > 0 && props.addNewElement === false && props.setRuleAntecedent === false && props.setRuleConsequent === false) {
@@ -40,6 +41,9 @@ export default function DetailRule(props) {
             }
             else if (props.ruleElement.device_id.includes("PHOTOCELL")) {
                 return <PhotocellAntecedent {...props} />
+            }
+            else if (props.ruleElement.device_id.includes("SERVO")) {
+                return <ServoConsequent {...props} />
             }
             else {
                 return (<></>)
