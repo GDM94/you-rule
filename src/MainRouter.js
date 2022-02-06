@@ -870,7 +870,7 @@ export default class MainRouter extends React.Component {
                             updateRuleNameRequest={this.updateRuleNameRequest}
                             updateRuleConsequentOrderRequest={this.updateRuleConsequentOrderRequest}
                             updateRuleConsequentOrderLocal={this.updateRuleConsequentOrderLocal}
-
+                            getRuleElementMeasure={this.getRuleElementMeasure}
 
 
                             base_url={process.env.REACT_APP_BACKEND_URL}

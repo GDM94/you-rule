@@ -39,13 +39,12 @@ function AddRuleAntecedentsDevice(props) {
 function AddRuleAntecedentSwitchLastTimeOn(props) {
     var antecedentsId = props.element.device_antecedents;
     var consequents = props.element.rule_consequents;
-    console.log(consequents)
     var idx = 10000;
     if (consequents.length > 0) {
         idx++;
         return (
             consequents.map(item => {
-                if (!item.device_id.includes("alert")) {
+                if (!item.device_id.includes("alert") && !item.device_id.includes("SERVO")) {
                     if (!antecedentsId.some(c => c === item.device_id)) {
                         return (
                             <RuleElement key={idx} onClick={() => {

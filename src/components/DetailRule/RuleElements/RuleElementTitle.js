@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import styled from "styled-components";
 
@@ -17,6 +18,12 @@ export default function RuleElementTitle(props) {
                 }}>
                     <DoneIcon fontSize="large" style={{ color: "black" }} />
                 </Button>
+                <Button
+                    onClick={() => {
+                        props.getRuleElementMeasure(props.ruleElementId);
+                    }}>
+                    <RefreshIcon fontSize="large" style={{ color: "black" }} />
+                </Button >
                 <Button onClick={() => {
                     props.deleteRuleElementRequest(props.newRuleId, props.ruleElementId)
                     props.setRuleAntecedent ? props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS) 
