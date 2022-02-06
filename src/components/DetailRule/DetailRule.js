@@ -6,6 +6,7 @@ import SwitchConsequent from "./RuleElements/SwitchConsequent/SwitchConsequent"
 import ButtonAntecedent from './RuleElements/ButtonAntecedent/ButtonAntecedent';
 import WaterLevelAntecedent from './RuleElements/WaterLevelAntecedent/WaterLevelAntecedent';
 import SwitchAntecedent from './RuleElements/SwitchAntecedent/SwitchAntecedent';
+import ServoAntecedent from './RuleElements/ServoAntecedent/ServoAntecedent';
 import WeatherAntecedent from './RuleElements/WeatherAntecedent/WeatherAntecedent';
 import PhotocellAntecedent from './RuleElements/PhotocellAntecedent/PhotocellAntecedent';
 import ServoConsequent from './RuleElements/ServoConsequent/ServoConsequent';
@@ -32,6 +33,9 @@ export default function DetailRule(props) {
             }
             else if (props.ruleElement.device_id.includes("SWITCH") && props.setRuleAntecedent === true) {
                 return <SwitchAntecedent {...props} />
+            }
+            else if (props.ruleElement.device_id.includes("SERVO") && props.setRuleAntecedent === true) {
+                return <ServoAntecedent {...props} />
             }
             else if (props.ruleElement.device_id.includes("alert")) {
                 return <AlertConsequent {...props} />
