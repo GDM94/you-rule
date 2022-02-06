@@ -5,7 +5,7 @@ export default function TimerAntecedentDetail(props) {
     return (
         <ElementContent>
             <DeviceElementMeasure>
-                <h1>{weekDayMapper(props.ruleElement.measure_day)}, {props.ruleElement.measure_time}</h1>
+                <h1>{props.ruleElement.measure}</h1>
             </DeviceElementMeasure>
             <br></br>
             <WeekDaySetting {...props} />
@@ -16,26 +16,6 @@ export default function TimerAntecedentDetail(props) {
 
 }
 
-function weekDayMapper(numberDay) {
-    switch (numberDay) {
-        case '0':
-            return 'Lunedi';
-        case '1':
-            return 'Martedi';
-        case '2':
-            return 'Mercoledi';
-        case '3':
-            return 'Giovedi';
-        case '4':
-            return 'Venerdi';
-        case '5':
-            return 'Sabato';
-        case '6':
-            return 'Domenica';
-        default:
-            return '-';
-    }
-}
 
 function TimeSetting(props) {
     var ruleElement = props.ruleElement;

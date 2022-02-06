@@ -246,7 +246,20 @@ export default class MainRouter extends React.Component {
         }
     }
 
-
+    getRuleElementMeasure = async (deviceId) => {
+        console.log('App GET Device Measure');
+        const url = process.env.REACT_APP_BACKEND_URL + "/device/get/measure/" + deviceId;
+        try {
+            let res = await axios.get(url);
+            if (res.data.measure !== "false"){
+                let ruleElement = this.state.ruleElement
+                ruleElement.measure = res.data.measure
+                this.setState({ ruleElement: ruleElement });
+            } 
+        } catch (err) {
+            console.warn(err)
+        }
+    }
 
     //ADD and UPDATE ELEMENTS
     createRuleRequest = async (rule_name) => {

@@ -4,13 +4,14 @@ import RuleNameList from '../DeviceUtils/RuleNameList'
 import DeviceDescription from '../DeviceUtils/DeviceDescription';
 
 export default function TimerDetail(props) {
+    console.log(props.element)
     return (
         <ElementContent>
             <DeviceDescription
                 {...props}
             />
             <ElementMeasure>
-                <h1>{weekDayMapper(props.element.measure_day)}, {props.element.measure_time}</h1>
+                <h1>{props.element.measure}</h1>
             </ElementMeasure>
             <br></br>
             <RuleNameList
@@ -19,27 +20,6 @@ export default function TimerDetail(props) {
         </ElementContent>
     )
 
-}
-
-function weekDayMapper(numberDay) {
-    switch (numberDay) {
-        case '0':
-            return 'Lunedi';
-        case '1':
-            return 'Martedi';
-        case '2':
-            return 'Mercoledi';
-        case '3':
-            return 'Giovedi';
-        case '4':
-            return 'Venerdi';
-        case '5':
-            return 'Sabato';
-        case '6':
-            return 'Domenica';
-        default:
-            return '-';
-    }
 }
 
 const ElementContent = styled.div`
