@@ -5,8 +5,7 @@ import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
 import TopBar from '../components/TopBar/TopBar';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
-import LateralMenuSettings from '../components/LateralMenu/LateralMenuSettings';
-import SettingsDetails from '../components/Settings/SettingsDetails';
+import Profile from '../components/Settings/Profile';
 
 var jwt = require('jwt-simple');
 
@@ -37,11 +36,8 @@ class SettingPage extends React.Component {
                     {...this.props}
                 />
                 <GreatBody>
-                    <LateralMenuSettings
-                        {...this.props}
-                    />
                     <ContentContainer>
-                        <SettingsDetails
+                        <Profile
                             {...this.props}
                             {...this.state}
                         />
