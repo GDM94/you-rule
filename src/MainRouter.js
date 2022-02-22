@@ -599,6 +599,11 @@ export default class MainRouter extends React.Component {
 
   setRouteUrl = (url) => {
     this.setState(
+      { routeUrl: url, deviceId: "", ruleElementId: "", newRuleId: "" }
+    );
+  };
+  setRouteUrlWithRequests = (url) => {
+    this.setState(
       { routeUrl: url, deviceId: "", ruleElementId: "", newRuleId: "" },
       () => {
         this.getElements();
@@ -661,7 +666,6 @@ export default class MainRouter extends React.Component {
     window.location.assign("http://ruleapp.org");
   };
   handleSettings = () => {
-    console.log("settings");
     this.setState({
       menuPopUp: false,
       antecedentId: "",
@@ -798,6 +802,7 @@ export default class MainRouter extends React.Component {
               setNewUserLocation={this.setNewUserLocation}
               setRouteUrl={this.setRouteUrl}
               handleSearchNewLocation={this.handleSearchNewLocation}
+              setRouteUrlWithRequests={this.setRouteUrlWithRequests}
             />
           )}
         />
@@ -847,6 +852,7 @@ export default class MainRouter extends React.Component {
               addNewAlertEmailRequest={this.addNewAlertEmailRequest}
               modifyEmailRequest={this.modifyEmailRequest}
               modifyEmailLocal={this.modifyEmailLocal}
+              setRouteUrlWithRequests={this.setRouteUrlWithRequests}
             />
           )}
         />
@@ -900,10 +906,10 @@ export default class MainRouter extends React.Component {
               handleSettings={this.handleSettings}
               handleRuleBody={this.handleRuleBody}
               setRouteUrl={this.setRouteUrl}
+              setRouteUrlWithRequests={this.setRouteUrlWithRequests}
             />
           )}
         />
-
         <Route
           exact
           path={process.env.REACT_APP_LOGIN_URL}

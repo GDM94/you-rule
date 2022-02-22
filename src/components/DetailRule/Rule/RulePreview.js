@@ -4,7 +4,7 @@ import styled from "styled-components";
 export default function RulePreview(props, item) {
   return (
     <DeviceElement
-      key={item.elementId}
+      key={item.id}
       onClick={() => {
         props.setNewElement(item.id);
         props.getElementById(item.id);
@@ -15,11 +15,9 @@ export default function RulePreview(props, item) {
       }}
     >
       <span>
-        {" "}
         <FiberManualRecordIcon style={{ color: "red" }} fontSize="small" /> rule
-        | {item.name}{" "}
+        | {item.name}
       </span>
-      
     </DeviceElement>
   );
 }

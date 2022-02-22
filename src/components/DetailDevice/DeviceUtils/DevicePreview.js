@@ -2,27 +2,28 @@ import React from "react";
 import styled from "styled-components";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
-
 export default function DevicePreview(props, item) {
-    return (
-      <DeviceElement
-        key={item.elementId}
-        onClick={() => {
-          props.setNewElement(item.id);
-          props.getElementById(item.id);
-          props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
-          if (props.addNewElement === true) {
-            props.handleRegisterDevicePopUp();
-          }
-        }}
-      >
-        <span> <FiberManualRecordIcon style={{ color: item.color }} fontSize="small" /> {item.type} | {item.name} </span>
-       
-      </DeviceElement>
-    );
-  }
+  return (
+    <DeviceElement
+      key={item.id}
+      onClick={() => {
+        props.setNewElement(item.id);
+        props.getElementById(item.id);
+        props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
+        if (props.addNewElement === true) {
+          props.handleRegisterDevicePopUp();
+        }
+      }}
+    >
+      <span>
+        <FiberManualRecordIcon style={{ color: item.color }} fontSize="small" />
+        {item.type} | {item.name}
+      </span>
+    </DeviceElement>
+  );
+}
 
-  const DeviceElement = styled.li`
+const DeviceElement = styled.li`
   color: balck;
   background-color: #cccccc;
   border-radius: 25px;

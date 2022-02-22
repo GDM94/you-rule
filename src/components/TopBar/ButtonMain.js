@@ -9,7 +9,7 @@ function ButtonMain(props) {
     return (
         <ListItem button onClick={() => {
             props.handleSettings();
-            props.history.push({ pathname: process.env.REACT_APP_DEVICES_URL, state: props.location.state })
+            props.history.push({ pathname: process.env.REACT_APP_LOCATION_URL, state: props.location.state })
         }}>
             <ListItemIcon>
                 <HomeIcon fontSize="small" style={{ color: 'white' }} />

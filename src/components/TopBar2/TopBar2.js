@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { withRouter } from "react-router-dom";
 import TopBar2Button from "./TobBar2Button";
+import TobBar2ButtonWithRequest from "./TobBar2ButtonWithRequest";
 
 function TopBar2(props) {
   return (
@@ -17,12 +18,12 @@ function TopBar2(props) {
           path={process.env.REACT_APP_LOCATION_URL}
           page={process.env.REACT_APP_PAGE_LOCATION}
         />
-        <TopBar2Button
+        <TobBar2ButtonWithRequest
           {...props}
           path={process.env.REACT_APP_DEVICES_URL}
           page={process.env.REACT_APP_PAGE_DEVICES}
         />
-        <TopBar2Button
+        <TobBar2ButtonWithRequest
           {...props}
           path={process.env.REACT_APP_RULES_URL}
           page={process.env.REACT_APP_PAGE_RULES}

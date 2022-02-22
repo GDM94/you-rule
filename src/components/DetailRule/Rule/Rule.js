@@ -23,7 +23,6 @@ export default class Rule extends React.Component {
     
 
     render() {
-        console.log(this.props.ruleBody)
         return (
             <ContentContainer>
                 <RuleTitle {...this.props} />
