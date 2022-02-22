@@ -54,20 +54,15 @@ export default function DeletableDeviceTitle(props) {
             <EditIcon fontSize="large" style={{ color: "black" }} />
           )}
         </Button>
-      </ButtonGroup>
-      <Button
-        style={{
-          float: "right",
-          position: "absolute",
-          right: 0,
-          marginRight: 30,
-        }}
+        <Button
         onClick={() => {
           props.setNewElement("");
         }}
       >
         <CloseIcon fontSize="large" style={{ color: "black" }} />
       </Button>
+      </ButtonGroup>
+      
     </ElementTitle>
   );
 }

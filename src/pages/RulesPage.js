@@ -28,7 +28,7 @@ class RulesPage extends React.Component {
             this.props.handleRegisterDevicePopUp();
         }
         this.props.getElements();
-        this.props.setRouteUrl(this.props.location.state.path)
+        this.props.setRouteUrlWithRequests(this.props.location.state.path)
     }
 
     render() {

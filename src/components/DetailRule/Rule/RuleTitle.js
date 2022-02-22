@@ -58,20 +58,14 @@ export default function RuleTitle(props) {
             <EditIcon fontSize="large" style={{ color: "black" }} />
           )}
         </Button>
+        <Button
+          onClick={() => {
+            props.setNewElement("");
+          }}
+        >
+          <CloseIcon fontSize="large" style={{ color: "black" }} />
+        </Button>
       </ButtonGroup>
-      <Button
-        style={{
-          float: "right",
-          position: "absolute",
-          right: 0,
-          marginRight: 30,
-        }}
-        onClick={() => {
-          props.setNewElement("");
-        }}
-      >
-        <CloseIcon fontSize="large" style={{ color: "black" }} />
-      </Button>
     </RuleTitleComponent>
   );
 }
