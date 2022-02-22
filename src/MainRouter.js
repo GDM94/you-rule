@@ -7,6 +7,7 @@ import history from "./history";
 import DevicesPage from "./pages/DevicesPage";
 import RulesPage from "./pages/RulesPage";
 import SettingPage from "./pages/SettingPage";
+import LocationPage from "./pages/LocationPage";
 
 var jwt = require("jwt-simple");
 
@@ -18,7 +19,7 @@ export default class MainRouter extends React.Component {
       userLoginError: false,
       duplicateUserError: false,
       registerElementError: false,
-      routeUrl: process.env.REACT_APP_DEVICES_URL,
+      routeUrl: process.env.REACT_APP_LOCATION_URL,
       settingsPage: process.env.REACT_APP_PAGE_SETTINGS,
 
       menuPopUp: false,
@@ -55,6 +56,8 @@ export default class MainRouter extends React.Component {
       locationLon: "",
       locationList: [],
       loading: false,
+
+      searchLocationPopUp: false
     };
   }
 
@@ -68,11 +71,11 @@ export default class MainRouter extends React.Component {
     axios.defaults.headers.common["token"] = idToken;
     axios.defaults.timeout.toFixed(0);
     history.push({
-      pathname: process.env.REACT_APP_DEVICES_URL,
+      pathname: process.env.REACT_APP_LOCATION_URL,
       state: {
         token: token,
-        page: process.env.REACT_APP_PAGE_DEVICES,
-        path: process.env.REACT_APP_DEVICES_URL,
+        page: process.env.REACT_APP_PAGE_LOCATION,
+        path: process.env.REACT_APP_LOCATION_URL,
       },
     });
   };
@@ -159,7 +162,6 @@ export default class MainRouter extends React.Component {
       console.warn(err);
     }
   };
-
 
   //GET BY ID
   getDeviceById = async (deviceId) => {
@@ -596,9 +598,12 @@ export default class MainRouter extends React.Component {
   // CURRENT SELECTED ITEM VARIABLES
 
   setRouteUrl = (url) => {
-    this.setState({ routeUrl: url, deviceId: "", ruleElementId: "", newRuleId: ""}, () => {
-      this.getElements();
-    });
+    this.setState(
+      { routeUrl: url, deviceId: "", ruleElementId: "", newRuleId: "" },
+      () => {
+        this.getElements();
+      }
+    );
   };
   setNewRule = (ruleId) => {
     this.setState({
@@ -766,9 +771,36 @@ export default class MainRouter extends React.Component {
     }
   };
 
+  handleSearchNewLocation = () =>{
+      this.setState({searchLocationPopUp: !this.state.searchLocationPopUp})
+  }
+
   render() {
     return (
       <Router history={history}>
+        <Route
+          exact
+          path={process.env.REACT_APP_LOCATION_URL}
+          render={(props) => (
+            <LocationPage
+              {...props}
+              {...this.state}
+              handleMenuPopUp={this.handleMenuPopUp}
+              UserRegistrationRequest={this.UserRegistrationRequest}
+              handleSettings={this.handleSettings}
+              handleLogOut={this.handleLogOut}
+              userLogoutRequest={this.userLogoutRequest}
+              addNewElement={false}
+              handleRegisterDevicePopUp={this.handleRegisterDevicePopUp}
+              setSettingsPage={this.setSettingsPage}
+              getCurrentLocation={this.getCurrentLocation}
+              getLocationByUserId={this.getLocationByUserId}
+              setNewUserLocation={this.setNewUserLocation}
+              setRouteUrl={this.setRouteUrl}
+              handleSearchNewLocation={this.handleSearchNewLocation}
+            />
+          )}
+        />
         <Route
           exact
           path={process.env.REACT_APP_DEVICES_URL}
@@ -831,8 +863,6 @@ export default class MainRouter extends React.Component {
               element={this.state.rule}
               elements={this.state.rules}
               elementId={this.state.newRuleId}
-              elementIdx={this.state.newRuleIdx}
-              elementName={this.state.newRuleName}
               addNewElement={this.state.addRulePopUp}
               handleRegisterDevicePopUp={this.handleAddRulePopUp}
               modifyElementName={this.modifyRuleName}
@@ -873,6 +903,7 @@ export default class MainRouter extends React.Component {
             />
           )}
         />
+
         <Route
           exact
           path={process.env.REACT_APP_LOGIN_URL}

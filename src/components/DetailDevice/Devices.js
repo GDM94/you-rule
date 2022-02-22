@@ -11,7 +11,6 @@ import Weather from "./deviceElements/Weather/Weather";
 import Photocell from "./deviceElements/Photocell/Photocell";
 import Servo from "./deviceElements/Servo/Servo";
 import DevicePreview from "./DeviceUtils/DevicePreview";
-import RegisterDeviceForm from "./DeviceUtils/AddDeviceButton";
 
 function Devices(props) {
   if (
@@ -20,7 +19,6 @@ function Devices(props) {
     props.elements.length > 0 &&
     props.addNewElement === false
   ) {
-    console.log("DETAIL DEVICE");
     if (props.elementId.includes("SWITCH")) {
       return <Switch {...props} />;
     } else if (props.elementId.includes("alert")) {
@@ -39,17 +37,23 @@ function Devices(props) {
       return <Servo {...props} />;
     }
   } else if (props.elementId === "" && props.addNewElement === true) {
-    console.log("REGISTER DEVICE");
     return (
       <ContentContainer>
         <RegisterDeviceProcess {...props} />
       </ContentContainer>
     );
   } else {
-    console.log("GET DEVICE");
     return (
       <ContentContainer>
-       <RegisterDeviceForm {...props}/>
+        <AddDeviceElement
+          onClick={() => {
+            props.handleRegisterDevicePopUp();
+            props.setNewElement("");
+            props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
+          }}
+        >
+          ADD NEW DEVICE
+        </AddDeviceElement>
         <div>
           <List>
             {props.elements.map((item) => {
@@ -79,3 +83,15 @@ const List = styled.ul`
   padding-top: 5px;
 `;
 
+const AddDeviceElement = styled.div`
+  color: balck;
+  background-color: #cccccc;
+  border-radius: 25px;
+  margin: 10%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  padding: 1%;
+  &:hover {
+    background: #d5d8d8;
+  }
+`;
