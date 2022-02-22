@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import ServoDetail from './ServoDetail';
-import DeletableDeviceTitle from '../DeviceUtils/DeletableDeviceTitle';
+import DeletableDeviceTitle from '../../DeviceUtils/DeletableDeviceTitle';
 
 export default class Servo extends React.Component {
     constructor(props) {

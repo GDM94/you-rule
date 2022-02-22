@@ -10,18 +10,13 @@ function TopBar2(props) {
             <ButtonGroup variant="text" color="default" aria-label="text primary button group">
                 <TopBar2Button
                 {...props}
-                path={process.env.REACT_APP_SENSORS_URL}
-                page={process.env.REACT_APP_PAGE_SENSORS}
+                path={process.env.REACT_APP_DEVICES_URL}
+                page={process.env.REACT_APP_PAGE_DEVICES}
                 />
                 <TopBar2Button
                 {...props}
                 path={process.env.REACT_APP_RULES_URL}
                 page={process.env.REACT_APP_PAGE_RULES}
-                />
-                <TopBar2Button
-                {...props}
-                path={process.env.REACT_APP_SWITCHES_URL}
-                page={process.env.REACT_APP_PAGE_SWITCHES}
                 />
             </ButtonGroup>
         </TopBar2Div>

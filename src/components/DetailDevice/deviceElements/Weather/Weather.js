@@ -1,34 +1,25 @@
 import React from 'react';
 import styled from "styled-components";
-import AlertDesctiption from './AlertDescription';
-import UndeletableDeviceTitle from '../DeviceUtils/UndeletableDeviceTitle';
+import UndeletableDeviceTitle from '../../DeviceUtils/UndeletableDeviceTitle';
+import WeatherDetail from './WeatherDetail';
 
-export default class Alert extends React.Component {
+export default class Weather extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            device_id: "",
-            name: "alert",
-            email_list: [],
-            rules: [],
-            status: "connected",
-            color: "green",
-            description: "alert email sender"
+            description: "sensor - weather"
         }
     }
-
-
 
     render() {
         return (
             <ContentContainer>
                 <UndeletableDeviceTitle {...this.props} {...this.state} />
-                <AlertDesctiption {...this.props} {...this.state}/>
+                <WeatherDetail {...this.props} {...this.state} />
             </ContentContainer>
         )
     }
 }
-
 
 const ContentContainer = styled.div`
   width: 100%;

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from "styled-components";
-import RuleNameList from '../DeviceUtils/RuleNameList'
-import DeviceDescription from '../DeviceUtils/DeviceDescription';
+import RuleNameList from '../../DeviceUtils/RuleNameList'
+import DeviceDescription from '../../DeviceUtils/DeviceDescription';
 
-export default function ButtonDetail(props) {
+export default function TimerDetail(props) {
     return (
         <ElementContent>
             <DeviceDescription
@@ -11,20 +11,18 @@ export default function ButtonDetail(props) {
             />
             <ElementMeasure>
                 <h1>{props.element.measure}</h1>
-                <p>last on ({props.element.last_date_on} - {props.element.last_time_on})</p>
-                <p>last off ({props.element.last_date_off} - {props.element.last_time_off})</p>
             </ElementMeasure>
             <br></br>
-            <RuleNameList {...props} />
+            <RuleNameList
+                {...props}
+            />
         </ElementContent>
     )
 
 }
 
-
 const ElementContent = styled.div`
 border: solid #d9d9d9 1px;
-height: 100%;
 border-radius: 25px;
 margin-left: 2%;
 margin-right: 2%;
@@ -45,3 +43,4 @@ text-align: center;
 justify-content: center;
 background-color: #e6e6e6;
 `;
+

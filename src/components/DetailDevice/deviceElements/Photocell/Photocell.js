@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import DeletableDeviceTitle from '../DeviceUtils/DeletableDeviceTitle';
+import DeletableDeviceTitle from '../../DeviceUtils/DeletableDeviceTitle';
 import PhotocellDetail from './PhotocellDetail';
 
 

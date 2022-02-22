@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
 import TopBar from '../components/TopBar/TopBar';
 import TopBar2 from '../components/TopBar2/TopBar2';
-import LateralMenu from '../components/LateralMenu/LateralMenu';
 import LogoutLateralMenu from "../components/TopBar/LogoutLateralMenu";
 import DetailRule from '../components/DetailRule/DetailRule';
 
@@ -42,9 +41,6 @@ class RulesPage extends React.Component {
                     {...this.props}
                 />
                 <GreatBody>
-                    <LateralMenu
-                        {...this.props}
-                    />
                     <ContentContainer>
                         <DetailRule
                             {...this.props}

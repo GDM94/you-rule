@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import Button from '@material-ui/core/Button';
-
+import CloseIcon from "@material-ui/icons/Close";
 
 export default class CreateRuleProcess extends React.Component {
   constructor(props) {
@@ -39,13 +39,19 @@ export default class CreateRuleProcess extends React.Component {
     return (
       <ContentContainer>
         <ElementTitle>
-          <h2>ADD RULE:</h2>
+          <Button style={{float: "right" }}
+            onClick={() => {
+              this.props.handleRegisterDevicePopUp();
+            }}
+          >
+            <CloseIcon fontSize="large" style={{ color: "black" }} />
+          </Button>
         </ElementTitle>
         <ElementContent>
           <p style={{ color: "red", display: this.state.checkCreateNewRule ? 'block' : 'none' }}> Error: rule name already exist! Choose another name.</p>
           <ElementSettings>
             <form style={{ marginRight: "10px" }} onSubmit={this.createRule}>
-              <label style={{ marginRight: "10px" }} htmlFor="ruleName">rule name: </label>
+              <label style={{ marginRight: "10px" }} htmlFor="ruleName">ADD RULE NAME: </label>
               <input name="ruleName" id="ruleName" type="text"
                 onChange={(e) => {
                   const ruleName = e.target.value;
@@ -90,12 +96,9 @@ background-color: #cccccc;
 
 
 const ElementTitle = styled.div`
-text-align: left;
 margin-left: 2%;
 margin-right: 2%;
 margin-top: 2%;
-display: flex;
-flex-flow: row;
 `;
 
 const ElementSettings = styled.div`

@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormControlLabel, Switch } from '@material-ui/core';
 import styled from "styled-components";
-import RuleNameList from '../DeviceUtils/RuleNameList'
-import DeviceDescription from '../DeviceUtils/DeviceDescription';
+import RuleNameList from '../../DeviceUtils/RuleNameList'
+import DeviceDescription from '../../DeviceUtils/DeviceDescription';
 
-export default function SwitchDetail(props) {
+export default function ServoDetail(props) {
     return (
         <ElementContent>
             <DeviceDescription
@@ -12,9 +12,9 @@ export default function SwitchDetail(props) {
             />
             <ElementMeasure>
                 <h1>{props.element.measure}</h1>
-                <p>last on ({props.element.last_date_on} - {props.element.last_time_on})</p>
-                <p>last off ({props.element.last_date_off} - {props.element.last_time_off})</p>
                 <ElementSettings>
+                    <SettingOff {...props}/>
+                    <SettingOn {...props}/>
                     <SetAutomaticButton {...props} />
                     <SetManualMeasureButton {...props} />
                 </ElementSettings>
@@ -72,6 +72,51 @@ function SetManualMeasureButton(props) {
     )
 }
 
+function SettingOn(props) {
+    var element = props.element;
+    const manageSettingOn = (setting_on) => {
+        element.setting_on = setting_on
+        props.setDeviceAntecedentObject(element);
+    }
+    const modifySetting_on= () => {
+        return (
+            <input type="number" id="settingOn"
+                defaultValue={props.element.setting_on}
+                onChange={e => { manageSettingOn(e.target.value) }} />
+        )
+    }
+    return (
+        <ElementDescription>
+            Position when ON:
+            <ElementDescriptionDetail>{props.modify ? modifySetting_on() : props.element.setting_on}</ElementDescriptionDetail>
+            {props.element.setting_unit_measure}
+        </ElementDescription>
+    )
+}
+
+function SettingOff(props) {
+    var element = props.element;
+    const manageSettingOff = (setting_off) => {
+        element.setting_off = setting_off
+        props.setDeviceAntecedentObject(element);
+    }
+    const modifySetting_off= () => {
+        return (
+            <input type="number" id="settingOff"
+                defaultValue={props.element.setting_off}
+                onChange={e => { manageSettingOff(e.target.value) }} />
+        )
+    }
+    return (
+        <ElementDescription>
+            Position when OFF:
+            <ElementDescriptionDetail>{props.modify ? modifySetting_off() : props.element.setting_off}</ElementDescriptionDetail>
+            {props.element.setting_unit_measure}
+        </ElementDescription>
+    )
+}
+
+
 const ElementContent = styled.div`
 border: solid #d9d9d9 1px;
 height: 100%;
@@ -104,4 +149,14 @@ padding: 1%;
 display: flex;
 flex-flow: column;
 align-items: center;
+`;
+
+const ElementDescription = styled.div`
+display: flex;
+flex-flow: row;
+`;
+
+const ElementDescriptionDetail = styled.div`
+margin-left: 5px;
+margin-right: 2px;
 `;

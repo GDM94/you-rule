@@ -1,16 +1,18 @@
 import React from 'react';
 import styled from "styled-components";
-import ButtonDetail from './ButtonDetail';
-import DeletableDeviceTitle from '../DeviceUtils/DeletableDeviceTitle';
+import SwitchDetail from './SwitchDetail';
+import DeletableDeviceTitle from '../../DeviceUtils/DeletableDeviceTitle';
 
-export default class Button extends React.Component {
+export default class Switch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: "",
-            name: "BUTTON",
+            device_id: "",
+            name: "switch",
             measure: "-",
             rules: [],
+            automatic: "true",
+            manual_measure: "false",
             last_date_on: "-",
             last_date_off: "-",
             last_time_on: "-",
@@ -18,7 +20,7 @@ export default class Button extends React.Component {
             status: "disconnected",
             color: "red",
             expiration: "10",
-            description: "sensor - button"
+            description: "device - switch"
         }
     }
 
@@ -26,7 +28,7 @@ export default class Button extends React.Component {
         return (
             <ContentContainer>
                 <DeletableDeviceTitle {...this.props} {...this.state}/>
-                <ButtonDetail {...this.props} {...this.state}/>
+                <SwitchDetail {...this.props} {...this.state}/>
             </ContentContainer>
         )
     }

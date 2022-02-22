@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
-import RuleNameList from '../DeviceUtils/RuleNameList'
-import DeviceDescription from '../DeviceUtils/DeviceDescription';
+import RuleNameList from '../../DeviceUtils/RuleNameList'
+import DeviceDescription from '../../DeviceUtils/DeviceDescription';
 
 
 export default function PhotocellDetail(props){

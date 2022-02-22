@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import TimerDetail from './TimerDetail';
-import UndeletableDeviceTitle from '../DeviceUtils/UndeletableDeviceTitle';
+import UndeletableDeviceTitle from '../../DeviceUtils/UndeletableDeviceTitle';
 
 export default class Timer extends React.Component {
     constructor(props) {

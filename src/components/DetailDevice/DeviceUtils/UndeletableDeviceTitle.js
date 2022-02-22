@@ -6,6 +6,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import CloseIcon from "@material-ui/icons/Close";
 
 export default function UndeletableDeviceTitle(props) {
     return (
@@ -31,6 +32,19 @@ export default function UndeletableDeviceTitle(props) {
                     {props.modifyDevice ? <DoneIcon fontSize="large" style={{ color: "black" }} /> : <EditIcon fontSize="large" style={{ color: "black" }} />}
                 </Button>
             </ButtonGroup>
+            <Button
+        style={{
+          float: "right",
+          position: "absolute",
+          right: 0,
+          marginRight: 30,
+        }}
+        onClick={() => {
+          props.setNewElement("");
+        }}
+      >
+        <CloseIcon fontSize="large" style={{ color: "black" }} />
+      </Button>
         </ElementTitle>
     )
 }

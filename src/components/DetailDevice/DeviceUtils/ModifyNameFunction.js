@@ -19,7 +19,7 @@ export default function ModifyName(props) {
     return (
         <form style={{ display: "inline" }} name="ItemName" onSubmit={submitFunction}>
             <input type="text" id="name" name="name"
-                defaultValue={props.elementName}
+                defaultValue={props.element.name}
                 onChange={(e) => {
                     const NewName = e.target.value;
                     var checkName = checkDeviceNameFunction(NewName);
