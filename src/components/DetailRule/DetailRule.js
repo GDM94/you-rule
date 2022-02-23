@@ -12,7 +12,6 @@ import WeatherAntecedent from "./RuleElements/WeatherAntecedent/WeatherAnteceden
 import PhotocellAntecedent from "./RuleElements/PhotocellAntecedent/PhotocellAntecedent";
 import ServoConsequent from "./RuleElements/ServoConsequent/ServoConsequent";
 import RulePreview from "./Rule/RulePreview";
-import RegisterRuleForm from "./AddRuleButton";
 
 export default function DetailRule(props) {
   if (
@@ -74,7 +73,15 @@ export default function DetailRule(props) {
   } else {
     return (
       <ContentContainer>
-        <RegisterRuleForm {...props}/>
+        <AddDeviceElement
+          onClick={() => {
+            props.handleRegisterDevicePopUp();
+            props.setNewElement("");
+            props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
+          }}
+        >
+          <h5>ADD NEW RULE</h5>
+        </AddDeviceElement>
         <List>
           {props.elements.map((item) => {
             return RulePreview(props, item);
@@ -98,4 +105,17 @@ const List = styled.ul`
   list-style: none;
   padding-left: 0%;
   padding-top: 5px;
+`;
+
+const AddDeviceElement = styled.div`
+  color: balck;
+  background-color: #cccccc;
+  border-radius: 25px;
+  margin: 10%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  padding: 1%;
+  &:hover {
+    background: #d5d8d8;
+  }
 `;

@@ -10,7 +10,8 @@ import WaterLevel from "./deviceElements/WaterLevel/WaterLevel";
 import Weather from "./deviceElements/Weather/Weather";
 import Photocell from "./deviceElements/Photocell/Photocell";
 import Servo from "./deviceElements/Servo/Servo";
-import DevicePreview from "./DeviceUtils/DevicePreview";
+import DevicesList from "./DeviceUtils/DevicesList";
+import FilterDeviceList from "./DeviceUtils/FilterDeviceList";
 
 function Devices(props) {
   if (
@@ -52,15 +53,10 @@ function Devices(props) {
             props.handleRuleBody(process.env.REACT_APP_RULE_BODY_ANTECEDENTS);
           }}
         >
-          ADD NEW DEVICE
+          <h5>REGISTER NEW DEVICE</h5>
         </AddDeviceElement>
-        <div>
-          <List>
-            {props.elements.map((item) => {
-              return DevicePreview(props, item);
-            })}
-          </List>
-        </div>
+        <FilterDeviceList {...props} />
+        <DevicesList {...props} />
       </ContentContainer>
     );
   }

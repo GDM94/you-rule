@@ -57,7 +57,8 @@ export default class MainRouter extends React.Component {
       locationList: [],
       loading: false,
 
-      searchLocationPopUp: false
+      searchLocationPopUp: false,
+      devicesFilter: "all"
     };
   }
 
@@ -779,6 +780,10 @@ export default class MainRouter extends React.Component {
       this.setState({searchLocationPopUp: !this.state.searchLocationPopUp})
   }
 
+  handleFilterDevicesList = (filter) =>{
+    this.setState({devicesFilter: filter})
+  }
+
   render() {
     return (
       <Router history={history}>
@@ -853,6 +858,7 @@ export default class MainRouter extends React.Component {
               modifyEmailRequest={this.modifyEmailRequest}
               modifyEmailLocal={this.modifyEmailLocal}
               setRouteUrlWithRequests={this.setRouteUrlWithRequests}
+              handleFilterDevicesList={this.handleFilterDevicesList}
             />
           )}
         />

@@ -20,21 +20,14 @@ class Location extends React.Component {
             this.props.handleSearchNewLocation();
           }}
         >
-          SEARCH NEW LOCATION
+          <h5>SEARCH NEW LOCATION</h5>
         </AddDeviceElement>
 
         <ElementContent>
           <ElementDescription>
-            <p>
-              <LocationOnIcon fontSize="small" style={{ color: "balck" }} />
-              CURRENT LOCATION:
-            </p>
-            <ul>
-              <li>name: {this.props.locationName}</li>
-              <li>country: {this.props.locationCountry}</li>
-              <li>lat: {this.props.locationLat}</li>
-              <li>lon: {this.props.locationLon}</li>
-            </ul>
+            <h5>{this.props.locationName}, {this.props.locationCountry}</h5>
+            <h5> <LocationOnIcon fontSize="large" style={{ color: "balck" }} />({this.props.locationLat}, {this.props.locationLon})</h5>
+           
           </ElementDescription>
         </ElementContent>
       </ContentContainer>
@@ -71,20 +64,15 @@ const ElementContent = styled.div`
   border: solid #d9d9d9 1px;
   height: 100%;
   border-radius: 25px;
-  margin-left: 2%;
-  margin-right: 2%;
-  margin-bottom: 2%;
+  margin: 20%;
+  margin-top: 1%;
   text-align: left;
   padding: 2%;
   background-color: #cccccc;
-  display: flex;
-  flex-flow: column;
 `;
 
 const ElementDescription = styled.div`
-  text-align: left;
+  text-align: center;
   margin-left: 2%;
   margin-top: 5px;
-  display: flex;
-  flex-flow: column;
 `;

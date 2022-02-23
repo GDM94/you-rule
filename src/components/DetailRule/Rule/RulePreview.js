@@ -15,8 +15,11 @@ export default function RulePreview(props, item) {
       }}
     >
       <span>
-        <FiberManualRecordIcon style={{ color: "red" }} fontSize="small" /> rule
-        | {item.name}
+        <FiberManualRecordIcon
+          style={{ color: item.evaluation === "true" ? "green" : "red" }}
+          fontSize="small"
+        />{" "}
+        rule | {item.name}
       </span>
     </DeviceElement>
   );
