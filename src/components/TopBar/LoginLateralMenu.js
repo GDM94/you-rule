@@ -28,4 +28,7 @@ const PopperStyled = styled.div`
 color: white;
 background-color: #737373;
 height:100%;
+position: absolute;
+top: 50px;
+right: 0px;
 `;
