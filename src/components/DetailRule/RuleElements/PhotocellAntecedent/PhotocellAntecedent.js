@@ -47,5 +47,4 @@ const ContentContainer = styled.div`
   text-align: center;
   max-height:100%;
   overflow-y: auto;
-  background-color: #d9d9d9;
 `;
