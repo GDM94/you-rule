@@ -64,7 +64,6 @@ display: flex;
 flex-flow: row;
 width: 100%;
 height: 100%;
-background-color:#e6e6e6;
 `;
 
 const ContentContainer = styled.div`
@@ -73,7 +72,6 @@ height: 100%;
 display: flex;
 flex-flow: column;
 text-align: center;
-background-color: #e6e6e6;
 `;
 
 

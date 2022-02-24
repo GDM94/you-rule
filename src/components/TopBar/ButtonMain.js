@@ -9,6 +9,8 @@ function ButtonMain(props) {
     return (
         <ListItem button onClick={() => {
             props.handleSettings();
+            props.setRouteUrl(process.env.REACT_APP_LOCATION_URL);
+            props.location.state.path = process.env.REACT_APP_LOCATION_URL;
             props.history.push({ pathname: process.env.REACT_APP_LOCATION_URL, state: props.location.state })
         }}>
             <ListItemIcon>

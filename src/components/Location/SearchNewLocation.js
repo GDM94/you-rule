@@ -44,7 +44,6 @@ class SearchNewLocation extends React.Component {
             <CloseIcon fontSize="large" style={{ color: "black" }} />
           </Button>
         </ElementTitle>
-
         <ElementSettings>
           <form
             style={{ display: "inline" }}
@@ -139,11 +138,9 @@ const ContentContainer = styled.div`
   flex-flow: column;
   float: left;
   text-align: center;
-  background-color: #d9d9d9;
 `;
 
 const ElementSettings = styled.div`
-  margin: 5%;
   justify-content: center;
   padding: 1%;
   display: flex;
@@ -151,7 +148,10 @@ const ElementSettings = styled.div`
   align-items: center;
   border-radius: 25px;
   text-align: center;
-  background-color: #e6e6e6;
+  background-color: #cccccc;
+  padding: 2%;
+  margin-left: 2%;
+  margin-right: 2%;
 `;
 
 const MyButton = styled(Button)`

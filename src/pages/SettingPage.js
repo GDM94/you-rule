@@ -61,7 +61,6 @@ display: flex;
 flex-direction: column;
 width: 100%;
 height: 100%;
-background-color: rgb(190, 210, 218);
 `;
 
 const GreatBody = styled.div`
@@ -77,7 +76,6 @@ height: 100%;
 display: flex;
 flex-flow: column;
 text-align: center;
-background-color: #e6e6e6;
 `;
 
 

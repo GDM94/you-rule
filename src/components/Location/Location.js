@@ -57,7 +57,6 @@ const ContentContainer = styled.div`
   flex-flow: column;
   float: left;
   text-align: center;
-  background-color: #d9d9d9;
 `;
 
 const ElementContent = styled.div`

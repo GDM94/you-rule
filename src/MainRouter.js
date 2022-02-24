@@ -605,7 +605,7 @@ export default class MainRouter extends React.Component {
   };
   setRouteUrlWithRequests = (url) => {
     this.setState(
-      { routeUrl: url, deviceId: "", ruleElementId: "", newRuleId: "" },
+      { routeUrl: url, deviceId: "", ruleElementId: "", newRuleId: "", searchLocationPopUp: false },
       () => {
         this.getElements();
       }
@@ -859,6 +859,7 @@ export default class MainRouter extends React.Component {
               modifyEmailLocal={this.modifyEmailLocal}
               setRouteUrlWithRequests={this.setRouteUrlWithRequests}
               handleFilterDevicesList={this.handleFilterDevicesList}
+              handleSearchNewLocation={this.handleSearchNewLocation}
             />
           )}
         />
@@ -913,6 +914,7 @@ export default class MainRouter extends React.Component {
               handleRuleBody={this.handleRuleBody}
               setRouteUrl={this.setRouteUrl}
               setRouteUrlWithRequests={this.setRouteUrlWithRequests}
+              handleSearchNewLocation={this.handleSearchNewLocation}
             />
           )}
         />
@@ -960,6 +962,7 @@ export default class MainRouter extends React.Component {
               getCurrentLocation={this.getCurrentLocation}
               getLocationByUserId={this.getLocationByUserId}
               setNewUserLocation={this.setNewUserLocation}
+              setRouteUrl={this.setRouteUrl}
             />
           )}
         />

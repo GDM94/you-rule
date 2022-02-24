@@ -24,6 +24,9 @@ function LogoutLateralMenu(props) {
 export default LogoutLateralMenu;
 
 const PopperStyled = styled.div`
+position: absolute;
+top: 51px;
+right: 0px;
 color: white;
 background-color: #737373;
 height:100%;
