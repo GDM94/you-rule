@@ -73,12 +73,6 @@ const ContentContainer = styled.div`
   text-align: center;
 `;
 
-const List = styled.ul`
-  list-style: none;
-  padding-left: 0%;
-  padding-top: 5px;
-`;
-
 const AddDeviceElement = styled.div`
   color: balck;
   background-color: #cccccc;
